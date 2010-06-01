@@ -1,0 +1,12 @@
+#summary first steps
+
+= Table of contents =
+<wiki:toc />
+
+= Download and setup =
+  # Download the SDM distribution [http://code.google.com/p/simple-dm/files/sdm-0.1.zip here]. The archive contains the SDM core and dependencies.
+  # Unzip the archive.
+
+= Setup the SDM remote maven repository =
+
+= Launch the sample application module =  
