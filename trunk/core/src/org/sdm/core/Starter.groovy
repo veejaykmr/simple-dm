@@ -24,7 +24,9 @@ class Starter {
 	}
 	
 	static void main(args) {
-		println "Simple Dynamic Module System started."
+		Module.init Thread.currentThread().getContextClassLoader()
+		
+		println "Simple Dynamic Module System started."		
 		
 		def is = System.in
 		def m		

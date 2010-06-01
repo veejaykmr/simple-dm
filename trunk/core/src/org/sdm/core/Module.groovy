@@ -10,6 +10,10 @@ public class Module {
 	
 	private static ModuleManager instance = new ModuleManager()
 
+	static init(classloader) {
+		instance.init classloader
+	}
+
 	static List resolveModule(className, moduleDeps) {
 		instance.resolveModule(className, moduleDeps)
 	}
@@ -44,8 +48,10 @@ public class Module {
 			
 	static class ModuleManager {		
 		
+		def parentClassLoader
+		
 		// strategy pattern
-		def resolver = Class.forName('org.sdm.maven.provider.MavenResolver').newInstance()
+		def resolver
 		
 		/**
 		 * map module name to module classloader (MCL)
@@ -61,6 +67,15 @@ public class Module {
 		 * main instances
 		 */
 		Map mainInstanceMap = [:]
+				
+		/**
+		 * initialize
+		 */
+		def init(classloader) {
+			this.parentClassLoader = classloader
+			resolver = parentClassLoader.loadClass('org.sdm.maven.provider.MavenResolver').newInstance()
+		}
+		
 		
 		/**
 		 * Get the MCL for the given module dependency
@@ -72,8 +87,7 @@ public class Module {
 			def key = resolver.getModuleKey(moduleDep)
 			def mcl = mclMap[key]
 			if(!mcl) {
-				def parent = this.getClass().getClassLoader()
-				mcl = new ModuleClassLoader(parent, moduleDep)
+				mcl = new ModuleClassLoader(parentClassLoader, moduleDep)
 				mclMap[key] = mcl
 			}
 			mcl

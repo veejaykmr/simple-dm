@@ -5,9 +5,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0.jar" sourcepath="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
-	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/metadata"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/provider"/>
-	<classpathentry kind="var" path="M2_REPO/org/sdm/maven/metadata/1.0-SNAPSHOT/metadata-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
