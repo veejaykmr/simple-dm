@@ -87,7 +87,8 @@ here -->
                <archive>
                   <manifest>
                      <addClasspath>true</addClasspath>
-                     <mainClass>org.sdm.core.Starter</mainClass>
+                     <classpathPrefix>lib/</classpathPrefix>
+                     <mainClass>org.sdm.core.Loader</mainClass>
                   </manifest>
                </archive>
             </configuration>
