@@ -1,4 +1,4 @@
-#summary first steps
+#summary SDM installation and sample module launching
 
 <wiki:toc />
 
