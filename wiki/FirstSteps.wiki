@@ -1,6 +1,5 @@
 #summary first steps
 
-= Table of contents =
 <wiki:toc />
 
 = Download and setup =
