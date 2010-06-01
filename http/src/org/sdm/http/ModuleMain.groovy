@@ -4,7 +4,7 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.sdm.core.Service;
 
-class ModuleMain {
+class ModuleMain { 
 	
 	def server
 	
