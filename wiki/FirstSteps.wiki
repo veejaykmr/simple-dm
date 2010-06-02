@@ -54,7 +54,7 @@ start org.sdm:testapp:0.1
 The command will automatically download all module dependencies and start the testapp module main method.
 
 To see all loaded modules, type the *list* command:
-{{
+{{{
 *list*
 
 org.sdm:testapp:0.1
