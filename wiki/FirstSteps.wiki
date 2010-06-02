@@ -41,7 +41,7 @@ The following line adds the SDM maven repository to the resolver chain. This is 
 }}}
 
 = Override Jetty servlet api dependency =
-There is a slight difficulty here with the servlet api 2.5 module required by jetty that we need to solve.
+The sample demo we want to launch (see the next section) depends on CXF and Jetty. There is a slight difficulty here with the servlet api 2.5 module required by Jetty that we need to solve.
 
 Jetty comes with its own packaging of the servlet api in the following maven artifact:
 {{{
