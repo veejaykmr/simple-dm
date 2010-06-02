@@ -40,3 +40,9 @@ The following line adds the SDM maven repository to the resolver chain. This is 
 }}}
 
 = Launch the sample application module =  
+
+Go to the directory where you unzipped the SDM distribution.
+Launch the following java command:
+{{{
+java -jar sdm-core-1.0-SNAPSHOT.jar
+}}}
