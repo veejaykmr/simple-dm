@@ -14,7 +14,7 @@ class ModuleMain {
 	
 	def context
 	
-	List runtimeDependencies = [[group: 'org.sdm', module: 'cxf', revision: '1.0-SNAPSHOT']]
+	List runtimeDependencies = [[group: 'org.sdm', module: 'cxf', revision: '0.1']]
 	
 	def start() {
  		println ">>>>>>> Module starting!!!"			
