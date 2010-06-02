@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>org</groupId>
+   <artifactId>sdm</artifactId>
+   <version>0.2-SNAPSHOT</version>
+   <packaging>pom</packaging>
+
+   <name>sdm</name>
+   <url>http://maven.apache.org</url>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+
+ <scm>
+    <connection>scm:svn:http://simple-dm.googlecode.com/svn/trunk</connection>
+    <developerConnection>scm:svn:https://simple-dm.googlecode.com/svn/trunk</developerConnection>
+    <url>http://simple-dm.googlecode.com/svn</url>
+  </scm>
+  
+   <modules>
+      <module>core</module>
+      <module>maven</module>
+      <module>http</module>
+      <module>cxf</module>
+      <module>testapp</module>     
+   </modules>
+
+</project>
