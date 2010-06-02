@@ -55,8 +55,7 @@ The command will automatically download all module dependencies and start the te
 
 To see all loaded modules, type the *list* command:
 {{{
-*list*
-
+list
 org.sdm:testapp:0.1
 org.sdm:cxf:0.1
 org.sdm:http:0.1
