@@ -105,7 +105,7 @@ To test it just type this URL in your browser:
 http://localhost:8088/services/helloworld
 }}}
 
-= Override Jetty servlet api dependencies =
+= Override Jetty servlet api dependency =
 There is a slight difficulty here with the servlet api 2.5 module required by jetty that we need to solve.
 
 Jetty comes with its own packaging of the servlet api in the following maven artifact:
