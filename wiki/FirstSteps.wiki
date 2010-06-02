@@ -7,7 +7,7 @@
   # Unzip the archive.
 
 = Setup the SDM remote maven repository =
-SDM uses Groovy Grape and Ivy internally to resolve and download dependencies from repositories.
+SDM uses Groovy Grape and Ivy internally to resolve and download module dependencies from repositories.
 
 You need to create/update the *~/.groovy/grapeConfig.xml* file like this:
 {{{
