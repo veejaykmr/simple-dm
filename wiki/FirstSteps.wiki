@@ -7,5 +7,36 @@
   # Unzip the archive.
 
 = Setup the SDM remote maven repository =
+SDM uses Groovy Grape and Ivy internally to resolve and download dependencies from repositories.
+You need to create/update the *~/.groovy/grapeConfig.xml* file like this:
+{{{
+<ivysettings>
+  <settings defaultResolver="downloadGrapes"/>
+  <resolvers>
+    <chain name="downloadGrapes">     
+
+      <filesystem name="cachedGrapes">
+        <ivy pattern="${user.home}/.groovy/grapes/[organisation]/[module]/ivy-[revision].xml"/>
+        <artifact pattern="${user.home}/.groovy/grapes/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+      </filesystem>
+
+      <ibiblio name="local" root="file:${user.home}/.m2/repository/" m2compatible="true"/>
+      <ibiblio name="sdm" root="http://simple-dm.googlecode.com/svn/repository/" m2compatible="true" />
+
+      <!-- todo add 'endorsed groovy extensions' resolver here -->
+      <ibiblio name="codehaus" root="http://repository.codehaus.org/" m2compatible="true" />
+      <ibiblio name="ibiblio" m2compatible="true" />
+      <ibiblio name="java.net2" root="http://download.java.net/maven/2/" m2compatible="true" />
+     
+    </chain>
+  </resolvers>
+</ivysettings>
+}}}
+
+The following line adds the SDM maven repository to the resolver chain. This is needed to launch the demo.
+
+{{{
+<ibiblio name="sdm" root="http://simple-dm.googlecode.com/svn/repository/" m2compatible="true" />
+}}}
 
 = Launch the sample application module =  
