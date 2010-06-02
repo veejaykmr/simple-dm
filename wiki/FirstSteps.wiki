@@ -3,7 +3,7 @@
 <wiki:toc />
 
 = Download and setup =
-  # Download the SDM distribution [http://code.google.com/p/simple-dm/files/sdm-0.1.zip here]. The archive contains the SDM core and dependencies.
+  # Download the SDM distribution [http://code.google.com/p/simple-dm/files/sdm-dist-0.1.zip here]. The archive contains the SDM core and dependencies.
   # Unzip the archive.
 
 = Setup the SDM remote maven repository =
@@ -44,5 +44,63 @@ The following line adds the SDM maven repository to the resolver chain. This is 
 Go to the directory where you unzipped the SDM distribution.
 Launch the following java command:
 {{{
-java -jar sdm-core-1.0-SNAPSHOT.jar
+java -jar sdm-core-0.1.jar
+}}}
+
+When prompting, type:
+{{{
+start org.sdm:testapp:0.1
+}}}
+The command will automatically download all module dependencies and start the testapp module main method.
+
+To see all loaded modules, type the *list* command:
+{{
+*list*
+
+org.sdm:testapp:0.1
+org.sdm:cxf:0.1
+org.sdm:http:0.1
+org.codehaus.groovy:groovy-all:1.7.2
+org.mortbay.jetty:jetty:6.1.21
+org.mortbay.jetty:jetty-util:6.1.21
+org.apache.geronimo.specs:geronimo-servlet_2.5_spec:1.2
+org.sdm:core:0.1
+org.springframework:spring-context:2.5.6
+org.springframework:spring-beans:2.5.6
+org.springframework:spring-core:2.5.6
+commons-logging:commons-logging:1.1.1
+commons-logging:commons-logging-api:1.1
+org.apache.cxf:cxf-rt-core:2.2.6
+org.apache.cxf:cxf-common-utilities:2.2.6
+org.apache.cxf:cxf-api:2.2.6
+org.apache.cxf:cxf-rt-frontend-jaxrs:2.2.6
+javax.ws.rs:jsr311-api:1.0
+org.codehaus.woodstox:wstx-asl:3.2.9
+org.apache.camel:camel-cxf:2.2.0
+org.apache.cxf:cxf-rt-bindings-xml:2.2.6
+org.apache.cxf:cxf-rt-transports-http:2.2.6
+org.apache.cxf:cxf-rt-frontend-jaxws:2.2.6
+org.apache.cxf:cxf-rt-bindings-soap:2.2.6
+org.apache.cxf:cxf-rt-ws-addr:2.2.6
+org.apache.cxf:cxf-rt-transports-http-jetty:2.2.6
+wsdl4j:wsdl4j:1.6.2
+com.sun.xml.bind:jaxb-impl:2.1.12
+xml-resolver:xml-resolver:1.2
+org.apache.neethi:neethi:2.0.4
+org.mortbay.jetty:jetty:6.1.22
+org.apache.camel:camel-spring:2.2.0
+org.apache.camel:camel-core:2.2.0
+org.fusesource.commonman:commons-management:1.0
+org.springframework:spring-aop:2.5.6
+org.apache.camel:camel-http:2.2.0
+org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1
+commons-httpclient:commons-httpclient:3.1
+org.apache.cxf:cxf-rt-frontend-simple:2.2.6
+}}}
+
+The test app module simply exposes a hello world service using apache camel, cxf and jetty http technical services.
+
+To test it just type this URL in your browser:
+{{{
+http://localhost:8088/services/helloworld
 }}}
