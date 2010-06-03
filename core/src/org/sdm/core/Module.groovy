@@ -38,6 +38,10 @@ public class Module {
 		instance.getResourceContext()
 	}
 	
+	static List substituteAliases(deps) {
+		instance.substituteAliases deps
+	}	
+	
 	static list() {
 		instance.list()
 	}	
@@ -67,6 +71,11 @@ public class Module {
 		 * main instances
 		 */
 		Map mainInstanceMap = [:]
+		
+		/**
+		 * Module dependency aliases
+		 */
+		def aliases = [:]
 				
 		/**
 		 * initialize
@@ -115,6 +124,13 @@ public class Module {
 				
 				Class mainClass = mcl.loadClass(mainClassName)						
 				Object object = mainClass.newInstance();
+				
+				// add module aliases
+				try {
+					aliases.putAll object.aliases
+				} catch(MissingPropertyException e) {
+					// nothing to do
+				} 
 				
 				// Start runtime dependencies
 				try {
@@ -184,6 +200,10 @@ public class Module {
 			}
 		}
 		
+		def substituteAliases(deps) {
+			deps.collect { aliases[getKey(it)] ?: it }.flatten()			
+		}
+		
 		def setResourceContext(mcl) {
 			rccl = mcl
 		}
@@ -194,7 +214,7 @@ public class Module {
 		
 		def list() {
 			mclMap.each { key,mcl -> 
-				println key
+				println "$key (${mcl.loadedClasses.size()} classes)"
 			}
 		}
 		
