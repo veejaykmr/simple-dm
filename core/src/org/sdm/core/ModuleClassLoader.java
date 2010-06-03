@@ -94,6 +94,8 @@ public class ModuleClassLoader extends URLClassLoader {
 		try {
 			uris = engine.resolve(this, args, moduleDeps, moduleDep);
 			
+			moduleDeps = Module.substituteAliases(moduleDeps);
+
 			// first uri should be the dep URI itself, followers are uris of
 			// transitive dependencies
 			moduleUrl = uris[0].toURL();
