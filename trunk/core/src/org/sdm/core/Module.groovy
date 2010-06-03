@@ -131,6 +131,8 @@ public class Module {
 				} catch(MissingPropertyException e) {
 					// nothing to do
 				} 
+				// aliases substitution
+				mcl.moduleDeps = substituteAliases(mcl.moduleDeps)
 				
 				// Start runtime dependencies
 				try {
