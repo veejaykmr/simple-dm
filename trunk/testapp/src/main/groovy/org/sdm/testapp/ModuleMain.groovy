@@ -10,12 +10,16 @@ import org.apache.camel.builder.RouteBuilder
 
 class ModuleMain {
 	
+	List runtimeDependencies = [[group: 'org.sdm', module: 'cxf', revision: '0.1']]
+	
+	Map aliases = [
+	   'org.mortbay.jetty:servlet-api:2.5-20081211': [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2']
+	]
+	
 	def camel
 	
 	def context
-	
-	List runtimeDependencies = [[group: 'org.sdm', module: 'cxf', revision: '0.1']]
-	
+		
 	def start() {
  		println ">>>>>>> Module starting!!!"			
 		init()		
