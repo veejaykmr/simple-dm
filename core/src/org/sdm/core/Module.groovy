@@ -26,6 +26,10 @@ public class Module {
 		instance.stopModule dep 
 	}
 	
+	static assureModuleStarted(dep) {
+		instance.assureModuleStarted dep 
+	}
+	
 	static ModuleClassLoader getMcl(dep) {
 		instance.getMcl dep
 	}
@@ -130,9 +134,7 @@ public class Module {
 					aliases.putAll object.aliases
 				} catch(MissingPropertyException e) {
 					// nothing to do
-				} 
-				// aliases substitution
-				mcl.moduleDeps = substituteAliases(mcl.moduleDeps)
+				}				
 				
 				// Start runtime dependencies
 				try {
@@ -145,10 +147,13 @@ public class Module {
 				Thread.currentThread().setContextClassLoader mcl
 				
 				object.start()
-				mainInstanceMap[key] = object
+				mainInstanceMap[key] = object				
 			} catch(ClassNotFoundException e) {
 				Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
 			} 
+		
+			//mark module classloader as started
+			mcl.moduleStarted = true
 		
 			long dur = System.currentTimeMillis() - now
 			Log.info("Module $dep started in $dur ms.")
