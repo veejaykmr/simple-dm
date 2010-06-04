@@ -68,6 +68,11 @@ public class ModuleClassLoader extends URLClassLoader {
 	 * Classloader used to find resources
 	 */
 	URLClassLoader ucl;
+	
+	/**
+	 * Module started
+	 */
+	boolean moduleStarted;
 
 	/**
 	 * Constructor; initializes the loader with an empty list of delegates.
@@ -93,7 +98,9 @@ public class ModuleClassLoader extends URLClassLoader {
 
 		try {
 			uris = engine.resolve(this, args, moduleDeps, moduleDep);
-
+			
+			moduleDeps = Module.substituteAliases(moduleDeps);
+			
 			// first uri should be the dep URI itself, followers are uris of
 			// transitive dependencies
 			moduleUrl = uris[0].toURL();
@@ -169,6 +176,9 @@ public class ModuleClassLoader extends URLClassLoader {
 		// try each module dep to find the class
 		for (Map module : deps) {
 			ModuleClassLoader mcl = Module.getMcl(module);
+			if (!mcl.isModuleStarted()) {
+				Module.assureModuleStarted(module);
+			}
 
 			try {
 				if (mcl == this) {
@@ -219,6 +229,10 @@ public class ModuleClassLoader extends URLClassLoader {
 	public List<Map> getModuleDeps() {
 		return moduleDeps;
 	}
+	
+	public void setModuleDeps(List moduleDeps) {
+		this.moduleDeps = moduleDeps;
+	}
 
 	public Set<Class> getLoadedClasses() {
 		return loadedClasses;
@@ -226,5 +240,13 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public URLClassLoader getUcl() {
 		return ucl;
+	}
+
+	public boolean isModuleStarted() {
+		return moduleStarted;
+	}
+
+	public void setModuleStarted(boolean moduleStarted) {
+		this.moduleStarted = moduleStarted;
 	}
 }
