@@ -102,9 +102,9 @@ commons-httpclient:commons-httpclient:3.1
 org.apache.cxf:cxf-rt-frontend-simple:2.2.6
 }}}
 
+== See the result ==
 The *testapp* module simply exposes a hello world application service using apache camel, cxf and jetty http technical services.
 
-== See the result ==
 To test it just type this URL in your browser:
 {{{
 http://localhost:8088/services/helloworld
