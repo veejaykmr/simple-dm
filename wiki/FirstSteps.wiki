@@ -56,6 +56,8 @@ start org.sdm:testapp:0.1
 }}}
 The command will automatically resolve and download all module dependencies, then start the testapp module by calling the *start* module life cycle method.
 
+= List the loaded modules =
+
 To see all loaded modules, type the *list* command:
 {{{
 list
