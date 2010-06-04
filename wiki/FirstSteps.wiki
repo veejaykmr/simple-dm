@@ -42,8 +42,8 @@ The following line adds the SDM maven repository to the resolver chain. This is 
 
 The *testapp* application module should now run without any problems.
 
-= Testing the sample application module =  
-== Launching ==
+= Sample application module test=  
+== Launch the SDM runtime ==
 Go to the directory where you unzipped the SDM distribution.
 Launch the following java command:
 {{{
@@ -104,8 +104,7 @@ org.apache.cxf:cxf-rt-frontend-simple:2.2.6
 
 The *testapp* module simply exposes a hello world application service using apache camel, cxf and jetty http technical services.
 
-== Testing ==
-
+== See the result ==
 To test it just type this URL in your browser:
 {{{
 http://localhost:8088/services/helloworld
