@@ -1,6 +1,12 @@
 package org.sdm.testapp;
 
-import java.util.Map;
+import org.apache.camel.spi.RouteContext;
+import org.apache.camel.spring.SpringCamelContext;
+import org.sdm.core.Module;
+import org.sdm.testapp.DebugProcessor;
+import org.sdm.testapp.HelloServiceImpl;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.camel.builder.RouteBuilder
 
 class ModuleMain {	
 	
