@@ -9,7 +9,7 @@ class Loader {
 		def urls = jars.collect { new File("lib/$it").toURL() }
 		def classloader = new URLClassLoader(urls as URL[], parent)
 		
-		Thread.currentThread().setContextClassLoader classloader
+		Thread.currentThread().contextClassLoader = classloader
 		
 		Starter.main args
 	}
