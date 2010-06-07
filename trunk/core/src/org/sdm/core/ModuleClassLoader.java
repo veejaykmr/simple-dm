@@ -2,8 +2,6 @@ package org.sdm.core;
 
 import static org.sdm.core.utils.Assert._assert;
 import static org.sdm.core.utils.Log.trace;
-import groovy.grape.Grape;
-import groovy.grape.GrapeIvy;
 
 import java.io.IOException;
 import java.net.URI;
@@ -36,7 +34,7 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	boolean trace = true;
 
-	GrapeIvy engine = (GrapeIvy) Grape.getInstance();
+	CachedEngine engine = ServiceLocator.getCachedEngine();
 
 	/**
 	 * module dependency list a module dependency is represented by a map
@@ -97,7 +95,12 @@ public class ModuleClassLoader extends URLClassLoader {
 		args.put("autoDownload", true);
 
 		try {
-			uris = engine.resolve(this, args, moduleDeps, moduleDep);
+			long now = System.currentTimeMillis();
+			ResolveReport report = engine.resolve(this, args, moduleDep);
+			assert report != null;			
+			uris = report.getUris();
+			moduleDeps = report.getModuleDeps();
+			Log.info("Resolving " + moduleDep + " took " + (System.currentTimeMillis() - now) + "ms.");
 			
 			moduleDeps = Module.substituteAliases(moduleDeps);
 			
@@ -143,17 +146,6 @@ public class ModuleClassLoader extends URLClassLoader {
 			_assert(!modules.isEmpty(), "MCL cannot resolve module");
 
 			result = findClassInDependencies(name, modules);
-			if (result != null) {
-				return result;
-			}
-
-			// try to find the class from the module dependencies,
-			// if not found try from the context class loader.
-			// This strategy should allow module version isolation but still
-			// permits to load class in spring bean factories
-			ModuleClassLoader ccl = getContextClassLoader();
-			// result = findClassInDependencies(name, ccl.moduleDeps);
-
 			if (result == null) {
 				trace("FAILURE: MCL[" + moduleDep + "]: Class not found: " + name);
 				throw new ClassNotFoundException(name);

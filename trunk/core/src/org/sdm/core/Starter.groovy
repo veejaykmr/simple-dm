@@ -2,6 +2,8 @@ package org.sdm.core;
 
 import org.sdm.core.Module
 
+import org.sdm.core.ServiceLocator;
+
 class Starter {
 	
 	static start(module) {
@@ -24,7 +26,7 @@ class Starter {
 	}
 	
 	static void main(args) {
-		Module.init Thread.currentThread().getContextClassLoader()
+		ServiceLocator.init()
 		
 		println "Simple Dynamic Module System started."		
 		
