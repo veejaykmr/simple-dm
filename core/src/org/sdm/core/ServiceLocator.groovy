@@ -1,5 +1,9 @@
 package org.sdm.core;
 
+import org.sdm.core.dsl.ConfigBuilder;
+import org.sdm.core.dsl.Configuration;
+import org.sdm.core.utils.Classes;
+
 class ServiceLocator {
 	
 	static instance = new ServiceLocatorImpl()
@@ -17,7 +21,11 @@ class ServiceLocator {
 	}
 	
 	static CachedEngine getCachedEngine() {
-		instance.getCachedEngine()
+		instance.engine
+	}
+	
+	static Configuration getConfig() {
+		instance.configuration
 	}
 	
 	static class ServiceLocatorImpl {
@@ -28,17 +36,30 @@ class ServiceLocator {
 		
 		CachedEngine engine 
 		
+		def configuration
+		
 		def init() {
 			this.classloader = Thread.currentThread().contextClassLoader
-			resolver = classloader.loadClass('org.sdm.maven.provider.MavenResolver').newInstance()				
-		}
-		
-		def getCachedEngine() {
-			if (!engine) {
-				engine = new CachedEngine()
+			resolver = Classes.create('org.sdm.maven.provider.MavenResolver')	
+			engine = new CachedEngine()
+			
+			//load dev config if any
+			def loader = new GroovyClassLoader()
+			def is = loader.getResourceAsStream("sdm-config.groovy")
+			if (is) {
+				def builder = new ConfigBuilder()
+				def scriptClass = loader.parseClass(is)
+				scriptClass.metaClass.configuration = { clos -> 
+					clos.delegate = builder
+					clos()
+				}
+				
+				def script = scriptClass.newInstance()				
+				script.invokeMethod('run', [] as Object[]);
+								
+				configuration = builder.build()
 			}
-			engine
-		}
+		}		
 	}
 	
 }

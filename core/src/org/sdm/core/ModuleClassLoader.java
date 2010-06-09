@@ -3,11 +3,13 @@ package org.sdm.core;
 import static org.sdm.core.utils.Assert._assert;
 import static org.sdm.core.utils.Log.trace;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.sdm.core.dsl.Configuration;
+import org.sdm.core.dsl.Project;
 import org.sdm.core.utils.Log;
 import org.sdm.core.utils.Utils;
 
@@ -71,7 +75,15 @@ public class ModuleClassLoader extends URLClassLoader {
 	 * Module started
 	 */
 	boolean moduleStarted;
-
+	
+	Date startingDate; 
+	
+	Configuration configuration = ServiceLocator.getConfig();
+	
+	ModuleObserver observer;
+	
+	boolean developmentStage;
+	
 	/**
 	 * Constructor; initializes the loader with an empty list of delegates.
 	 */
@@ -95,19 +107,31 @@ public class ModuleClassLoader extends URLClassLoader {
 		args.put("autoDownload", true);
 
 		try {
-			long now = System.currentTimeMillis();
+			String key = Module.getKey(moduleDep);
+						
 			ResolveReport report = engine.resolve(this, args, moduleDep);
 			assert report != null;			
+		
 			uris = report.getUris();
 			moduleDeps = report.getModuleDeps();
-			Log.info("Resolving " + moduleDep + " took " + (System.currentTimeMillis() - now) + "ms.");
 			
 			moduleDeps = Module.substituteAliases(moduleDeps);
 			
 			// first uri should be the dep URI itself, followers are uris of
 			// transitive dependencies
 			moduleUrl = uris[0].toURL();
-			addURL(moduleUrl);
+			
+			//see if the module is in development stage
+			Project project = configuration.getProject(key);
+			if (project != null) { 
+				developmentStage = true;
+				for (String src : project.getSources()) {
+					URL url = new File(src).toURI().toURL();
+					addURL(url);
+				}
+			} else {
+				addURL(moduleUrl);
+			}
 
 			ucl = new URLClassLoader(Utils.toURLs(uris));
 		} finally {
@@ -120,6 +144,23 @@ public class ModuleClassLoader extends URLClassLoader {
 			moduleUrl.openConnection().setDefaultUseCaches(false);
 		} catch (Exception e) {
 			trace(e.getMessage());
+		}
+	}
+	
+	public void start() {
+		//mark module classloader as started
+		moduleStarted = true;
+		startingDate = new Date();
+		
+		if (developmentStage) {
+			observer = new ModuleObserver(this);
+			observer.start();
+		}
+	}
+	
+	public void stop() {
+		if (observer != null) {
+			observer.setStop(true);
 		}
 	}
 
@@ -240,5 +281,29 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public void setModuleStarted(boolean moduleStarted) {
 		this.moduleStarted = moduleStarted;
+	}
+
+	public Date getStartingDate() {
+		return startingDate;
+	}
+
+	public void setStartingDate(Date startingDate) {
+		this.startingDate = startingDate;
+	}
+
+	public ModuleObserver getObserver() {
+		return observer;
+	}
+
+	public void setObserver(ModuleObserver observer) {
+		this.observer = observer;
+	}
+
+	public boolean isDevelopmentStage() {
+		return developmentStage;
+	}
+
+	public void setDevelopmentStage(boolean developmentStage) {
+		this.developmentStage = developmentStage;
 	}
 }
