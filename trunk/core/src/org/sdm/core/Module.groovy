@@ -18,6 +18,10 @@ public class Module {
 		instance.startModule dep 
 	}
 	
+	static restartModule(dep) {
+		instance.restartModule dep 
+	}
+	
 	static stopModule(dep) {
 		instance.stopModule dep 
 	}
@@ -49,6 +53,10 @@ public class Module {
 	static dump() {
 		instance.dump()
 	}	
+	
+	static String getKey(dep) {
+		instance.getKey dep
+	}
 			
 	static class ModuleManager {		
 		
@@ -137,13 +145,14 @@ public class Module {
 				mainInstanceMap[key] = object				
 			} catch(ClassNotFoundException e) {
 				Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
-			} 
-		
-			//mark module classloader as started
-			mcl.moduleStarted = true
-		
+			} 			
+			
+			mcl.start()
+			
 			long dur = System.currentTimeMillis() - now
 			Log.info("Module $dep started in $dur ms.")
+			
+			mcl
 		}
 		
 		def stopModule(dep) {
@@ -158,6 +167,8 @@ public class Module {
 			def key = getKey(dep) as String
 			def mcl = getMcl(dep)
 			assert mcl
+			
+			mcl.stop()
 			
 			try {
 				def object = mainInstanceMap[key]
