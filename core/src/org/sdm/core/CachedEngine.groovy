@@ -13,12 +13,14 @@ class CachedEngine {
 	def cache = [:]
 	
 	ResolveReport resolve(ClassLoader classLoader, Map args, Map dep) {
-		def key = resolver.getModuleKey(dep) as String		
+		// we need to keep only these attributes to make resolving work
+		def newDep = [group: dep.group, module: dep.module, revision: dep.revision]
+		def key = resolver.getModuleKey(newDep) as String		
 		
 		ResolveReport result = cache[key]
 		if (!result) {
 			result = new ResolveReport()
-			result.uris = engine.resolve(classLoader, args, result.moduleDeps, dep)
+			result.uris = engine.resolve(classLoader, args, result.moduleDeps, newDep)
 			cache[key] = result
 		}
 		
