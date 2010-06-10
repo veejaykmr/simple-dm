@@ -258,6 +258,10 @@ public class ModuleClassLoader extends URLClassLoader {
 		ClassLoader result = Thread.currentThread().getContextClassLoader();
 		return (ModuleClassLoader) (result != null && result instanceof ModuleClassLoader ? result : this);
 	}
+	
+	public void addDependencies(List moduleDeps) {
+		this.moduleDeps.addAll(moduleDeps);
+	}
 
 	public List<Map> getModuleDeps() {
 		return moduleDeps;
