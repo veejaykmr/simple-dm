@@ -11,7 +11,7 @@ class ModuleHelper {
 	def getRuntimeDependencies() {
 		def result
 		try {
-			result = moduleMain.dependencies.findAll { it.scope == 'runtime' }
+			result = moduleMain.dependencies.findAll { it.scope == 'runtime' }			
 		} catch(MissingPropertyException e) {
 			result = []
 		}
@@ -21,7 +21,7 @@ class ModuleHelper {
 	def getStaticDependencies() {
 		def result
 		try {
-			result = moduleMain.dependencies.findAll { it.scope != 'runtime' }
+			result = moduleMain.dependencies.findAll { it.scope != 'runtime' }			
 		} catch(MissingPropertyException e) {
 			result = []
 		}
