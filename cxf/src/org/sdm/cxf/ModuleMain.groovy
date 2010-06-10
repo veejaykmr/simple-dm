@@ -17,7 +17,7 @@ import org.apache.cxf.transport.http_jetty.JettyHTTPServerEngine;
 
 class ModuleMain {
 	
-	List runtimeDependencies = [[group: 'org.sdm', module: 'http', revision: '0.2-SNAPSHOT']]
+	List dependencies = [[group: 'org.sdm', module: 'http', revision: '0.2-SNAPSHOT', scope: 'runtime']]
 	
 	def context
 	
