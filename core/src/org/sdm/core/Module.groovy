@@ -123,6 +123,7 @@ public class Module {
 				
 				Class mainClass = mcl.loadClass(mainClassName)						
 				Object object = mainClass.newInstance();
+				def helper = new ModuleHelper(object)
 				
 				// add module aliases
 				try {
@@ -130,14 +131,11 @@ public class Module {
 				} catch(MissingPropertyException e) {
 					// nothing to do
 				}				
-				
+				// Set static dependencies
+				mcl.addDependencies helper.staticDependencies
 				// Start runtime dependencies
-				try {
-					def runtimeDeps = object.runtimeDependencies
-					runtimeDeps.each { assureModuleStarted it }
-				} catch(MissingPropertyException e) {
-					// nothing to do
-				} 			
+				helper.runtimeDependencies.each { assureModuleStarted it }
+														
 				// Set the context classloader after loading runtime dependencies
 				Thread.currentThread().setContextClassLoader mcl
 				
