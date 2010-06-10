@@ -1,5 +1,5 @@
 configuration { 
-	project(module: 'org.sdm:testapp:0.2-SNAPSHOT') {
-		src(path: '/home/alex/projects/simple-dm/testapp/target/classes')
+	project(module: 'org.sdm:testapp:0.2') {
+		src(path: '/home/alex/workspace/sdm-0.2/testapp/target/classes')
 	}
 }
