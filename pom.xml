@@ -3,7 +3,7 @@
 
    <groupId>org</groupId>
    <artifactId>sdm</artifactId>
-   <version>0.2</version>
+   <version>0.3-SNAPSHOT</version>
    <packaging>pom</packaging>
 
    <name>sdm</name>
@@ -14,9 +14,9 @@
    </properties>
 
  <scm>
-    <connection>scm:svn:http://simple-dm.googlecode.com/svn/tags/sdm-0.2</connection>
-    <developerConnection>scm:svn:https://simple-dm.googlecode.com/svn/tags/sdm-0.2</developerConnection>
-    <url>http://simple-dm.googlecode.com/svn/tags/sdm-0.2</url>
+    <connection>scm:svn:http://simple-dm.googlecode.com/svn/trunk</connection>
+    <developerConnection>scm:svn:https://simple-dm.googlecode.com/svn/trunk</developerConnection>
+    <url>http://simple-dm.googlecode.com/svn</url>
   </scm>
   
    <modules>
