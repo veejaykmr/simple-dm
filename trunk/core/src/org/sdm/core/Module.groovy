@@ -8,6 +8,8 @@ import groovy.lang.MissingPropertyException;
 
 public class Module {
 	
+	static final String SDM_VERSION = '0.2'
+	
 	private static ModuleManager instance = new ModuleManager()
 
 	static List resolveModule(className, moduleDeps) {

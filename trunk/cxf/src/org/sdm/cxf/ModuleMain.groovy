@@ -9,6 +9,7 @@ import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.ContextHandlerCollection;
 import org.mortbay.jetty.handler.DefaultHandler;
+import org.sdm.core.Module;
 import org.sdm.core.Service;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.apache.camel.builder.RouteBuilder
@@ -17,7 +18,7 @@ import org.apache.cxf.transport.http_jetty.JettyHTTPServerEngine;
 
 class ModuleMain {
 	
-	List dependencies = [[group: 'org.sdm', module: 'http', revision: '0.2-SNAPSHOT', scope: 'runtime']]
+	List dependencies = [[group: 'org.sdm', module: 'http', revision: Module.SDM_VERSION, scope: 'runtime']]
 	
 	def context
 	
