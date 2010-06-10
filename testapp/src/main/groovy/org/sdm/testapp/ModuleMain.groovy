@@ -10,7 +10,7 @@ import org.apache.camel.builder.RouteBuilder
 
 class ModuleMain {
 	
-	List dependencies = [[group: 'org.sdm', module: 'cxf', revision: '0.2-SNAPSHOT', scope: 'runtime']]
+	List dependencies = [[group: 'org.sdm', module: 'cxf', revision: Module.VERSION, scope: 'runtime']]
 	
 	Map aliases = [
 	   'org.mortbay.jetty:servlet-api:2.5-20081211': [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2']
