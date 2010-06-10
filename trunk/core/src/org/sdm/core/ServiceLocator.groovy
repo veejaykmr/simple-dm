@@ -2,7 +2,7 @@ package org.sdm.core;
 
 import org.sdm.core.dsl.ConfigBuilder;
 import org.sdm.core.dsl.Configuration;
-import org.sdm.core.utils.Classes;
+import static org.sdm.core.utils.Classes.*;
 
 class ServiceLocator {
 	
@@ -40,10 +40,10 @@ class ServiceLocator {
 		
 		def init() {
 			this.classloader = Thread.currentThread().contextClassLoader
-			resolver = Classes.create('org.sdm.maven.provider.MavenResolver')	
+			resolver = new_('org.sdm.maven.provider.MavenResolver')	
 			engine = new CachedEngine()
 			
-			//load dev config if any
+			//load sdm config if any
 			def loader = new GroovyClassLoader()
 			def is = loader.getResourceAsStream("sdm-config.groovy")
 			if (is) {
