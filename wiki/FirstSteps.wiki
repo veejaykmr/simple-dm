@@ -110,3 +110,28 @@ To test it just type this URL in your browser:
 {{{
 http://localhost:8088/services/helloworld
 }}}
+
+= Development stage =
+It is very easy to develop a module with SDM. Modules can be restarted dynamically from repositories or from the development workspace.
+
+== Restart command ==
+
+You can simply reload a module by typing the restart command. For example:
+{{{
+restart org.sdm:testapp:0.2
+}}}
+
+== Workspace integration ==
+Your can tell SDM to (re)load a module directly from your development workspace.
+Edit the *$SDM_DIST/lib/sdm-config.groovy* file to declare where the module artifacts are located on the filesystem.
+
+{{{
+configuration { 
+  project(module: 'org.sdm:testapp:0.3-SNAPSHOT') {
+    src(path: '/home/alex/projects/simple-dm/testapp/target/classes')
+  }
+}
+}}}
+
+You can use multiple *src* definitions, if the module artifacts are split on multiple locations. 
+SDM will detect modifications to the module and reload it *automatically*. 
