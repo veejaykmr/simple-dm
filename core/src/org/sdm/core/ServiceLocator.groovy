@@ -58,6 +58,8 @@ class ServiceLocator {
 				script.invokeMethod('run', [] as Object[]);
 								
 				configuration = builder.build()
+			} else {
+				configuration = new Configuration()
 			}
 		}		
 	}

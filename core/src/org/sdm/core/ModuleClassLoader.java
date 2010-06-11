@@ -122,7 +122,7 @@ public class ModuleClassLoader extends URLClassLoader {
 			moduleUrl = uris[0].toURL();
 			
 			//see if the module is in development stage
-			Project project = configuration != null ? configuration.getProject(key) : null;
+			Project project = configuration.getProject(key);
 			if (project != null) { 
 				developmentStage = true;
 				for (String src : project.getSources()) {
