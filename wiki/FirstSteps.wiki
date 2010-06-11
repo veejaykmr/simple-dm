@@ -4,7 +4,7 @@
 
 = Download and setup =
   # SDM requires Java 1.5+
-  # Download the SDM distribution [http://simple-dm.googlecode.com/files/sdm-0.2.zip here]. The archive contains the SDM core and dependencies.
+  # Download the SDM distribution [http://simple-dm.googlecode.com/files/sdm-0.2.zip sdm-0.2.zip]. The archive contains the SDM core and dependencies.
   # Unzip the archive.
 
 = Setup the SDM remote maven repository =
@@ -48,12 +48,12 @@ The *testapp* application module should now run without any problems.
 Go to the directory where you unzipped the SDM distribution.
 Launch the following java command:
 {{{
-java -jar sdm-core-0.1.jar
+java -jar sdm-core-0.2.jar
 }}}
 
 When prompting, type:
 {{{
-start org.sdm:testapp:0.1
+start org.sdm:testapp:0.2
 }}}
 The command will automatically resolve and download all module dependencies, then start the testapp module by calling the *start* module life cycle method.
 
@@ -62,45 +62,45 @@ The command will automatically resolve and download all module dependencies, the
 To see all loaded modules, type the *list* command:
 {{{
 list
-org.sdm:testapp:0.1
-org.sdm:cxf:0.1
-org.sdm:http:0.1
-org.codehaus.groovy:groovy-all:1.7.2
-org.mortbay.jetty:jetty:6.1.21
-org.mortbay.jetty:jetty-util:6.1.21
-org.apache.geronimo.specs:geronimo-servlet_2.5_spec:1.2
-org.sdm:core:0.1
-org.springframework:spring-context:2.5.6
-org.springframework:spring-beans:2.5.6
-org.springframework:spring-core:2.5.6
-commons-logging:commons-logging:1.1.1
-commons-logging:commons-logging-api:1.1
-org.apache.cxf:cxf-rt-core:2.2.6
-org.apache.cxf:cxf-common-utilities:2.2.6
-org.apache.cxf:cxf-api:2.2.6
-org.apache.cxf:cxf-rt-frontend-jaxrs:2.2.6
-javax.ws.rs:jsr311-api:1.0
-org.codehaus.woodstox:wstx-asl:3.2.9
-org.apache.camel:camel-cxf:2.2.0
-org.apache.cxf:cxf-rt-bindings-xml:2.2.6
-org.apache.cxf:cxf-rt-transports-http:2.2.6
-org.apache.cxf:cxf-rt-frontend-jaxws:2.2.6
-org.apache.cxf:cxf-rt-bindings-soap:2.2.6
-org.apache.cxf:cxf-rt-ws-addr:2.2.6
-org.apache.cxf:cxf-rt-transports-http-jetty:2.2.6
-wsdl4j:wsdl4j:1.6.2
-com.sun.xml.bind:jaxb-impl:2.1.12
-xml-resolver:xml-resolver:1.2
-org.apache.neethi:neethi:2.0.4
-org.mortbay.jetty:jetty:6.1.22
-org.apache.camel:camel-spring:2.2.0
-org.apache.camel:camel-core:2.2.0
-org.fusesource.commonman:commons-management:1.0
-org.springframework:spring-aop:2.5.6
-org.apache.camel:camel-http:2.2.0
-org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1
-commons-httpclient:commons-httpclient:3.1
-org.apache.cxf:cxf-rt-frontend-simple:2.2.6
+org.sdm:core:0.2 (0 classes)
+org.sdm:cxf:0.2 (1 classes)
+org.codehaus.groovy:groovy-all:1.7.2 (0 classes)
+org.sdm:http:0.2 (1 classes)
+org.mortbay.jetty:jetty:6.1.21 (69 classes)
+org.mortbay.jetty:jetty-util:6.1.21 (34 classes)
+org.apache.geronimo.specs:geronimo-servlet_2.5_spec:1.2 (12 classes)
+org.springframework:spring-context:2.5.6 (58 classes)
+org.springframework:spring-beans:2.5.6 (179 classes)
+org.springframework:spring-core:2.5.6 (63 classes)
+commons-logging:commons-logging:1.1.1 (17 classes)
+commons-logging:commons-logging-api:1.1 (12 classes)
+org.apache.cxf:cxf-rt-core:2.2.6 (79 classes)
+org.apache.cxf:cxf-common-utilities:2.2.6 (48 classes)
+org.apache.cxf:cxf-api:2.2.6 (122 classes)
+org.apache.cxf:cxf-rt-frontend-jaxrs:2.2.6 (77 classes)
+javax.ws.rs:jsr311-api:1.0 (40 classes)
+org.codehaus.woodstox:wstx-asl:3.2.9 (86 classes)
+org.apache.camel:camel-cxf:2.2.0 (19 classes)
+org.apache.cxf:cxf-rt-bindings-xml:2.2.6 (6 classes)
+org.apache.cxf:cxf-rt-transports-http:2.2.6 (17 classes)
+org.apache.cxf:cxf-rt-frontend-jaxws:2.2.6 (2 classes)
+org.apache.cxf:cxf-rt-bindings-soap:2.2.6 (8 classes)
+org.apache.cxf:cxf-rt-ws-addr:2.2.6 (13 classes)
+org.apache.cxf:cxf-rt-transports-http-jetty:2.2.6 (9 classes)
+wsdl4j:wsdl4j:1.6.2 (102 classes)
+com.sun.xml.bind:jaxb-impl:2.1.12 (289 classes)
+xml-resolver:xml-resolver:1.2 (13 classes)
+org.apache.neethi:neethi:2.0.4 (2 classes)
+org.mortbay.jetty:jetty:6.1.22 (0 classes)
+org.apache.camel:camel-spring:2.2.0 (6 classes)
+org.apache.camel:camel-core:2.2.0 (393 classes)
+org.fusesource.commonman:commons-management:1.0 (4 classes)
+org.springframework:spring-aop:2.5.6 (5 classes)
+org.apache.camel:camel-http:2.2.0 (21 classes)
+org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1 (9 classes)
+commons-httpclient:commons-httpclient:3.1 (1 classes)
+org.apache.cxf:cxf-rt-frontend-simple:2.2.6 (1 classes)
+org.sdm:testapp:0.2 (5 classes)
 }}}
 
 == See the result ==
