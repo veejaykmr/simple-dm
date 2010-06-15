@@ -51,6 +51,11 @@ Launch the following java command:
 java -jar sdm-core-0.2.jar
 }}}
 
+Or if you are behind a proxy:
+{{{
+java -Dhttp.proxyHost=yourproxy -Dhttp.proxyPort=8080 -jar sdm-core-0.2.jar
+}}}
+
 When prompting, type:
 {{{
 start org.sdm:testapp:0.2
