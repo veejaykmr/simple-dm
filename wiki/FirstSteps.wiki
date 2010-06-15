@@ -55,7 +55,7 @@ Or if you are behind a proxy:
 {{{
 java -Dhttp.proxyHost=yourproxy -Dhttp.proxyPort=8080 -jar sdm-core-0.2.jar
 }}}
-Warn:
+*Warn*:
  Launching SDM for the first time can take a while because of the downloading (and caching) of all required dependencies.
 
 When prompting, type:
