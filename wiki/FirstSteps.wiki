@@ -139,6 +139,6 @@ configuration {
 }
 }}}
 
-You can use multiple *src* definitions, if the module artifacts are split on multiple locations. 
+You can use multiple *src* definitions, if the module artifacts are split over multiple locations. 
 
 SDM will detect modifications made to the module and reload it *automatically*. 
