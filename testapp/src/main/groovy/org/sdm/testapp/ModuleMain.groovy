@@ -13,7 +13,9 @@ class ModuleMain {
 	List dependencies = [[group: 'org.sdm', module: 'cxf', revision: Module.SDM_VERSION, scope: 'runtime']]
 	
 	Map aliases = [
-	   'org.mortbay.jetty:servlet-api:2.5-20081211': [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2']
+	   'org.mortbay.jetty:servlet-api:2.5-20081211': [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2'],
+	   'commons-logging:commons-logging:1.0.4': [group: 'commons-logging', module: 'commons-logging', revision: '1.1.1'],
+	   'org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1': [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2']
 	]
 	
 	def camel
@@ -34,7 +36,7 @@ class ModuleMain {
 		
 		context = new ClassPathXmlApplicationContext("org/sdm/testapp/application-context.xml")
 		
-		camel = new SpringCamelContext(context)
+		camel = context.getBean('camelContext')
 		
 		def debugProc = new DebugProcessor()
 		
@@ -42,7 +44,8 @@ class ModuleMain {
 			public void configure() {
 				// Here we just pass the exception back , don't need to use errorHandler
 				errorHandler(noErrorHandler());
-				from('cxfrs://bean://rsServer').process(debugProc).to('bean://helloService');
+				
+				from('cxfrs://bean://rsServer').process(debugProc).to('bean://helloService')
 			}
 		});
 		

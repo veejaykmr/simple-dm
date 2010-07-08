@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:core="http://cxf.apache.org/core" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://camel.apache.org/schema/cxf" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:core="http://cxf.apache.org/core" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://camel.apache.org/schema/cxf" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+   xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration" xmlns:camel="http://cxf.apache.org/transports/camel"
    xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
@@ -8,17 +9,24 @@
        http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+       http://cxf.apache.org/transports/camel http://cxf.apache.org/transports/camel.xsd
     ">
-    
+
+   <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+
    <bean id="helloService" class="org.sdm.testapp.HelloServiceImpl" />
 
    <bean id="cxf" name="cxf" class="org.sdm.core.Service" factory-method="lookup">
       <beans:constructor-arg type="java.lang.String" value="cxf" />
-   </bean> 
+   </bean>
 
    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.JSONProvider" />
+
+   <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" />
+
 
    <!-- Defined the server endpoint to create the cxf-rs consumer -->
    <cxf:rsServer id="rsServer" bus="cxf" address="http://localhost:8088/services" serviceClass="org.sdm.testapp.HelloService" />
 
 </beans>
+

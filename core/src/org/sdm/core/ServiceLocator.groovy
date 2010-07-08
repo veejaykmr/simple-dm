@@ -38,7 +38,12 @@ class ServiceLocator {
 		
 		def configuration
 		
+		boolean initialized
+		
 		def init() {
+			if (initialized)
+				return
+			
 			this.classloader = Thread.currentThread().contextClassLoader
 			resolver = new_('org.sdm.maven.provider.MavenResolver')	
 			engine = new CachedEngine()
@@ -58,7 +63,11 @@ class ServiceLocator {
 				script.invokeMethod('run', [] as Object[]);
 								
 				configuration = builder.build()
+			} else {
+				configuration = new Configuration()
 			}
+			
+			initialized = true
 		}		
 	}
 	

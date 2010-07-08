@@ -6,5 +6,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0.jar" sourcepath="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
 	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
