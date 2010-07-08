@@ -27,10 +27,7 @@ import org.sdm.core.utils.Utils;
  * 
  * @author Alexandre P. Clement
  * 
- *         this a groovy version based on a groovyclassloader The module
- *         classloader isn't intrasincally dependant on groovy There will be a
- *         pure java version of the module classloader based only on the
- *         URLClassLoader
+ *  
  * 
  */
 @SuppressWarnings("unchecked")
@@ -122,7 +119,7 @@ public class ModuleClassLoader extends URLClassLoader {
 			moduleUrl = uris[0].toURL();
 			
 			//see if the module is in development stage
-			Project project = configuration != null ? configuration.getProject(key) : null;
+			Project project = configuration.getProject(key);
 			if (project != null) { 
 				developmentStage = true;
 				for (String src : project.getSources()) {
@@ -215,7 +212,7 @@ public class ModuleClassLoader extends URLClassLoader {
 
 			try {
 				if (mcl == this) {
-					result = findLocalClass(name);
+					result = super.findClass(name);
 					// Keep track of loaded classes for debugging purposes
 					loadedClasses.add(result);
 				} else {
@@ -229,10 +226,6 @@ public class ModuleClassLoader extends URLClassLoader {
 		}
 
 		return result;
-	}
-
-	public Class findLocalClass(String name) throws ClassNotFoundException {
-		return super.findClass(name);
 	}
 
 	@Override

@@ -25,6 +25,18 @@ class Starter {
 		start module
 	}
 	
+	static startNonInteractive(module) {
+		ServiceLocator.init()
+		
+		def m = module =~ /(.*):(.*):(.*)/
+		assert m.matches()
+		
+		def dep = [group: m[0][1], module: m[0][2], revision: m[0][3]]		
+		
+		println "Simple Dynamic Module System started in non interactive mode."
+		start dep
+	}
+	
 	static void main(args) {
 		ServiceLocator.init()
 		
