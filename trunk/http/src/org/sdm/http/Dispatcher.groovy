@@ -4,8 +4,12 @@ import org.mortbay.jetty.HttpConnection;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.handler.HandlerWrapper;
 
-import groovy.lang.MissingPropertyException;
-
+/**
+ * This class dispatches requests coming from a servlet container to Jetty server handlers
+ *  
+ * @author alex
+ *
+ */
 class Dispatcher {
 	
 	def server
