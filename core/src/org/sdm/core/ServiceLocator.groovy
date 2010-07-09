@@ -1,7 +1,12 @@
 package org.sdm.core;
 
+import javax.management.ObjectName;
+
 import org.sdm.core.dsl.ConfigBuilder;
+import org.sdm.core.dsl.ConfigService;
 import org.sdm.core.dsl.Configuration;
+import org.sdm.core.jmx.Exporter;
+import org.sdm.core.jmx.Manager;
 import static org.sdm.core.utils.Classes.*;
 
 class ServiceLocator {
@@ -38,6 +43,10 @@ class ServiceLocator {
 		
 		def configuration
 		
+		def managerMBean
+		
+		def exporter
+		
 		boolean initialized
 		
 		def init() {
@@ -45,28 +54,18 @@ class ServiceLocator {
 				return
 			
 			this.classloader = Thread.currentThread().contextClassLoader
+			
 			resolver = new_('org.sdm.maven.provider.MavenResolver')	
+			
 			engine = new CachedEngine()
 			
-			//load sdm config if any
-			def loader = new GroovyClassLoader()
-			def is = loader.getResourceAsStream("sdm-config.groovy")
-			if (is) {
-				def builder = new ConfigBuilder()
-				def scriptClass = loader.parseClass(is)
-				scriptClass.metaClass.configuration = { clos -> 
-					clos.delegate = builder
-					clos()
-				}
-				
-				def script = scriptClass.newInstance()				
-				script.invokeMethod('run', [] as Object[]);
-								
-				configuration = builder.build()
-			} else {
-				configuration = new Configuration()
-			}
+			configuration = new ConfigService().configuration
 			
+			managerMBean = new Manager()
+			
+			// jmx export
+			exporter = new Exporter(managerMBean, new ObjectName('org.sdm.jmx:type=ManagerMBean'))
+					
 			initialized = true
 		}		
 	}

@@ -252,6 +252,10 @@ public class ModuleClassLoader extends URLClassLoader {
 		return (ModuleClassLoader) (result != null && result instanceof ModuleClassLoader ? result : this);
 	}
 	
+	public void addDependency(Map moduleDep) {
+		this.moduleDeps.add(moduleDep);
+	}
+	
 	public void addDependencies(List moduleDeps) {
 		this.moduleDeps.addAll(moduleDeps);
 	}

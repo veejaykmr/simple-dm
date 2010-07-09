@@ -4,13 +4,18 @@ import java.lang.reflect.Method;
 
 import org.sdm.core.utils.Log;
 
+import groovy.lang.MissingMethodException;
 import groovy.lang.MissingPropertyException;
+
+import java.io.OutputStream;
 
 public class Module {
 	
 	static final String SDM_VERSION = '0.3-SNAPSHOT'
 	
 	private static ModuleManager instance = new ModuleManager()
+	
+	static instance() { instance }
 
 	static List resolveModule(className, moduleDeps) {
 		instance.resolveModule(className, moduleDeps)
@@ -125,24 +130,19 @@ public class Module {
 				
 				Class mainClass = mcl.loadClass(mainClassName)						
 				Object object = mainClass.newInstance();
-				def helper = new ModuleHelper(object)
+											
+				object.metaClass.override = { ok, od ->	aliases[ok] = od }
 				
-				// add module aliases
-				try {
-					aliases.putAll object.aliases
-				} catch(MissingPropertyException e) {
-					// nothing to do
+				object.metaClass.require = { dependency ->
+					mcl.addDependency dependency
+					assureModuleStarted dependency					
+					// Set the context classloader after loading the runtime dependency
+					Thread.currentThread().setContextClassLoader mcl
 				}				
-				// Set static dependencies
-				mcl.addDependencies helper.staticDependencies
-				// Start runtime dependencies
-				helper.runtimeDependencies.each { assureModuleStarted it }
-														
-				// Set the context classloader after loading runtime dependencies
-				Thread.currentThread().setContextClassLoader mcl
 				
-				object.start()
-				mainInstanceMap[key] = object				
+				object.invokeMethod 'run', [] as Object[]
+				mainInstanceMap[key] = object	
+				
 			} catch(ClassNotFoundException e) {
 				Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
 			} 			
@@ -175,8 +175,8 @@ public class Module {
 				if (object) {
 					object.stop()
 				}
-			} catch(ClassNotFoundException e) {
-				Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
+			} catch(MissingMethodException e) {
+				Log.trace("Module " + dep + " doesn't have a stop method: " + mainClassName);
 			} 		
 		
 			mcl.finalize()
@@ -221,6 +221,14 @@ public class Module {
 			mclMap.each { key,mcl -> 
 				println "$key (${mcl.loadedClasses.size()} classes)"
 			}
+		}
+		
+		def listModules() {
+			def results = []
+            mclMap.each { key,mcl -> 
+				results << "$key (${mcl.loadedClasses.size()} classes)"
+			}             
+			results
 		}
 		
 		def dump() {
