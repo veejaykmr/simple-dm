@@ -22,9 +22,6 @@
 
    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.JSONProvider" />
 
-   <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" />
-
-
    <!-- Defined the server endpoint to create the cxf-rs consumer -->
    <cxf:rsServer id="rsServer" bus="cxf" address="http://localhost:8088/services" serviceClass="org.sdm.testapp.HelloService" />
 
