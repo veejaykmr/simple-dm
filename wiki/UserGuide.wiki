@@ -1,0 +1,9 @@
+#summary User guide
+
+<wiki:toc />
+
+=Module development=
+
+=Module metadata generation=
+
+=JEE integration=
