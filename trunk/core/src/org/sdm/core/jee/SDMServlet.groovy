@@ -27,7 +27,7 @@ class SDMServlet extends HttpServlet {
 		def value = config.getInitParameter('modules') ?: ''
 		def modules = value.split(',') as List
 		
-		modules.each { Starter.startNonInteractive it }				
+		modules.each { Starter.start it as String}				
 	}
 	
 }

@@ -10,6 +10,14 @@ class Manager implements ManagerMBean {
 	}
 	
 	void start(String dep) {
-		Starter.startNonInteractive(dep)
+		Starter.start dep
+	}
+	
+	void stop(String dep) {
+		Starter.stop dep
+	}
+	
+	void restart(String dep) {
+		Starter.restart dep
 	}
 }
