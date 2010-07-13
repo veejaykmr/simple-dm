@@ -6,7 +6,7 @@ import org.sdm.core.ServiceLocator;
 
 class Starter {
 	
-	static start(module) {
+	static start(String module) {
 		def ex		
 		try {
 			def appMcl = Module.startModule(module)
@@ -16,41 +16,28 @@ class Starter {
 		}		
 	}
 	
-	static stop(module) {
+	static stop(String module) {
 		Module.stopModule(module)
 	}
 	
-	static restart(module) {
+	static restart(String module) {
 		stop module
 		start module
-	}
-	
-	static startNonInteractive(module) {
-		ServiceLocator.init()
-		
-		def m = module =~ /(.*):(.*):(.*)/
-		assert m.matches()
-		
-		def dep = [group: m[0][1], module: m[0][2], revision: m[0][3]]		
-		
-		println "Simple Dynamic Module System started in non interactive mode."
-		start dep
 	}
 	
 	static void main(args) {
 		ServiceLocator.init()
 		
-		println "Simple Dynamic Module System started."		
+		println "Simple Dynamic Module System version ${Module.SDM_VERSION} started."		
 		
 		def is = System.in
 		def m		
 		def test = { s, p -> m = s =~ p; m.matches() }
-		def cur = [group: 'org.sdm', module: 'testapp', revision: Module.SDM_VERSION]
+		def cur = 'org.sdm:testapp:' + Module.SDM_VERSION
 		
 		is.eachLine { line ->
-			if (test(line, /^(start|stop|restart)\s+(.*):(.*):(.*)/)) {
-				cur = [group: m[0][2], module: m[0][3], revision: m[0][4]]
-				"${m[0][1]}"(cur)
+			if (test(line, /^(start|stop|restart)\s+(.*)/)) {
+				"${m[0][1]}"(m[0][2])
 			} else if(test(line, /^stop|^start|^restart/)) {
 				if (cur) {
 					"${m[0]}"(cur)
@@ -63,5 +50,6 @@ class Starter {
 				println "Unknown command: Usage: [start|stop] group:module:revision."
 			}
 		}
-	}
+	}	
+	
 }

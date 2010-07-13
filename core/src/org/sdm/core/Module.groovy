@@ -115,8 +115,12 @@ public class Module {
 		List resolveModule(className, moduleDeps) {
 			resolver.resolveModule className, moduleDeps
 		}
+		
+		def startModule(String dep) {
+			startModule resolver.keyToMap(dep)
+		}
 				
-		def startModule(dep) {	
+		def startModule(Map dep) {	
 			long now = System.currentTimeMillis()
 			Log.info("Starting module $dep ...")
 						
@@ -155,7 +159,11 @@ public class Module {
 			mcl
 		}
 		
-		def stopModule(dep) {
+		def stopModule(String dep) {
+			stopModule resolver.keyToMap(dep)
+		}
+		
+		def stopModule(Map dep) {
 			long now = System.currentTimeMillis()
 			Log.info("Stopping module $dep ...")
 			
@@ -187,7 +195,11 @@ public class Module {
 			Log.info("Module $dep stopped in $dur ms.")
 		}
 		
-		def restartModule(dep) {
+		def restartModule(String dep) {
+			restartModule resolver.keyToMap(dep)
+		}
+		
+		def restartModule(Map dep) {
 			if (isModuleStarted(dep)) {
 				stopModule dep
 			}

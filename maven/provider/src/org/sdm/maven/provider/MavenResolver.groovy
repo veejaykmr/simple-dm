@@ -1,8 +1,6 @@
 package org.sdm.maven.provider
 
-import java.net.URL;
-
-import org.sdm.maven.provider.Log
+import java.util.Map;
 
 class MavenResolver {
 	
@@ -84,6 +82,13 @@ class MavenResolver {
 	def getModuleKey(Map dep) {
 		assert dep.group && dep.module && dep.revision
 		"${dep.group}:${dep.module}:${dep.revision}"
+	}
+	
+	Map keyToMap(String dep) {
+		def m = dep =~ /(.*):(.*):(.*)/
+		assert m.matches()
+		
+		[group: m[0][1], module: m[0][2], revision: m[0][3]]	
 	}
 	
 	private getPackageName(className) {
