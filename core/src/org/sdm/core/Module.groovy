@@ -112,6 +112,10 @@ public class Module {
 			resolver.getModuleKey(dep) as String
 		}
 		
+		def getModuleMainInstance(Map dep) {
+			mainInstanceMap[getKey(dep)]
+		}
+		
 		List resolveModule(className, moduleDeps) {
 			resolver.resolveModule className, moduleDeps
 		}
@@ -134,18 +138,23 @@ public class Module {
 				
 				Class mainClass = mcl.loadClass(mainClassName)						
 				Object object = mainClass.newInstance();
+				mainInstanceMap[key] = object
+				
+				try {
+					object.setProperty 'moduleManager', this
+				} catch(MissingPropertyException e) {}
 											
 				object.metaClass.override = { ok, od ->	aliases[ok] = od }
 				
 				object.metaClass.require = { dependency ->
 					mcl.addDependency dependency
-					assureModuleStarted dependency					
+					assureModuleStarted dependency								
+					notifyOnModuleStarting dep, dependency					
 					// Set the context classloader after loading the runtime dependency
 					Thread.currentThread().setContextClassLoader mcl
 				}				
 				
-				object.invokeMethod 'run', [] as Object[]
-				mainInstanceMap[key] = object	
+				object.invokeMethod 'run', null				
 				
 			} catch(ClassNotFoundException e) {
 				Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
@@ -211,9 +220,22 @@ public class Module {
 			mclMap.containsKey key
 		}
 		
+		def assureModuleStarted(String dep) {
+			assureModuleStarted resolver.keyToMap(dep)
+		}
+		
 		def assureModuleStarted(Map dep) {
 			if (!isModuleStarted(dep)) {
 				startModule dep
+			}
+		}
+		
+		def notifyOnModuleStarting(Map src, Map target) {
+			def instance = getModuleMainInstance(target)
+			if (instance) {
+				try {
+					instance.onModuleStarting src
+				} catch(MissingMethodException e) {}
 			}
 		}
 		

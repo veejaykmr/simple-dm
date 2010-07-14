@@ -1,10 +1,11 @@
-VERSION=0.2-SNAPSHOT
+VERSION=0.3-SNAPSHOT
 DIST=sdm-$VERSION
 
 rm -rf $DIST
 mkdir -p $DIST/lib
 
 cp -v core/target/sdm-core-$VERSION.jar $DIST
+cp -v core/conf/sdm-config.groovy $DIST/lib
 
 cp -v maven/provider/target/sdm-maven-provider-$VERSION.jar $DIST/lib
 cp -v maven/metadata/target/sdm-maven-metadata-$VERSION.jar $DIST/lib
