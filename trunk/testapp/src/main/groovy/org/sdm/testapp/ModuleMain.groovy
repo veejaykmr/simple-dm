@@ -13,28 +13,20 @@ override 'commons-logging:commons-logging:1.0.4', [group: 'commons-logging', mod
 override 'org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1', [group: 'org.apache.geronimo.specs', module:'geronimo-servlet_2.5_spec', revision: '1.2']
 
 require group: 'org.sdm', module: 'cxf', revision: Module.SDM_VERSION
+require group: 'org.sdm', module: 'camel', revision: Module.SDM_VERSION
 		
-println ">>>>>>> Module starting!!!"			
-println "start"
+applicationContext = new ClassPathXmlApplicationContext("org/sdm/testapp/application-context.xml")
+camelContext.applicationContext = applicationContext
 
-context = new ClassPathXmlApplicationContext("org/sdm/testapp/application-context.xml")
-
-camel = new SpringCamelContext(context)
-
-def debugProc = new DebugProcessor()
-
-camel.addRoutes(new RouteBuilder() {
-	public void configure() {
-		// Here we just pass the exception back , don't need to use errorHandler
-		errorHandler(noErrorHandler());
-		
-		from('cxfrs://bean://rsServer').process(debugProc).to('bean://helloService')
+routes {
+	errorHandler noErrorHandler()
+	from('cxfrs://bean://rsServer') {
+		process new DebugProcessor()
+		to 'bean://helloService'
 	}
-});
+}
 
-camel.start()
-
-println 'done'
+camelContext.start()
 
 def stop() {
 	println ">>>>>>>>>>>>>>>>>> Shutdown module"
