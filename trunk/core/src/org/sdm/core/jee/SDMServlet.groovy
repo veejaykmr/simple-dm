@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.sdm.core.Service;
+import org.sdm.core.ServiceLocator;
 import org.sdm.core.Starter;
 
 class SDMServlet extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		def dispatcher = Service.lookup('http.dispatcher')
+		def dispatcher = ServiceLocator.instance().serviceRegistry.lookup('http.dispatcher')
 		assert dispatcher
 		dispatcher.dispatch req.pathInfo, req, resp
 	}
@@ -27,7 +27,10 @@ class SDMServlet extends HttpServlet {
 		def value = config.getInitParameter('modules') ?: ''
 		def modules = value.split(',') as List
 		
-		modules.each { Starter.start it as String}				
+		ServiceLocator.initialize()
+		def starter = new Starter()
+		
+		modules.each { starter.start it as String}				
 	}
 	
 }

@@ -16,7 +16,7 @@
 
    <bean id="helloService" class="org.sdm.testapp.HelloServiceImpl" />
 
-   <bean id="cxf" name="cxf" class="org.sdm.core.Service" factory-method="lookup">
+   <bean id="cxf" name="cxf" class="org.sdm.core.SDM" factory-method="getService">
       <beans:constructor-arg type="java.lang.String" value="cxf" />
    </bean>
 

@@ -11,7 +11,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +31,8 @@ import org.sdm.core.utils.Utils;
  */
 @SuppressWarnings("unchecked")
 public class ModuleClassLoader extends URLClassLoader {
-
-	boolean trace = true;
-
-	CachedEngine engine = ServiceLocator.getCachedEngine();
+	
+	ModuleManager moduleManager;
 
 	/**
 	 * module dependency list a module dependency is represented by a map
@@ -61,12 +58,14 @@ public class ModuleClassLoader extends URLClassLoader {
 	/**
 	 * Dependency URIs
 	 */
-	URI[] uris;
+	List<URI> uris;
 
 	/**
 	 * Classloader used to find resources
 	 */
 	URLClassLoader ucl;
+	
+	Map resolveArgs;
 	
 	/**
 	 * Module started
@@ -75,7 +74,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	
 	Date startingDate; 
 	
-	Configuration configuration = ServiceLocator.getConfig();
+	Configuration configuration;
 	
 	ModuleObserver observer;
 	
@@ -87,40 +86,27 @@ public class ModuleClassLoader extends URLClassLoader {
 	public ModuleClassLoader(ClassLoader parent, Map dep) throws Exception {
 		super(new URL[] {}, parent);
 		this.moduleDep = dep;
-		init();
 	}
 
-	private void init() throws Exception {
+	public void init() throws Exception {
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		Thread.currentThread().setContextClassLoader(getParent());
 
-		// grap module: resolve module URL and add it to this class loader
-		// doesn't recurse on transitive dependencies: they will get loaded in
-		// their own classloader,
-		// this is the principe of the module classloader (MCL)
-		Map args = new HashMap();
-		args.put("classLoader", this);
-		args.put("transitive", true);
-		args.put("autoDownload", true);
-
 		try {
-			String key = Module.getKey(moduleDep);
-						
-			ResolveReport report = engine.resolve(this, args, moduleDep);
-			assert report != null;			
-		
-			uris = report.getUris();
-			moduleDeps = report.getModuleDeps();
+			String key = moduleManager.getKey(moduleDep); 
+			// TODO clarify what classloader is required, passing this for now
+			ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
 			
-			moduleDeps = Module.substituteAliases(moduleDeps);
+			uris = report.getUris();
+			moduleDeps = report.getModuleDeps();			
 			
 			// first uri should be the dep URI itself, followers are uris of
 			// transitive dependencies
-			moduleUrl = uris[0].toURL();
+			moduleUrl = uris.get(0).toURL();
 			
 			//see if the module is in development stage
 			Project project = configuration.getProject(key);
-			if (project != null) { 
+ 			if (project != null) { 
 				developmentStage = true;
 				for (String src : project.getSources()) {
 					URL url = new File(src).toURI().toURL();
@@ -150,7 +136,7 @@ public class ModuleClassLoader extends URLClassLoader {
 		startingDate = new Date();
 		
 		if (developmentStage) {
-			observer = new ModuleObserver(this);
+			observer = new ModuleObserver(this, moduleManager);
 			observer.start();
 		}
 	}
@@ -173,13 +159,13 @@ public class ModuleClassLoader extends URLClassLoader {
 
 			// TODO remove module resolving, just try to load the class from the
 			// dependencies
-			List<Map> modules = Module.resolveModule(name, moduleDeps);
+			List<Map> modules = moduleManager.resolveModule(name, moduleDeps);
 			// trace("  RESOLUTION: Modules " + modules + " resolved for class "
 			// + name);
 			if (modules.isEmpty()) {
 				// dynamic module dependency?
 				// try with the context class loader dependencies
-				modules = Module.resolveModule(name, getContextClassLoader().moduleDeps);
+				modules = moduleManager.resolveModule(name, getContextClassLoader().moduleDeps);
 			}
 			_assert(!modules.isEmpty(), "MCL cannot resolve module");
 
@@ -205,9 +191,9 @@ public class ModuleClassLoader extends URLClassLoader {
 
 		// try each module dep to find the class
 		for (Map module : deps) {
-			ModuleClassLoader mcl = Module.getMcl(module);
+			ModuleClassLoader mcl = moduleManager.getMcl(module); 
 			if (!mcl.isModuleStarted()) {
-				Module.assureModuleStarted(module);
+				moduleManager.assureModuleStarted(module);
 			}
 
 			try {
@@ -253,13 +239,13 @@ public class ModuleClassLoader extends URLClassLoader {
 	}
 	
 	public void addDependency(Map moduleDep) {
-		this.moduleDeps.add(moduleDep);
+		ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
+	
+		moduleDeps.addAll(report.getModuleDeps());
+		uris.addAll(report.getUris());
+		ucl = new URLClassLoader(Utils.toURLs(uris));
 	}
 	
-	public void addDependencies(List moduleDeps) {
-		this.moduleDeps.addAll(moduleDeps);
-	}
-
 	public List<Map> getModuleDeps() {
 		return moduleDeps;
 	}
@@ -306,5 +292,29 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public void setDevelopmentStage(boolean developmentStage) {
 		this.developmentStage = developmentStage;
+	}
+
+	public Map getModuleDep() {
+		return moduleDep;
+	}
+
+	public void setModuleDep(Map moduleDep) {
+		this.moduleDep = moduleDep;
+	}
+
+	public ModuleManager getModuleManager() {
+		return moduleManager;
+	}
+
+	public void setModuleManager(ModuleManager moduleManager) {
+		this.moduleManager = moduleManager;
+	}
+
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 }

@@ -50,7 +50,7 @@
             <executions>
                <execution>
                   <goals>
-                     <goal>generateStubs</goal>
+                     <!-- goal>generateStubs</goal-->
                      <goal>compile</goal>
                      <goal>testCompile</goal>
                      <!-- if you want joint compilation, add stub generation goals

@@ -1,12 +1,10 @@
 package org.sdm.core;
 
-import java.util.Map;
-
 import groovy.grape.Grape;
 
 class CachedEngine {
 		
-	def resolver = ServiceLocator.getResolver()
+	def resolver
 	
 	def engine = Grape.getInstance();
 	

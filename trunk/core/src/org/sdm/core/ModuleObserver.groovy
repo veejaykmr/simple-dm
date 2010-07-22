@@ -3,13 +3,16 @@ package org.sdm.core;
 import org.sdm.core.utils.FileUtils;
 
 class ModuleObserver extends Thread {
+	
+	def moduleManager
 		
 	def mcl
 	
 	boolean stop
 	
-	ModuleObserver(mcl) {
+	ModuleObserver(mcl, moduleManager) {
 		this.mcl = mcl
+		this.moduleManager = moduleManager
 	}
 		
 	void run() {		
@@ -21,7 +24,7 @@ class ModuleObserver extends Thread {
 			def files = urls.collect { FileUtils.list(it.path) }.flatten() 
 			def modifiedFile = files.find { it.lastModified() > mcl.startingDate.time }
 			if (modifiedFile) {
-				Module.restartModule(mcl.moduleDep)					
+				moduleManager.restartModule(mcl.moduleDep)					
 			}
 		}
 	}	
