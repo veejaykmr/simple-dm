@@ -1,10 +1,5 @@
 package org.sdm.http
 
-import org.sdm.core.Service;
-import static org.sdm.core.utils.Classes.*;
-
-println "start"
-
 String env = System.getenv('SDM_ENV') ?: 'dev'
 	
 def ccl = Thread.currentThread().getContextClassLoader()
@@ -30,10 +25,10 @@ server.addHandler handler
 		
 server.start()
 		
-Service.register('http.server', server)
+serviceRegistry.register('http.server', server)
 
 def dispatcher = new Dispatcher(server: server, ccl: ccl)		
-Service.register('http.dispatcher', dispatcher)
+serviceRegistry.register('http.dispatcher', dispatcher)
 
 println 'done'
 

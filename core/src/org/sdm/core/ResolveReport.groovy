@@ -7,5 +7,5 @@ import java.util.Map;
 class ResolveReport {
 	List<Map> moduleDeps = []
 	
-	URI[] uris
+	List<URI> uris
 }

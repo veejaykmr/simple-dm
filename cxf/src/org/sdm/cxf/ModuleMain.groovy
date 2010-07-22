@@ -1,19 +1,11 @@
 package org.sdm.cxf
 
-import java.lang.reflect.Field;
-import org.sdm.core.Module;
-import org.sdm.core.Service;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.sdm.core.utils.Classes.*;
+require group: 'org.sdm', module: 'http', revision: SDM_VERSION
 
-require group: 'org.sdm', module: 'http', revision: Module.SDM_VERSION
-	
-println "start"
-
-context = new ClassPathXmlApplicationContext("org/sdm/cxf/application-context.xml")
+context = new org.springframework.context.support.ClassPathXmlApplicationContext("org/sdm/cxf/application-context.xml")
 def bus = context.getBean("cxf")
 		
-server = Service.lookup('http.server')
+server = serviceRegistry.lookup('http.server')
 
 if (server) {
 	def connector = server.getConnectors()[0]
@@ -29,12 +21,12 @@ if (server) {
 	
 	def contexts = server.handler
 			
-	Field privateField = engine.getClass().getDeclaredField("contexts");
+	def privateField = engine.getClass().getDeclaredField("contexts");
 	privateField.setAccessible(true);		
 	privateField.set(engine, contexts)			
 }
 
-Service.register 'cxf', bus
+serviceRegistry.register 'cxf', bus
 
 def stop() {
 	

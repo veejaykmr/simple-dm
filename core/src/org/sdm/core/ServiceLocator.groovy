@@ -11,63 +11,62 @@ import static org.sdm.core.utils.Classes.*;
 
 class ServiceLocator {
 	
-	static instance = new ServiceLocatorImpl()
+	static instance = new ServiceLocator()
 	
-	static init() {
-		instance.init()
+	static instance() { instance }
+	
+	static initialize() { instance.init() }
+	
+	def classloader
+	
+	def resolver 
+	
+	CachedEngine engine 
+	
+	def configuration
+	
+	def managerMBean
+	
+	def exporter
+	
+	def serviceRegistry
+	
+	def moduleManager
+	
+	boolean initialized
+	
+	def moduleClassLoader(parentClassLoader, moduleDep) {
+		def result = new ModuleClassLoader(parentClassLoader, moduleDep)
+		result.moduleManager = moduleManager
+		result.configuration = configuration
+		result.init()
+		result
 	}
 	
-	static getClassLoader() {
-		instance.classloader
-	}
-	
-	static getResolver() {
-		instance.resolver
-	}
-	
-	static CachedEngine getCachedEngine() {
-		instance.engine
-	}
-	
-	static Configuration getConfig() {
-		instance.configuration
-	}
-	
-	static class ServiceLocatorImpl {
+	def init() {
+		if (initialized)
+			return
 		
-		def classloader
+		this.classloader = Thread.currentThread().contextClassLoader
 		
-		def resolver 
+		resolver = new_('org.sdm.maven.provider.MavenResolver')	
 		
-		CachedEngine engine 
+		engine = new CachedEngine(resolver: resolver)
 		
-		def configuration
+		configuration = new ConfigService().configuration		
 		
-		def managerMBean
+		serviceRegistry = new ServiceRegistry()
 		
-		def exporter
+		moduleManager = new ModuleManager(parentClassLoader: classloader, resolver: resolver, engine: engine, 
+				serviceRegistry: serviceRegistry, serviceLocator: this)
 		
-		boolean initialized
+		managerMBean = new Manager(moduleManager: moduleManager)
 		
-		def init() {
-			if (initialized)
-				return
-			
-			this.classloader = Thread.currentThread().contextClassLoader
-			
-			resolver = new_('org.sdm.maven.provider.MavenResolver')	
-			
-			engine = new CachedEngine()
-			
-			configuration = new ConfigService().configuration
-			
-			managerMBean = new Manager()
-			
-			// jmx export
-			exporter = new Exporter(managerMBean, new ObjectName('org.sdm.jmx:type=ManagerMBean'))
-					
-			initialized = true
-		}		
-	}
-	
+		// jmx export
+		exporter = new Exporter(managerMBean, new ObjectName('org.sdm.jmx:type=ManagerMBean'))
+		
+		initialized = true
+	}		
 }
+
+
