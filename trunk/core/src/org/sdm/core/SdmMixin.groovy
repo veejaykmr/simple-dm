@@ -24,7 +24,7 @@ class SdmMixin {
 	def require(dep) {
 		mcl.addDependency dep
 		moduleManager.assureModuleStarted dep								
-		moduleManager.notifyOnModuleStarting mcl.moduleDep, dep					
+		moduleManager.notifyOnModuleRequire requiringDep: mcl.moduleDep, requiredDep: dep, requiringObject: this				
 		// Set the context classloader after loading the runtime dependency
 		Thread.currentThread().setContextClassLoader mcl
 	}		

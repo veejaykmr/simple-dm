@@ -239,11 +239,13 @@ public class ModuleClassLoader extends URLClassLoader {
 	}
 	
 	public void addDependency(Map moduleDep) {
-		ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
+		if (!Utils.dependencyExists(moduleDeps, moduleDep)) {
+			ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
 	
-		moduleDeps.addAll(report.getModuleDeps());
-		uris.addAll(report.getUris());
-		ucl = new URLClassLoader(Utils.toURLs(uris));
+			moduleDeps.addAll(report.getModuleDeps());
+			uris.addAll(report.getUris());
+			ucl = new URLClassLoader(Utils.toURLs(uris));
+		}
 	}
 	
 	public List<Map> getModuleDeps() {

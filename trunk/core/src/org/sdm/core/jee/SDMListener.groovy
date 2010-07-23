@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import org.sdm.core.Starter;
 
 /**
- * Application Lifecycle Listener implementation class GroovyListener
+ * TODO
  *
  */
 public class SDMListener implements ServletContextListener {
@@ -15,11 +15,7 @@ public class SDMListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent event) {
-    	def cur = [group: 'org.sdm', module: 'testapp', revision: '0.3-SNAPSHOT']
-    	           
-    	Starter.startNonInteractive cur
     	
-    	println 'SDM listener started'
     }
 
 	/**

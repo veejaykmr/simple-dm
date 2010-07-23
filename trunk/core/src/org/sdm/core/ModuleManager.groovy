@@ -102,6 +102,8 @@ class ModuleManager {
 			object.metaClass.mcl = mcl
 			object.metaClass.serviceRegistry = serviceRegistry
 			
+			notifyOnModuleStarting dep: dep, key: key, object: object
+			
 			object.invokeMethod 'run', null				
 			
 		} catch(ClassNotFoundException e) {
@@ -178,14 +180,21 @@ class ModuleManager {
 		}
 	}
 	
-	def notifyOnModuleStarting(Map src, Map target) {
-		def instance = getModuleMainInstance(target)
-		if (instance) {
-			try {
-				instance.onModuleStarting src
-			} catch(MissingMethodException e) {
-			}
+	def notifyOnModuleStarting(Map args) {
+		mainInstanceMap.each { k,v ->
+			try {	
+				 k != args.key && v.onModuleStarting(args)
+			} catch(MissingMethodException e) {}
 		}
+	}
+	
+	def notifyOnModuleRequire(Map args) {
+		def instance = getModuleMainInstance(args.requiredDep)
+		try {	
+			instance?.onModuleRequire args
+		} catch(MissingMethodException e) {
+		
+		}		
 	}
 	
 	ResolveReport resolveDependencies(classLoader, Map dep) {
