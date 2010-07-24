@@ -239,7 +239,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	}
 	
 	public void addDependency(Map moduleDep) {
-		if (!Utils.dependencyExists(moduleDeps, moduleDep)) {
+		if (!moduleDeps.contains(moduleDep)) {
 			ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
 	
 			moduleDeps.addAll(report.getModuleDeps());
