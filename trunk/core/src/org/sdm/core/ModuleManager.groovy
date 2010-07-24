@@ -98,11 +98,13 @@ class ModuleManager {
 			def object = mainClass.newInstance()
 			mainInstanceMap[key] = object
 			
-			object.metaClass.moduleManager = this
-			object.metaClass.mcl = mcl
-			object.metaClass.serviceRegistry = serviceRegistry
+			object.metaClass {
+				moduleManager = this
+				delegate.mcl = mcl
+				delegate.serviceRegistry = this.serviceRegistry
+			}
 			
-			notifyOnModuleStarting dep: dep, key: key, object: object
+			notifyModuleStarting dep: dep, key: key, object: object
 			
 			object.invokeMethod 'run', null				
 			
@@ -180,7 +182,12 @@ class ModuleManager {
 		}
 	}
 	
-	def notifyOnModuleStarting(Map args) {
+	/**
+	 * Notify modules that a module is starting
+	 * @param args
+	 * @return
+	 */
+	def notifyModuleStarting(Map args) {
 		mainInstanceMap.each { k,v ->
 			try {	
 				 k != args.key && v.onModuleStarting(args)
@@ -188,10 +195,15 @@ class ModuleManager {
 		}
 	}
 	
-	def notifyOnModuleRequire(Map args) {
+	/**
+	 * Notify the required module
+	 * @param args
+	 * @return
+	 */
+	def notifyModuleRequired(Map args) {
 		def instance = getModuleMainInstance(args.requiredDep)
 		try {	
-			instance?.onModuleRequire args
+			instance?.onRequire args
 		} catch(MissingMethodException e) {
 		
 		}		
