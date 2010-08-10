@@ -141,11 +141,9 @@ class ModuleManager {
 		
 		try {
 			def object = mainInstanceMap[key]
-			if (object) {
-				object.stop()
-			}
+			object?.stop()
 		} catch(MissingMethodException e) {
-			Log.trace("Module " + dep + " doesn't have a stop method: " + mainClassName);
+			Log.trace "Module $dep doesn't have a stop method: $mainClassName"
 		} 		
 		
 		mcl.finalize()
@@ -204,9 +202,7 @@ class ModuleManager {
 		def instance = getModuleMainInstance(args.requiredDep)
 		try {	
 			instance?.onRequire args
-		} catch(MissingMethodException e) {
-		
-		}		
+		} catch(MissingMethodException e) {}		
 	}
 	
 	ResolveReport resolveDependencies(classLoader, Map dep) {
