@@ -4,12 +4,12 @@
    <parent>
       <groupId>org</groupId>
       <artifactId>sdm</artifactId>
-      <version>0.3</version>
+      <version>0.4-SNAPSHOT</version>
    </parent>
 
    <groupId>org.sdm</groupId>
    <artifactId>maven</artifactId>
-   <version>0.3</version>
+   <version>0.4-SNAPSHOT</version>
    <packaging>pom</packaging>
 
    <name>maven</name>
