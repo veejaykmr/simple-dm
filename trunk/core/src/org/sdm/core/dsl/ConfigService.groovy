@@ -8,18 +8,12 @@ class ConfigService {
 		//load sdm config if any
 		def loader = new GroovyClassLoader()
 		def is = loader.getResourceAsStream("sdm-config.groovy")
-		if (is) {
-			def builder = new ConfigBuilder()
+		if (is) {			
 			def scriptClass = loader.parseClass(is)
-			scriptClass.metaClass.configuration = { clos -> 
-				clos.delegate = builder
-				clos()
-			}
-			
+			scriptClass.mixin ConfigMixin			
+									
 			def script = scriptClass.newInstance()				
-			script.invokeMethod('run', [] as Object[]);
-							
-			result = builder.build()
+			result = script.invokeMethod('run', null)			
 		} else {
 			result = new Configuration()
 		}
