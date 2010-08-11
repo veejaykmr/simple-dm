@@ -11,7 +11,7 @@ import static org.sdm.core.utils.Classes.*;
 
 class ServiceLocator {
 	
-	static instance = new ServiceLocator()
+	static final instance = new ServiceLocator()
 	
 	static instance() { instance }
 	
