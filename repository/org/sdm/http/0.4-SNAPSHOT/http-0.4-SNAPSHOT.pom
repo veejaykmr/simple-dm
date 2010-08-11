@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org</groupId>
+      <artifactId>sdm</artifactId>
+      <version>0.4-SNAPSHOT</version>
+   </parent>
+
+   <groupId>org.sdm</groupId>
+   <artifactId>http</artifactId>
+   <packaging>jar</packaging>
+
+   <name>http</name>
+   <url>http://maven.apache.org</url>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+
+   <build>
+      <sourceDirectory>src</sourceDirectory>
+      <resources>
+         <resource>
+            <directory>src</directory>
+            <excludes>
+               <exclude>**/*.groovy</exclude>
+            </excludes>
+         </resource>
+      </resources>
+      <finalName>sdm-${artifactId}-${version}</finalName>
+      <plugins>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.5</source>
+               <target>1.5</target>
+            </configuration>
+         </plugin>
+
+         <plugin>
+            <groupId>org.codehaus.gmaven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <version>1.2</version>
+            <configuration>
+               <providerSelection>1.7</providerSelection>
+            </configuration>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>generateStubs</goal>
+                     <goal>compile</goal>
+                     <goal>testCompile</goal>
+                     <!-- if you want joint compilation, add stub generation goals
+here -->
+                  </goals>
+                  <configuration>
+                     <sources>
+                        <fileset>
+                           <directory>${pom.basedir}/src</directory>
+                           <includes>
+                              <include>**/*.groovy</include>
+                           </includes>
+                        </fileset>
+                     </sources>
+                  </configuration>
+               </execution>
+            </executions>
+            <dependencies>
+               <dependency>
+                  <groupId>org.codehaus.gmaven.runtime</groupId>
+                  <artifactId>gmaven-runtime-1.7</artifactId>
+                  <version>1.2</version>
+                  <exclusions>
+                     <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                     </exclusion>
+                  </exclusions>
+               </dependency>
+               <dependency>
+                  <groupId>org.codehaus.groovy</groupId>
+                  <artifactId>groovy-all</artifactId>
+                  <version>1.7.2</version>
+               </dependency>
+            </dependencies>
+         </plugin>
+      </plugins>
+   </build>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.sdm</groupId>
+         <artifactId>core</artifactId> 
+         <version>0.4-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.codehaus.groovy</groupId>
+         <artifactId>groovy-all</artifactId>
+         <version>1.7.2</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.apache.geronimo.specs</groupId>
+         <artifactId>geronimo-servlet_2.5_spec</artifactId>
+         <version>1.2</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mortbay.jetty</groupId>
+         <artifactId>jetty</artifactId>
+         <version>6.1.21</version>
+         <exclusions>
+            <exclusion>
+               <artifactId>servlet-api</artifactId>
+               <groupId>org.mortbay.jetty</groupId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.8.1</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+</project>

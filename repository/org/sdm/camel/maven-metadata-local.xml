@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.sdm</groupId>
+  <artifactId>camel</artifactId>
+  <version>0.3-SNAPSHOT</version>
+  <versioning>
+    <versions>
+      <version>0.3-SNAPSHOT</version>
+      <version>0.4-SNAPSHOT</version>
+      <version>0.3</version>
+    </versions>
+    <lastUpdated>20100811155407</lastUpdated>
+  </versioning>
+</metadata>
