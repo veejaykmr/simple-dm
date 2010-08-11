@@ -1,0 +1,16 @@
+<classpath>
+  <classpathentry kind="src" path="src"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-core/2.2.0/camel-core-2.2.0.jar" sourcepath="M2_REPO/org/apache/camel/camel-core/2.2.0/camel-core-2.2.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/fusesource/commonman/commons-management/1.0/commons-management-1.0.jar" sourcepath="M2_REPO/org/fusesource/commonman/commons-management/1.0/commons-management-1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/sdm/core/0.3-SNAPSHOT/core-0.3-SNAPSHOT.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0.jar" sourcepath="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.8/slf4j-simple-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/slf4j-simple/1.5.8/slf4j-simple-1.5.8-sources.jar"/>
+  <classpathentry kind="lib" path="/usr/local/jdk1.6.0_11/lib/tools.jar"/>
+</classpath>
