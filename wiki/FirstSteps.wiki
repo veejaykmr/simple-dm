@@ -4,7 +4,7 @@
 
 = Download and setup =
   # SDM requires Java 1.5+
-  # Download the SDM distribution [http://simple-dm.googlecode.com/files/sdm-0.2.zip sdm-0.2.zip]. The archive contains the SDM core and dependencies.
+  # Download the SDM distribution [http://simple-dm.googlecode.com/files/sdm-0.3.zip sdm-0.3.zip]. The archive contains the SDM core and dependencies.
   # Unzip the archive.
 
 = Setup the SDM remote maven repository =
