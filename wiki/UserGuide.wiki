@@ -7,4 +7,8 @@
 =Module metadata generation=
 The SDM distribution contains a script able to extract module metadata from a local maven repository.
 
+Collected metadata are packaged in the org.sdm.maven:metadata jar to be available to the SDM runtime. This is the way SDM Module manager gets aware of module metadata at runtime and can determine to which module a particular package or class belongs
+
+When developing with SDM you need to keep this jar in sync with your maven local repository.
+
 =JEE integration=
