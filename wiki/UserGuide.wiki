@@ -11,7 +11,7 @@ The script is automatically run during the project build process and collected m
 
 When developing with SDM, you need to keep this jar in sync with your maven local repository by building the *org.sdm.maven:metadata* project.
 
-The MappingGenerator.groovy looks like this:
+The MappingGenerator*.groovy looks like this:
 
 {{{
 import java.util.jar.JarFile
