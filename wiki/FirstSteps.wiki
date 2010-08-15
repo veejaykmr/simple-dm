@@ -48,7 +48,7 @@ The *testapp* application module should now run without any problems.
 Go to the directory where you unzipped the SDM distribution.
 Launch the following java command:
 {{{
-java -jar sdm-core-0.2.jar
+java -jar sdm-core-0.3.jar
 }}}
 
 Or if you are behind a proxy:
