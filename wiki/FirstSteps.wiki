@@ -53,13 +53,13 @@ java -jar sdm-core-0.2.jar
 
 Or if you are behind a proxy:
 {{{
-java -Dhttp.proxyHost=yourproxy -Dhttp.proxyPort=8080 -jar sdm-core-0.2.jar
+java -Dhttp.proxyHost=yourproxy -Dhttp.proxyPort=8080 -jar sdm-core-0.3.jar
 }}}
 *Warning*: Launching SDM for the first time can take a while because of the downloading (and caching) of all required dependencies.
 
 When prompting, type:
 {{{
-start org.sdm:testapp:0.2
+start org.sdm:testapp:0.3
 }}}
 The command will automatically resolve and download all module dependencies, then start the testapp module by calling the *start* module life cycle method.
 
@@ -68,10 +68,10 @@ The command will automatically resolve and download all module dependencies, the
 To see all loaded modules, type the *list* command:
 {{{
 list
-org.sdm:core:0.2 (0 classes)
-org.sdm:cxf:0.2 (1 classes)
+org.sdm:core:0.3 (0 classes)
+org.sdm:cxf:0.3 (1 classes)
 org.codehaus.groovy:groovy-all:1.7.2 (0 classes)
-org.sdm:http:0.2 (1 classes)
+org.sdm:http:0.3 (1 classes)
 org.mortbay.jetty:jetty:6.1.21 (69 classes)
 org.mortbay.jetty:jetty-util:6.1.21 (34 classes)
 org.apache.geronimo.specs:geronimo-servlet_2.5_spec:1.2 (12 classes)
@@ -106,7 +106,7 @@ org.apache.camel:camel-http:2.2.0 (21 classes)
 org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1 (9 classes)
 commons-httpclient:commons-httpclient:3.1 (1 classes)
 org.apache.cxf:cxf-rt-frontend-simple:2.2.6 (1 classes)
-org.sdm:testapp:0.2 (5 classes)
+org.sdm:testapp:0.3 (5 classes)
 }}}
 
 == See the result ==
@@ -124,7 +124,7 @@ It is very easy to develop a module with SDM. Modules can be restarted dynamical
 
 You can simply reload a module by typing the restart command. For example:
 {{{
-restart org.sdm:testapp:0.2
+restart org.sdm:testapp:0.3
 }}}
 
 == Workspace integration ==
@@ -133,7 +133,7 @@ Edit the *$SDM_DIST/lib/sdm-config.groovy* file to declare where the module arti
 
 {{{
 configuration { 
-  project(module: 'org.sdm:testapp:0.2') {
+  project(module: 'org.sdm:testapp:0.3') {
     src(path: '/home/alex/projects/simple-dm/testapp/target/classes')
   }
 }
