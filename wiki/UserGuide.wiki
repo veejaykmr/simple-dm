@@ -5,13 +5,13 @@
 =Module development=
 
 =Module metadata generation=
-The SDM maven sub project *org.sdm.maven:metadata* contains a script *MappingGenerator.groovy* able to extract module metadata from a local maven repository.
+The SDM maven sub project *org.sdm.maven:metadata* contains a script MappingGenerator.groovy able to extract module metadata from a local maven repository.
 
 The script is automatically run during the project build process and collected metadata are packaged in the project jar to be available to the SDM runtime. This is the way SDM Module manager gets aware of module metadata at runtime and can determine to which module a particular package or class belongs to.
 
 When developing with SDM, you need to keep this jar in sync with your maven local repository by building the *org.sdm.maven:metadata* project.
 
-The MappingGenerator*.groovy looks like this:
+The MappingGenerator script looks like this:
 
 {{{
 import java.util.jar.JarFile
