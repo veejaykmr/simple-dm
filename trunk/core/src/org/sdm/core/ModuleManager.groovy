@@ -143,7 +143,7 @@ class ModuleManager {
 			def object = mainInstanceMap[key]
 			object?.stop()
 		} catch(MissingMethodException e) {
-			Log.trace "Module $dep doesn't have a stop method: $mainClassName"
+			Log.trace "Module $dep doesn't have a stop method in its ModuleMain."
 		} 		
 		
 		mcl.finalize()
