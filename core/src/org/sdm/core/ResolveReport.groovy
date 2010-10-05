@@ -8,4 +8,6 @@ class ResolveReport {
 	List<Map> moduleDeps = []
 	
 	List<URI> uris
+	
+	Map getModuleDep() { moduleDeps.first() }
 }

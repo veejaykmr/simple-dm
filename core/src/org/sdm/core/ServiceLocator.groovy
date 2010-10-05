@@ -19,9 +19,9 @@ class ServiceLocator {
 	
 	def classloader
 	
-	def resolver 
+	def metadataProvider 
 	
-	CachedEngine engine 
+	ResolveEngine engine 
 	
 	def configuration
 	
@@ -31,15 +31,18 @@ class ServiceLocator {
 	
 	def serviceRegistry
 	
-	def moduleManager
+	def dependencyResolver
 	
+	def moduleManager
+		
 	boolean initialized
 	
-	def moduleClassLoader(parentClassLoader, moduleDep) {
-		def result = new ModuleClassLoader(parentClassLoader, moduleDep)
+	def moduleClassLoader(ModuleDescriptor md) {
+		def dep = md.moduleDep
+		def result = new ModuleClassLoader(classloader, dep)
 		result.moduleManager = moduleManager
 		result.configuration = configuration
-		result.init()
+		result.init(md)
 		result
 	}
 	
@@ -49,16 +52,19 @@ class ServiceLocator {
 		
 		this.classloader = Thread.currentThread().contextClassLoader
 		
-		resolver = new_('org.sdm.maven.provider.MavenResolver')	
+		metadataProvider = new_('org.sdm.maven.provider.MetadataProvider')	
 		
-		engine = new CachedEngine(resolver: resolver)
+		engine = new ResolveEngine()
 		
 		configuration = new ConfigService().configuration		
 		
 		serviceRegistry = new ServiceRegistry()
 		
-		moduleManager = new ModuleManager(parentClassLoader: classloader, resolver: resolver, engine: engine, 
-				serviceRegistry: serviceRegistry, serviceLocator: this)
+		dependencyResolver = new DependencyResolver(resolveEngine: engine, configuration: configuration, 
+				parentClassLoader: classloader)
+		
+		moduleManager = new ModuleManager(metadataProvider: metadataProvider, serviceRegistry: serviceRegistry, 
+				serviceLocator: this, dependencyResolver: dependencyResolver)
 		
 		managerMBean = new Manager(moduleManager: moduleManager)
 		
