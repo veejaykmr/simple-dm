@@ -14,7 +14,7 @@ public class Log {
 	
 	public static void info(String msg) {
 		if (info)
-			System.out.println(Utils.asTab(depth-1) + msg);
+			System.out.println(msg);
 	}
 }
 

@@ -29,6 +29,10 @@ class Starter {
 		moduleManager.list()
 	}
 	
+	def listClasses() {
+		moduleManager.listClasses()
+	}
+	
 	static void main(args) {
 		ServiceLocator.initialize()
 		def starter = new Starter()		
@@ -42,15 +46,18 @@ class Starter {
 		
 		is.eachLine { line ->
 			if (test(line, /^(start|stop|restart)\s+(.*)/)) {
-				starter."${m[0][1]}"(m[0][2])
+				cur = m[0][2]
+				starter."${m[0][1]}"(cur)
 			} else if(test(line, /^stop|^start|^restart/)) {
 				if (cur) {
 					starter."${m[0]}"(cur)
 				} else {
 					println "Cannot exec a comand without a module key"
 				}
-			} else if(test(line, /^list/)) { 
+			} else if(test(line, /^list$/)) { 
 				starter.list()
+			} else if(test(line, /^listClasses/)) { 
+				starter.listClasses()
 			} else {
 				println "Unknown command: Usage: [start|stop] group:module:revision."
 			}

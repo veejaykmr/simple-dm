@@ -4,17 +4,20 @@ import groovy.lang.GroovyInterceptable;
 
 class Dispatcher implements GroovyInterceptable {	
 	
-	def routeBuilder = new DefaultRouteBuilder()
+	def target
 	
 	def invokeMethod(String m, args) {
 		args = args as List
 		if (args && args.last() instanceof Closure) {
-			def last = args.pop()
-			def definition = routeBuilder."$m"(*args)
-			last.delegate = definition
-			last()
+			def clos = args.pop()
+			clos.resolveStrategy = Closure.DELEGATE_FIRST
+			def definition = target."$m"(*args)
+			def dispatcher = new Dispatcher(target: definition)
+			clos.delegate = dispatcher
+			clos.call()
+			//m == 'choice' && definition.end()
 		} else {
-			routeBuilder."$m"(*args) 
+			target."$m"(*args) 
 		}
 	}
 }

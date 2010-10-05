@@ -10,12 +10,16 @@ class ModuleObserver extends Thread {
 	
 	boolean stop
 	
-	ModuleObserver(mcl, moduleManager) {
+	ModuleObserver(mcl, moduleManager) {		
 		this.mcl = mcl
 		this.moduleManager = moduleManager
 	}
 		
 	void run() {		
+		def parentLoader = mcl.parent
+		assert parentLoader
+		Thread.currentThread().contextClassLoader = parentLoader
+		
 		while (!stop) {
 			Thread.currentThread().sleep 1000
 			
@@ -23,7 +27,7 @@ class ModuleObserver extends Thread {
 			
 			def files = urls.collect { FileUtils.list(it.path) }.flatten() 
 			def modifiedFile = files.find { it.lastModified() > mcl.startingDate.time }
-			if (modifiedFile) {
+			if (modifiedFile) {				
 				moduleManager.restartModule(mcl.moduleDep)					
 			}
 		}

@@ -2,11 +2,14 @@ package org.sdm.maven.provider
 
 import java.util.Map;
 
-class MavenResolver {
+/**
+ * Maven module metadata provider
+ */
+class MetadataProvider {
 	
 	def mappings = [:]
 	
-	MavenResolver() {
+	MetadataProvider() {
 		def loader = new GroovyClassLoader()
 		int i = 0
 		while (true) {
@@ -19,7 +22,8 @@ class MavenResolver {
 	}
 	
 	/**
-	 * TODO delegate to a maven specific resolver
+	 * Resolve the module the class belongs to
+	 * 
 	 * @param className
 	 * @param moduleDeps
 	 * @return
@@ -61,36 +65,7 @@ class MavenResolver {
 		}
 		result
 	}
-	
-	/**
-	 * TODO delegate to a maven specific resolver
-	 * @param dep
-	 * @return
-	 */
-	def resolveModuleMainClassName(dep) {
-		def words = dep.module.split('-') as List				
-		"${dep.group}.${words.last()}.ModuleMain"
-	}
-	
-	/**
-	 * Build a unique key for a module dependency 
-	 * 
-	 * TODO delegate to a maven specific resolver
-	 * @param dep
-	 * @return
-	 */
-	def getModuleKey(Map dep) {
-		assert dep.group && dep.module && dep.revision
-		"${dep.group}:${dep.module}:${dep.revision}"
-	}
-	
-	Map keyToMap(String dep) {
-		def m = dep =~ /(.*):(.*):(.*)/
-		assert m.matches()
 		
-		[group: m[0][1], module: m[0][2], revision: m[0][3]]	
-	}
-	
 	private getPackageName(className) {
 		def classNameAsWords = className.split(/\./) as List
 		classNameAsWords.pop()

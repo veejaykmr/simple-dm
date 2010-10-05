@@ -1,5 +1,7 @@
 package org.sdm.http
 
+org.sdm.http.webdsl.WebDslMixin.mixin org.sdm.core.SdmMixin
+
 String env = System.getenv('SDM_ENV') ?: 'dev'
 	
 def ccl = Thread.currentThread().getContextClassLoader()
@@ -34,5 +36,10 @@ println 'done'
 
 def stop() {
 	server.stop()
+}
+
+def onRequire(ctx) {
+	def object = ctx.requiringObject
+	object instanceof GroovyObject && object.metaClass.mixin(org.sdm.http.webdsl.WebDslMixin)	
 }
 

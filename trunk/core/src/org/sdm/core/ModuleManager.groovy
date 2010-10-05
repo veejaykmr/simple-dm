@@ -1,48 +1,43 @@
 package org.sdm.core;
 
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import org.sdm.core.dsl.Project;
 import org.sdm.core.utils.Log;
+import org.sdm.core.utils.Utils;
 
 import groovy.lang.MissingMethodException;
 import groovy.lang.MissingPropertyException;
 
+import java.io.File;
 import java.io.OutputStream;
 
 class ModuleManager {	
-	
-	def parentClassLoader 
-	
-	def resolver
-	
-	def engine
+		
+	def metadataProvider
 	
 	def serviceRegistry
-	
-	def configuration	
-	
+		
 	def serviceLocator
+	
+	def dependencyResolver
 	
 	/**
 	 * map module name to module classloader (MCL)
 	 */
 	Map mclMap = [:]	
-	
-	/**
-	 * Resource context classloader; use to load application resources 
-	 */
-	def rccl
-	
+		
 	/**
 	 * main instances
 	 */
-	Map mainInstanceMap = [:]
-	
-	/**
-	 * Module dependency aliases
-	 */
-	def aliases = [:]
+	Map mainInstanceMap = [:]	
+	                          
+	def depFormat = new DependencyFormat()
 	
 	/**
 	 * Get the MCL for the given module dependency
@@ -50,90 +45,123 @@ class ModuleManager {
 	 * @param moduleDep
 	 * @return
 	 */
-	ModuleClassLoader getMcl(Map moduleDep) {
-		def key = resolver.getModuleKey(moduleDep)
-		def mcl = mclMap[key]
-		if(!mcl) {
-			mcl = serviceLocator.moduleClassLoader(parentClassLoader, moduleDep)
-			mclMap[key] = mcl
-		}
-		mcl
+	ModuleClassLoader getMcl(Map dep) {
+		mclMap[depFormat.toString(dep)]		
 	}
-	
-	String getKey(Map dep) {
-		resolver.getModuleKey(dep) as String
-	}
-	
-	def addAlias(key, value) {
-		aliases[key] = value
-	}
-	
+		
 	def getModuleMainInstance(Map dep) {
-		mainInstanceMap[getKey(dep)]
+		mainInstanceMap[depFormat.toString(dep)]
 	}
 	
+	/**
+	 * Get the module that contains the given class within the given dependencies
+	 * @param className
+	 * @param moduleDeps
+	 * @return
+	 */
 	List resolveModule(className, moduleDeps) {
-		resolver.resolveModule className, moduleDeps
+		metadataProvider.resolveModule className, moduleDeps
+	}
+	
+	def resolveModuleMainClassName(dep) {
+		def words = dep.module.split('-') as List				
+		"${dep.group}.${words.last()}.ModuleMain"
 	}
 	
 	def startModule(String dep) {
-		startModule resolver.keyToMap(dep)
+		startModule depFormat.parse(dep)
 	}
 	
-	def startModule(Map dep) {	
-		long now = System.currentTimeMillis()
-		Log.info("Starting module $dep ...")
+	def startModule(Map dep) {		
+		Log.info "Resolving..."
+		def md = resolveDependency(dep)
+		startModule md		
+	}
+	
+	def startModule(ModuleDescriptor md) {		
+		long now = System.currentTimeMillis()		
 		
-		def key = getKey(dep)
-		def mcl = getMcl(dep)
-		assert mcl
+		def mcl
+		def resolvedDep = md.moduleDep		
+		def loader = Thread.currentThread().contextClassLoader
+	
+		if (isModuleStarted(md)) {
+			Log.info("Module $resolvedDep is already started.")
+			return
+		}		
+		Log.info("Starting module $resolvedDep ...")	
 		
-		def mainClassName = resolver.resolveModuleMainClassName(dep)
 		try {
-			Thread.currentThread().setContextClassLoader mcl
+			def key = depFormat.toString(resolvedDep)
+			mcl = serviceLocator.moduleClassLoader(md)
+			mclMap[key] = mcl			
 			
-			Class mainClass = mcl.loadClass(mainClassName)	
-			mainClass.mixin SdmMixin
+		//	if (!(loader instanceof ModuleClassLoader)) {
+				// A ModuleClassLoader not already set means that we are starting a root (not a dependency) module
+			Thread.currentThread().contextClassLoader = mcl
+			//}
 			
-			def object = mainClass.newInstance()
-			mainInstanceMap[key] = object
+			try {
+				def mainClassName = resolveModuleMainClassName(resolvedDep)
+				Class mainClass = mcl.loadClass(mainClassName)	
+				mainClass.mixin SdmMixin
+								
+				def object = mainClass.newInstance()
+				mainInstanceMap[key] = object
+				
+				object.metaClass {
+					moduleManager = this
+					delegate.mcl = mcl
+					delegate.serviceRegistry = this.serviceRegistry
+				}
+				
+				try {
+					notifyModuleStarting dep: resolvedDep, key: key, object: object
+				} catch(Exception e) {
+					Log.info "Exception in notifyModuleStarting: $e"
+				}
+				try {
+					object.invokeMethod 'run', null			
+				} catch(Exception e) {
+					Log.info "Exception in ModuleMain: $e"
+				} 	
+				
+			} catch(ClassNotFoundException e) {
+				Log.trace("Module $resolvedDep doesn't have a main class.");
+			} 
 			
-			object.metaClass {
-				moduleManager = this
-				delegate.mcl = mcl
-				delegate.serviceRegistry = this.serviceRegistry
-			}
+			mcl.start()	
 			
-			notifyModuleStarting dep: dep, key: key, object: object
-			
-			object.invokeMethod 'run', null				
-			
-		} catch(ClassNotFoundException e) {
-			Log.trace("Module " + dep + " doesn't have a main class: " + mainClassName);
-		} 			
-		
-		mcl.start()
-		
-		long dur = System.currentTimeMillis() - now
-		Log.info("Module $dep started in $dur ms.")
-		
+			long dur = System.currentTimeMillis() - now
+			Log.info("...started in $dur ms.")
+		} finally {
+			//restore context classloader
+			Thread.currentThread().contextClassLoader = loader
+		}		
 		mcl
 	}
 	
 	def stopModule(String dep) {
-		stopModule resolver.keyToMap(dep)
+		stopModule depFormat.parse(dep)
 	}
 	
 	def stopModule(Map dep) {
+		def md = resolveDependency(dep)
+		stopModule md
+	}
+	
+	def stopModule(ModuleDescriptor md) {
 		long now = System.currentTimeMillis()
+		def dep = md.moduleDep
+		
 		Log.info("Stopping module $dep ...")
 		
-		if (!isModuleStarted(dep)) {
+		if (!isModuleStarted(md)) {
 			Log.trace("Cannot stop a module that is not started!")
 			return
 		}
 		
-		def key = getKey(dep) as String
+		def key = depFormat.toString(dep) as String
 		def mcl = getMcl(dep)
 		assert mcl
 		
@@ -155,28 +183,35 @@ class ModuleManager {
 	}
 	
 	def restartModule(String dep) {
-		restartModule resolver.keyToMap(dep)
+		restartModule depFormat.parse(dep)
 	}
 	
 	def restartModule(Map dep) {
-		if (isModuleStarted(dep)) {
-			stopModule dep
-		}
-		startModule dep
+		def md = resolveDependency(dep)
+		restartModule md
 	}
 	
-	boolean isModuleStarted(Map dep) {
-		def key = getKey(dep)
+	def restartModule(ModuleDescriptor md) {
+		if (isModuleStarted(md)) {
+			stopModule md
+		}
+		startModule md
+	}
+	
+	boolean isModuleStarted(ModuleDescriptor md) {
+		def dep = md.moduleDep
+		def key = depFormat.toString(dep)
 		mclMap.containsKey key
 	}
 	
-	def assureModuleStarted(String dep) {
-		assureModuleStarted resolver.keyToMap(dep)
+	def assureModuleStarted(Map dep) {
+		def md = resolveDependency(dep)
+		assureModuleStarted md
 	}
 	
-	def assureModuleStarted(Map dep) {
-		if (!isModuleStarted(dep)) {
-			startModule dep
+	def assureModuleStarted(ModuleDescriptor md) {
+		if (!isModuleStarted(md)) {
+			startModule md
 		}
 	}
 	
@@ -205,28 +240,38 @@ class ModuleManager {
 		} catch(MissingMethodException e) {}		
 	}
 	
-	ResolveReport resolveDependencies(classLoader, Map dep) {
-		def args = [classLoader: classLoader, transitive: true, autoDownload: true]		
-		def report = engine.resolve(classLoader, args, dep)
-		report.moduleDeps = substituteAliases(report.moduleDeps);
-		report
+	ModuleDescriptor resolveDependency(Map dep) {
+		dependencyResolver.resolveDependency dep
+	}	
+		
+	def overrideDependency(mcl, Map dep, Map overDep) {
+		dependencyResolver.overrideDependency mcl, dep, overDep
+	}
+		
+	def addDependency(mcl, Map dep, caller) {
+		def md = resolveDependency(dep)
+		addDependency mcl, md, caller
 	}
 	
-	def substituteAliases(deps) {
-		deps.collect { aliases[getKey(it)] ?: it }.flatten()			
+	def addDependency(mcl, ModuleDescriptor md, caller) {
+		def dep = md.moduleDep
+		mcl.addDependency md
+		assureModuleStarted md								
+		notifyModuleRequired requiringDep: mcl.moduleDep, requiredDep: dep, requiringObject: caller				
 	}
-	
-	def setResourceContext(mcl) {
-		rccl = mcl
-	}
-	
-	def getResourceContext() {
-		rccl
-	}
-	
+		
 	def list() {
 		mclMap.each { key,mcl -> 
 			println "$key (${mcl.loadedClasses.size()} classes)"
+		}
+	}
+	
+	def listClasses() {
+		mclMap.each { key,mcl -> 
+			println "\n$key (${mcl.loadedClasses.size()} classes)"
+			mcl.loadedClasses.each { c ->
+				println "\t$c"
+			}
 		}
 	}
 	

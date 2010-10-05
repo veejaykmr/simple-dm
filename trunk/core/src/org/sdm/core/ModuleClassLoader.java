@@ -3,7 +3,6 @@ package org.sdm.core;
 import static org.sdm.core.utils.Assert._assert;
 import static org.sdm.core.utils.Log.trace;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.sdm.core.dsl.Configuration;
-import org.sdm.core.dsl.Project;
 import org.sdm.core.utils.Log;
 import org.sdm.core.utils.Utils;
 
@@ -51,9 +49,9 @@ public class ModuleClassLoader extends URLClassLoader {
 	Set<Class> loadedClasses = new HashSet<Class>();
 
 	/**
-	 * Module URL
+	 * Module URLs
 	 */
-	URL moduleUrl;
+	List<URL> moduleUrls;
 
 	/**
 	 * Dependency URIs
@@ -81,6 +79,11 @@ public class ModuleClassLoader extends URLClassLoader {
 	boolean developmentStage;
 	
 	/**
+	 * Overriden dependencies
+	 */
+	List overrides = new ArrayList();
+	
+	/**
 	 * Constructor; initializes the loader with an empty list of delegates.
 	 */
 	public ModuleClassLoader(ClassLoader parent, Map dep) throws Exception {
@@ -88,45 +91,29 @@ public class ModuleClassLoader extends URLClassLoader {
 		this.moduleDep = dep;
 	}
 
-	public void init() throws Exception {
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader(getParent());
-
+	public void init(ModuleDescriptor descriptor) throws Exception {
 		try {
-			String key = moduleManager.getKey(moduleDep); 
-			// TODO clarify what classloader is required, passing this for now
-			ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
+			uris = descriptor.getUris();
+			moduleDeps = descriptor.getModuleDeps();			
+			moduleUrls = descriptor.getModuleUrls();			
+			developmentStage = descriptor.isDevelopmentStage();
 			
-			uris = report.getUris();
-			moduleDeps = report.getModuleDeps();			
-			
-			// first uri should be the dep URI itself, followers are uris of
-			// transitive dependencies
-			moduleUrl = uris.get(0).toURL();
-			
-			//see if the module is in development stage
-			Project project = configuration.getProject(key);
- 			if (project != null) { 
-				developmentStage = true;
-				for (String src : project.getSources()) {
-					URL url = new File(src).toURI().toURL();
-					addURL(url);
-				}
-			} else {
-				addURL(moduleUrl);
+			for(URL url : moduleUrls) {
+				addURL(url);
 			}
-
-			ucl = new URLClassLoader(Utils.toURLs(uris));
+			ucl = new URLClassLoader(Utils.toURLs(uris));						
 		} finally {
-			Thread.currentThread().setContextClassLoader(cl);
+			
 		}
 	}
 
 	protected void finalize() {
-		try {
-			moduleUrl.openConnection().setDefaultUseCaches(false);
-		} catch (Exception e) {
-			trace(e.getMessage());
+		for(URL url : moduleUrls) {
+			try {			
+				url.openConnection().setDefaultUseCaches(false);
+			} catch (Exception e) {
+				trace(e.getMessage());
+			}
 		}
 	}
 	
@@ -149,7 +136,7 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	protected Class findClass(String name) throws ClassNotFoundException {
 		Class result = null;
-
+	
 		try {
 			Log.depth++;
 
@@ -190,18 +177,18 @@ public class ModuleClassLoader extends URLClassLoader {
 		Class result = null;
 
 		// try each module dep to find the class
-		for (Map module : deps) {
-			ModuleClassLoader mcl = moduleManager.getMcl(module); 
-			if (!mcl.isModuleStarted()) {
-				moduleManager.assureModuleStarted(module);
-			}
-
+		for (Map module : deps) {		
 			try {
-				if (mcl == this) {
+				if (module == moduleDep) {
 					result = super.findClass(name);
 					// Keep track of loaded classes for debugging purposes
 					loadedClasses.add(result);
 				} else {
+					ModuleClassLoader mcl = moduleManager.getMcl(module); 
+					if (mcl == null) {
+						moduleManager.assureModuleStarted(module);
+						mcl = moduleManager.getMcl(module); 					
+					}					
 					result = mcl.loadClass(name);
 				}
 				trace("SUCCESS: MCL[" + module + "]: Successfuly load class: " + name);
@@ -223,14 +210,14 @@ public class ModuleClassLoader extends URLClassLoader {
 		return result;
 	}
 
-	public URL findLocalResource(String name) {
-		return super.findResource(name);
-	}
-
 	@Override
 	public Enumeration<URL> findResources(String name) throws IOException {
 		ModuleClassLoader ccl = getContextClassLoader();
 		return ccl.getUcl().findResources(name);
+	}
+	
+	public URL getModuleResource(String name) {
+		return null;
 	}
 
 	private ModuleClassLoader getContextClassLoader() {
@@ -238,16 +225,18 @@ public class ModuleClassLoader extends URLClassLoader {
 		return (ModuleClassLoader) (result != null && result instanceof ModuleClassLoader ? result : this);
 	}
 	
-	public void addDependency(Map moduleDep) {
-		if (!moduleDeps.contains(moduleDep)) {
-			ResolveReport report = moduleManager.resolveDependencies(this, moduleDep);
-	
-			moduleDeps.addAll(report.getModuleDeps());
-			uris.addAll(report.getUris());
+	/**
+	 * Add a dependency dynamically
+	 * @param md the ModuleDescriptor
+	 */
+	public void addDependency(ModuleDescriptor md) {
+		if (!moduleDeps.contains(md.getModuleDep())) {
+			moduleDeps.addAll(md.getModuleDeps());
+			uris.addAll(md.getUris());
 			ucl = new URLClassLoader(Utils.toURLs(uris));
 		}
 	}
-	
+		
 	public List<Map> getModuleDeps() {
 		return moduleDeps;
 	}
@@ -318,5 +307,13 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public List getOverrides() {
+		return overrides;
+	}
+
+	public void setOverrides(List overrides) {
+		this.overrides = overrides;
 	}
 }

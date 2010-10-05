@@ -13,5 +13,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.8/slf4j-simple-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/slf4j-simple/1.5.8/slf4j-simple-1.5.8-sources.jar"/>
 	<classpathentry kind="lib" path="/usr/local/jdk1.6.0_11/lib/tools.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/core"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
