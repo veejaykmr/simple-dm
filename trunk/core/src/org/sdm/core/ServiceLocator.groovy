@@ -2,7 +2,6 @@ package org.sdm.core;
 
 import javax.management.ObjectName;
 
-import org.sdm.core.dsl.ConfigBuilder;
 import org.sdm.core.dsl.ConfigService;
 import org.sdm.core.dsl.Configuration;
 import org.sdm.core.jmx.Exporter;

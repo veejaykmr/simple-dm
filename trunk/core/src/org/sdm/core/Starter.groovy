@@ -33,6 +33,10 @@ class Starter {
 		moduleManager.listClasses()
 	}
 	
+	def deps() {
+		moduleManager.deps()
+	}
+	
 	static void main(args) {
 		ServiceLocator.initialize()
 		def starter = new Starter()		
@@ -58,7 +62,9 @@ class Starter {
 				starter.list()
 			} else if(test(line, /^listClasses/)) { 
 				starter.listClasses()
-			} else {
+			}  else if(test(line, /^deps/)) { 
+				starter.deps()
+			}else {
 				println "Unknown command: Usage: [start|stop] group:module:revision."
 			}
 		}

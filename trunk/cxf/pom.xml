@@ -68,7 +68,7 @@ here -->
                   </configuration>
                </execution>
             </executions>
-          
+
          </plugin>
       </plugins>
    </build>
@@ -79,7 +79,7 @@ here -->
          <artifactId>core</artifactId>
          <version>0.4-SNAPSHOT</version>
       </dependency>
-  
+
       <dependency>
          <groupId>org.codehaus.groovy</groupId>
          <artifactId>groovy-all</artifactId>
@@ -87,17 +87,23 @@ here -->
       </dependency>
 
       <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+         <version>3.0.3.RELEASE</version>
+      </dependency>
+
+      <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http-jetty</artifactId>
          <version>2.2.6</version>
       </dependency>
-      
-       <dependency>
+
+      <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
          <version>2.2.6</version>
       </dependency>
-      
+
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxrs</artifactId>
@@ -115,7 +121,7 @@ here -->
          <artifactId>slf4j-api</artifactId>
          <version>1.5.8</version>
       </dependency>
-      
+
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-simple</artifactId>
