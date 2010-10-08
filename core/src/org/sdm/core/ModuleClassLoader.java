@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	/**
 	 * loaded classes
 	 */
-	Set<Class> loadedClasses = new HashSet<Class>();
+	Set<Class> loadedClasses = new LinkedHashSet<Class>();
 
 	/**
 	 * Module URLs
@@ -77,11 +78,16 @@ public class ModuleClassLoader extends URLClassLoader {
 	ModuleObserver observer;
 	
 	boolean developmentStage;
-	
-	/**
-	 * Overriden dependencies
+		
+	/*
+	 * Set of Modules used transitively by this MCL. (DEBUG only) 
 	 */
-	List overrides = new ArrayList();
+	Set<Map> loadedDeps = new LinkedHashSet<Map>();
+	
+	/*
+	 * Set of Modules started transitively by this MCL. (DEBUG only) 
+	 */
+	Set<Map> startedDeps = new LinkedHashSet<Map>();
 	
 	/**
 	 * Constructor; initializes the loader with an empty list of delegates.
@@ -165,7 +171,7 @@ public class ModuleClassLoader extends URLClassLoader {
 			throw e;
 		} catch (Exception e) {
 			trace("FAILURE: MCL[" + moduleDep + "]: Runtime Failure: Class can not be load: " + name);
-			throw new ClassNotFoundException("Runtime Failure: Module resolving error", e);
+			throw new ClassNotFoundException("Runtime Failure: Module resolving error for class: " + name + "; " + e.getMessage(), e);
 		} finally {
 			Log.depth--;
 		}
@@ -179,7 +185,7 @@ public class ModuleClassLoader extends URLClassLoader {
 		// try each module dep to find the class
 		for (Map module : deps) {		
 			try {
-				if (module == moduleDep) {
+				if (module.equals(moduleDep)) {
 					result = super.findClass(name);
 					// Keep track of loaded classes for debugging purposes
 					loadedClasses.add(result);
@@ -188,8 +194,10 @@ public class ModuleClassLoader extends URLClassLoader {
 					if (mcl == null) {
 						moduleManager.assureModuleStarted(module);
 						mcl = moduleManager.getMcl(module); 					
+						startedDeps.add(module);
 					}					
 					result = mcl.loadClass(name);
+					loadedDeps.add(module);
 				}
 				trace("SUCCESS: MCL[" + module + "]: Successfuly load class: " + name);
 				break;
@@ -309,11 +317,12 @@ public class ModuleClassLoader extends URLClassLoader {
 		this.configuration = configuration;
 	}
 
-	public List getOverrides() {
-		return overrides;
+	public Set<Map> getLoadedDeps() {
+		return loadedDeps;
 	}
 
-	public void setOverrides(List overrides) {
-		this.overrides = overrides;
+	public Set<Map> getStartedDeps() {
+		return startedDeps;
 	}
+
 }

@@ -6,10 +6,11 @@ class ConfigMixin {
 	
 	static final SDM_VERSION = SDM.VERSION
 	
-	def configuration(c) {
-		def builder = new ConfigBuilder()
-		c.delegate = builder
-		c()
-		builder.build()
+	def config = new Configuration()
+	
+	def configuration(clos) {		
+		clos.delegate = config
+		clos()
+		config
 	}
 }

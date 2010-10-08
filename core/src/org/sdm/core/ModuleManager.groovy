@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.sdm.core.dsl.Project;
+import org.sdm.core.dsl.Module;
 import org.sdm.core.utils.Log;
 import org.sdm.core.utils.Utils;
 
@@ -133,7 +133,7 @@ class ModuleManager {
 			mcl.start()	
 			
 			long dur = System.currentTimeMillis() - now
-			Log.info("...started in $dur ms.")
+			Log.info("...started in $dur ms. $resolvedDep")
 		} finally {
 			//restore context classloader
 			Thread.currentThread().contextClassLoader = loader
@@ -243,11 +243,7 @@ class ModuleManager {
 	ModuleDescriptor resolveDependency(Map dep) {
 		dependencyResolver.resolveDependency dep
 	}	
-		
-	def overrideDependency(mcl, Map dep, Map overDep) {
-		dependencyResolver.overrideDependency mcl, dep, overDep
-	}
-		
+	
 	def addDependency(mcl, Map dep, caller) {
 		def md = resolveDependency(dep)
 		addDependency mcl, md, caller
@@ -256,6 +252,9 @@ class ModuleManager {
 	def addDependency(mcl, ModuleDescriptor md, caller) {
 		def dep = md.moduleDep
 		mcl.addDependency md
+		//unique (ignoring version)
+		mcl.moduleDeps.unique { a,b -> a.module == b.module && a.group == b.group ? 0 : 1 }
+		
 		assureModuleStarted md								
 		notifyModuleRequired requiringDep: mcl.moduleDep, requiredDep: dep, requiringObject: caller				
 	}
@@ -281,6 +280,25 @@ class ModuleManager {
 			results << "$key (${mcl.loadedClasses.size()} classes)"
 		}             
 		results
+	}
+	
+	def deps() {
+		mclMap.each { key,mcl -> 
+			println "$key (${mcl.loadedClasses.size()} classes):"
+			println '   Used:'
+			mcl.loadedDeps.each { dep ->
+				println "   $dep"
+			}
+			println '   Started:'
+			mcl.startedDeps.each { dep ->
+				println "   $dep"
+			}
+			println '   Declared:'
+			mcl.moduleDeps.each { dep ->
+				println "   $dep"
+			}			
+			println ''
+		}
 	}
 	
 	def dump() {

@@ -2,7 +2,7 @@ package org.sdm.core
 
 import java.util.Map;
 
-import org.sdm.core.dsl.Project;
+import org.sdm.core.dsl.Module;
 import org.sdm.core.utils.Log;
 
 /**
@@ -43,21 +43,21 @@ class DependencyResolver {
 			def moduleUrl = report.uris.first().toURL()
 			
 			descriptor = new ModuleDescriptor()
-			
-			def overrides = loader instanceof ModuleClassLoader ? loader.overrides : null
-			descriptor.moduleDeps = applyOverrides(report.moduleDeps, overrides)
+			descriptor.moduleUrls = [moduleUrl]
+			descriptor.moduleDeps = report.moduleDeps
+			descriptor.uris = report.uris
 			
 			//see if the module is in development stage
-			Project project = configuration.getProject(key)
-	 		if (project) { 
-				descriptor.developmentStage = true;
-				def uris = project.sources.collect { new File(it).toURI() }
-				descriptor.moduleUrls = uris.collect { it.toURL() }
-				descriptor.uris = uris + report.uris.tail()		
-			} else {
-				descriptor.moduleUrls = [moduleUrl]
-				descriptor.uris = report.uris
-			}
+			Module moduleConf = configuration.getModule(resolvedDep)
+	 		if (moduleConf) { 
+	 			descriptor.moduleDeps = applyOverrides(report.moduleDeps, moduleConf.overrides)	
+				descriptor.developmentStage = moduleConf.sources.size() > 0
+				if (descriptor.developmentStage) {
+					def uris = moduleConf.sources.collect { new File(it).toURI() }
+					descriptor.moduleUrls = uris.collect { it.toURL() }
+					descriptor.uris = uris + report.uris.tail()		
+				}							
+			} 
 		} finally {
 			Thread.currentThread().contextClassLoader = loader
 		}
@@ -68,19 +68,6 @@ class DependencyResolver {
 		descriptor
 	}	
 		
-	def overrideDependency(mcl, Map dep, Map overDep) {
-		def loader = Thread.currentThread().contextClassLoader
-		assert loader instanceof ModuleClassLoader
-		
-		dep.module.replace '*', '(.*)'
-				
-		def override = [dep, overDep]
-		//keep overrides for later
-		loader.overrides << override
-		
-		mcl.moduleDeps = applyOverrides(mcl.moduleDeps, [override])
-	}
-	
 	def applyOverrides(deps, overrideDeps) {
 		if (!overrideDeps) 
 			return deps
@@ -91,10 +78,7 @@ class DependencyResolver {
             if (matchingOverride) {
                 def mo = matchingOverride              
                 result = [group: (mo.last()?:dep).group, module: (mo.last()?:dep).module, revision: (mo.last()?:mo.first()).revision]
-                //if (result.revision =~ /^[\[(]/) {
-                	// range version
-                    result = resolveEngine.resolve(resolvingOptions, result).moduleDep
-                //}
+                result = resolveEngine.resolve(resolvingOptions, result).moduleDep
             }            
             result
         }      

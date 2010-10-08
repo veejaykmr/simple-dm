@@ -35,6 +35,9 @@ class ResolveEngine {
 			result.uris = grape.resolve(cl, args, result.moduleDeps, newDep)
 			assert result.uris
 			
+			//unique (ignoring version)
+			result.moduleDeps.unique { a,b -> a.module == b.module && a.group == b.group ? 0 : 1 }
+			
 			// grape bug? if dep version is a range, it is not resolved by default in the returned moduledeps
 			// but uris are correct, set the resolved version number.
 			def module = result.moduleDeps[0].module

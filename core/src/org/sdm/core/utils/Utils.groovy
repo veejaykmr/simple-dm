@@ -10,7 +10,8 @@ class Utils {
 	
 	static String asTab(int n) {
 		def result = ""
-		n.times { result += '\t' }
+		n.times { result += '  ' }
 		result
 	}
+	
 }

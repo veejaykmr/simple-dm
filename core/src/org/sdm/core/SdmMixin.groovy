@@ -20,19 +20,19 @@ class SdmMixin {
 	// def mcl
 	
 	def override(String dep) {
-		override dep, (Map) null
+		
 	}
 	
 	def override(String key, String dep) {
-		override key, depFmt.parse(dep)
+		
 	}
 	
 	def override(String key, Map dep) {
-		override depFmt.parse(key), dep
+		
 	}
 	
 	def override(Map dep, Map over) {
-		moduleManager.overrideDependency mcl, dep, over 
+		
 	}
 	
 	def require(String dep) { require depFmt.parse(dep) }
@@ -43,6 +43,20 @@ class SdmMixin {
 	
 	def new_(className) {
 		Thread.currentThread().contextClassLoader.loadClass(className).newInstance()
+	}
+	
+	def with(String key, clos) {
+		def dep = depFmt.parse(key)
+		def loader = Thread.currentThread().contextClassLoader
+		def withMcl = moduleManager.getMcl(dep)
+		assert withMcl
+		
+		try {
+			Thread.currentThread().contextClassLoader = withMcl
+			clos()
+		} finally {
+			Thread.currentThread().contextClassLoader = loader
+		}		
 	}
 	
 }
