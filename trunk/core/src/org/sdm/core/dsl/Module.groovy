@@ -8,15 +8,15 @@ class Module {
 	
 	Map id
 	
-	List<String> sources = []
+	List<String> dirs = []
 	                        
 	def overrides = [] 
 	                 
 	def depFmt = new DependencyFormat()
 	                        
-	def src(String path) {
+	def dir(String path) {
 		assert path
-		sources << path
+		dirs << path
 	}
 	
 	def override(String dep, String over) {
