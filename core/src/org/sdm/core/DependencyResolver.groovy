@@ -51,9 +51,9 @@ class DependencyResolver {
 			Module moduleConf = configuration.getModule(resolvedDep)
 	 		if (moduleConf) { 
 	 			descriptor.moduleDeps = applyOverrides(report.moduleDeps, moduleConf.overrides)	
-				descriptor.developmentStage = moduleConf.sources.size() > 0
+				descriptor.developmentStage = moduleConf.dirs.size() > 0
 				if (descriptor.developmentStage) {
-					def uris = moduleConf.sources.collect { new File(it).toURI() }
+					def uris = moduleConf.dirs.collect { new File(it).toURI() }
 					descriptor.moduleUrls = uris.collect { it.toURL() }
 					descriptor.uris = uris + report.uris.tail()		
 				}							
