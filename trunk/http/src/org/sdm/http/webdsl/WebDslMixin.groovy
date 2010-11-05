@@ -11,7 +11,7 @@ class WebDslMixin {
 	
 	def webapp
 
-	def web(Map args, clos) {
+	def web(Map args, clos) {		
 		def server = serviceRegistry.lookup('http.server')
 		assert server
 		
@@ -33,7 +33,7 @@ class WebDslMixin {
 		
 		clos.resolveStrategy = Closure.DELEGATE_FIRST
 		
-		webapp = new WebApp(webCtx: webCtx)
+		webapp = new WebApp(server: server, webCtx: webCtx)
 		clos.delegate = webapp
 		clos()
 		

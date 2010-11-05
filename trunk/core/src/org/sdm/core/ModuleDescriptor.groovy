@@ -2,13 +2,13 @@ package org.sdm.core
 
 class ModuleDescriptor {
 	
-	List<URL> moduleUrls
+	Collection<URL> moduleUrls
 	
 	boolean developmentStage
 	
-	List<Map> moduleDeps
+	Collection<Map> moduleDeps
 	                    	
-	List<URI> uris	
+	Collection<URI> uris	
 	
-	Map getModuleDep() { moduleDeps[0] }
+	Map getModuleDep() { assert moduleDeps; moduleDeps.iterator().next() }
 }

@@ -1,8 +1,12 @@
 package org.sdm.http.webdsl
 
+import static org.mortbay.jetty.Handler.*
+
 import static org.sdm.core.utils.Classes.*;
 
 class WebApp {
+	
+	def server
 	
 	def webCtx
 	
@@ -25,13 +29,15 @@ class WebApp {
 		def className = args.className
 		assert className
 		
+		int dispatch = args.dispatch ?: REQUEST
+		
 		filter.className = className
 		def name = args.name
 		if(name)
 			filter.name = name
 		
 		def url = args.url ?: '/*'		
-		webCtx.addFilter filter, url, 0
+		webCtx.addFilter filter, url, dispatch
 	}
 	
 	def servlet(Map args, clos) {
@@ -65,5 +71,6 @@ class WebApp {
 	
 	def stop() {
 		webCtx.stop()
+		server.removeHandler webCtx
 	}
 }

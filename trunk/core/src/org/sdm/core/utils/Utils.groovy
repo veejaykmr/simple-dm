@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URL;
 
 class Utils {
-	static URL[] toURLs(List<URI> uris) {
+	static URL[] toURLs(Collection<URI> uris) {
 		uris.collect { it.toURL() }
 	}
 	
