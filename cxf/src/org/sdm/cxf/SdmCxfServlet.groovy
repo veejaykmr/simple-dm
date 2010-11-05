@@ -29,5 +29,10 @@ class SdmCxfServlet extends AbstractCXFServlet {
 	void setBus(Bus bus) {
 		this.@bus = bus
 	}
+	
+	@Override
+	void destroy() {
+		// don't destroy the bus
+	}
 }
 

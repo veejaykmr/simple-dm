@@ -40,22 +40,22 @@ class DependencyResolver {
 			def key = depFormat.toString(resolvedDep)
 			// first uri should be the dep URI itself, followers are uris of
 			// transitive dependencies
-			def moduleUrl = report.uris.first().toURL()
+			def moduleUrl = report.moduleUri.toURL()
 			
 			descriptor = new ModuleDescriptor()
-			descriptor.moduleUrls = [moduleUrl]
+			descriptor.moduleUrls = [moduleUrl].asImmutable()
 			descriptor.moduleDeps = report.moduleDeps
 			descriptor.uris = report.uris
 			
 			//see if the module is in development stage
 			Module moduleConf = configuration.getModule(resolvedDep)
 	 		if (moduleConf) { 
-	 			descriptor.moduleDeps = applyOverrides(report.moduleDeps, moduleConf.overrides)	
+	 			descriptor.moduleDeps = applyOverrides(report.moduleDeps, moduleConf.overrides)
 				descriptor.developmentStage = moduleConf.dirs.size() > 0
 				if (descriptor.developmentStage) {
-					def uris = moduleConf.dirs.collect { new File(it).toURI() }
-					descriptor.moduleUrls = uris.collect { it.toURL() }
-					descriptor.uris = uris + report.uris.tail()		
+					def uris = moduleConf.dirs.collect { new File(it).toURI() }.asImmutable()
+					descriptor.moduleUrls = uris.collect { it.toURL() }.asImmutable()
+					descriptor.uris = (uris + (report.uris as List).tail()).asImmutable()	
 				}							
 			} 
 		} finally {
@@ -72,7 +72,7 @@ class DependencyResolver {
 		if (!overrideDeps) 
 			return deps
 			
-		deps.collect { dep ->
+		def results = deps.collect { dep ->
             def result = dep
             def matchingOverride = overrideDeps.find { o -> o[0].group == dep.group && dep.module =~ o[0].module }
             if (matchingOverride) {
@@ -82,5 +82,6 @@ class DependencyResolver {
             }            
             result
         }      
+		results.asImmutable()
     }
 }

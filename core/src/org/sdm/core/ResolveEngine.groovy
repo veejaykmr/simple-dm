@@ -4,6 +4,7 @@ import org.sdm.core.utils.Log;
 
 import groovy.grape.Grape;
 
+
 /**
  * 
  * Dependency Resolver engine that uses Grape to resolve dependencies and put them in a cache.
@@ -32,18 +33,24 @@ class ResolveEngine {
 			result = new ResolveReport()			
 			
 			grape.loadedDeps.clear() 
-			result.uris = grape.resolve(cl, args, result.moduleDeps, newDep)
-			assert result.uris
 			
+			def moduleDeps = []
+			def uris = grape.resolve(cl, args, moduleDeps, newDep) as List
+			assert uris
+						
 			//unique (ignoring version)
-			result.moduleDeps.unique { a,b -> a.module == b.module && a.group == b.group ? 0 : 1 }
+			moduleDeps.unique { a,b -> a.module == b.module && a.group == b.group ? 0 : 1 }
+			
+			result.moduleDeps = new LinkedHashSet(moduleDeps).asImmutable()
+			result.uris = new LinkedHashSet(uris).asImmutable()
 			
 			// grape bug? if dep version is a range, it is not resolved by default in the returned moduledeps
 			// but uris are correct, set the resolved version number.
-			def module = result.moduleDeps[0].module
-			def m = result.uris[0] =~ /${module}-(.*)\.jar/
+			def moduleDep = result.moduleDep
+			def module = moduleDep.module
+			def m = result.moduleUri =~ /${module}-(.*)\.jar/
 			def version = m[0][1]
-			result.moduleDeps[0].revision = version
+			moduleDep.revision = version
 			
 			cache[key] = result
 		}

@@ -8,13 +8,12 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.sdm.core.dsl.Configuration;
 import org.sdm.core.utils.Log;
@@ -36,7 +35,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	/**
 	 * module dependency list a module dependency is represented by a map
 	 */
-	List<Map> moduleDeps = new ArrayList();
+	Collection<Map> moduleDeps;
 
 	/**
 	 * module dependency that this classloader is handling
@@ -47,17 +46,17 @@ public class ModuleClassLoader extends URLClassLoader {
 	/**
 	 * loaded classes
 	 */
-	Set<Class> loadedClasses = new LinkedHashSet<Class>();
+	Collection<Class> loadedClasses = new LinkedHashSet<Class>();
 
 	/**
 	 * Module URLs
 	 */
-	List<URL> moduleUrls;
+	Collection<URL> moduleUrls;
 
 	/**
 	 * Dependency URIs
 	 */
-	List<URI> uris;
+	Collection<URI> uris;
 
 	/**
 	 * Classloader used to find resources
@@ -82,12 +81,12 @@ public class ModuleClassLoader extends URLClassLoader {
 	/*
 	 * Set of Modules used transitively by this MCL. (DEBUG only) 
 	 */
-	Set<Map> loadedDeps = new LinkedHashSet<Map>();
+	Collection<Map> loadedDeps = new LinkedHashSet<Map>();
 	
 	/*
 	 * Set of Modules started transitively by this MCL. (DEBUG only) 
 	 */
-	Set<Map> startedDeps = new LinkedHashSet<Map>();
+	Collection<Map> startedDeps = new LinkedHashSet<Map>();
 	
 	/**
 	 * Constructor; initializes the loader with an empty list of delegates.
@@ -99,9 +98,9 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public void init(ModuleDescriptor descriptor) throws Exception {
 		try {
-			uris = descriptor.getUris();
-			moduleDeps = descriptor.getModuleDeps();			
-			moduleUrls = descriptor.getModuleUrls();			
+			uris = new LinkedHashSet<URI>(descriptor.getUris());
+			moduleDeps = new LinkedHashSet<Map>(descriptor.getModuleDeps());			
+			moduleUrls = new LinkedHashSet<URL>(descriptor.getModuleUrls());			
 			developmentStage = descriptor.isDevelopmentStage();
 			
 			for(URL url : moduleUrls) {
@@ -143,6 +142,9 @@ public class ModuleClassLoader extends URLClassLoader {
 	protected Class findClass(String name) throws ClassNotFoundException {
 		Class result = null;
 	
+		//ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		//Thread.currentThread().setContextClassLoader(getParent());
+		
 		try {
 			Log.depth++;
 
@@ -150,9 +152,7 @@ public class ModuleClassLoader extends URLClassLoader {
 				trace("\n");
 			trace("START:   MCL[" + moduleDep + "]: Start to find class " + name);
 
-			// TODO remove module resolving, just try to load the class from the
-			// dependencies
-			List<Map> modules = moduleManager.resolveModule(name, moduleDeps);
+			Collection<Map> modules = moduleManager.resolveModule(name, moduleDeps);
 			// trace("  RESOLUTION: Modules " + modules + " resolved for class "
 			// + name);
 			if (modules.isEmpty()) {
@@ -173,13 +173,14 @@ public class ModuleClassLoader extends URLClassLoader {
 			trace("FAILURE: MCL[" + moduleDep + "]: Runtime Failure: Class can not be load: " + name);
 			throw new ClassNotFoundException("Runtime Failure: Module resolving error for class: " + name + "; " + e.getMessage(), e);
 		} finally {
-			Log.depth--;
+			Log.depth--;			
+			//Thread.currentThread().setContextClassLoader(loader);
 		}
 
 		return result;
 	}
 
-	private Class findClassInDependencies(String name, List<Map> deps) throws Exception {
+	private Class findClassInDependencies(String name, Collection<Map> deps) throws Exception {
 		Class result = null;
 
 		// try each module dep to find the class
@@ -238,22 +239,20 @@ public class ModuleClassLoader extends URLClassLoader {
 	 * @param md the ModuleDescriptor
 	 */
 	public void addDependency(ModuleDescriptor md) {
-		if (!moduleDeps.contains(md.getModuleDep())) {
-			moduleDeps.addAll(md.getModuleDeps());
-			uris.addAll(md.getUris());
-			ucl = new URLClassLoader(Utils.toURLs(uris));
-		}
+		moduleDeps.addAll(md.getModuleDeps());
+		uris.addAll(md.getUris());
+		ucl = new URLClassLoader(Utils.toURLs(uris));
 	}
 		
-	public List<Map> getModuleDeps() {
+	public Collection<Map> getModuleDeps() {
 		return moduleDeps;
 	}
 	
-	public void setModuleDeps(List moduleDeps) {
+	public void setModuleDeps(Collection<Map> moduleDeps) {
 		this.moduleDeps = moduleDeps;
 	}
 
-	public Set<Class> getLoadedClasses() {
+	public Collection<Class> getLoadedClasses() {
 		return loadedClasses;
 	}
 
@@ -317,11 +316,11 @@ public class ModuleClassLoader extends URLClassLoader {
 		this.configuration = configuration;
 	}
 
-	public Set<Map> getLoadedDeps() {
+	public Collection<Map> getLoadedDeps() {
 		return loadedDeps;
 	}
 
-	public Set<Map> getStartedDeps() {
+	public Collection<Map> getStartedDeps() {
 		return startedDeps;
 	}
 

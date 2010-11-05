@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 class ResolveReport {
-	List<Map> moduleDeps = []
+	Collection<Map> moduleDeps
 	
-	List<URI> uris
+	Collection<URI> uris
 	
-	Map getModuleDep() { moduleDeps.first() }
+	Map getModuleDep() { assert moduleDeps; moduleDeps.iterator().next() }
+	
+	URI getModuleUri() { assert uris; uris.iterator().next() } 
 }

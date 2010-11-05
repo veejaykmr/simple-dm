@@ -59,7 +59,7 @@ class ModuleManager {
 	 * @param moduleDeps
 	 * @return
 	 */
-	List resolveModule(className, moduleDeps) {
+	Collection resolveModule(className, moduleDeps) {
 		metadataProvider.resolveModule className, moduleDeps
 	}
 	

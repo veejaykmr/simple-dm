@@ -13,9 +13,12 @@ class Configuration {
 	def module(String key, clos) {
 		def module = new Module(config: this)
 		
-		key = key.replace('*', '.*')		
+		key = key.replace('*', '.*')
 		def id = depFmt.parse(key)
 				
+		id.module = '^' + id.module + '$'
+		id.revision = '^' + id.revision + '$'
+		
 		modules << module				
 		module.id = id
 		

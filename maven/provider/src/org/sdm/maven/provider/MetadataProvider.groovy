@@ -28,18 +28,14 @@ class MetadataProvider {
 	 * @param moduleDeps
 	 * @return
 	 */
-	List resolveModule(className, moduleDeps) {
+	def resolveModule(className, moduleDeps) {
 		//could not resolve module name based on package naming convention, try mapping metadata
 		def pkgName = getPackageName(className)			
 		def modules = mappings[pkgName] ?: []
 				
-		def results = moduleDeps.findAll { m -> modules.find { it.group ==  m.group && it.module == m.module } }
-		if (results) {
-			return results
-		}
+	    def results = moduleDeps.findAll { m -> modules.find { it.group == m.group && it.module == m.module } }
 		
-		def mod = guessModuleFromClassName(className, moduleDeps)
-		mod ? [mod] : []
+		results
 	}
 	
 	private guessModuleFromClassName(className, moduleDeps) {
