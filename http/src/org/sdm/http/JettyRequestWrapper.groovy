@@ -14,15 +14,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mortbay.jetty.HttpConnection;
 import org.mortbay.jetty.Request;
 
 class JettyRequestWrapper extends Request {	
 	
 	HttpServletRequest request
 	
+	String adapterPath
+	
 	String pathInfo
 	
-	JettyRequestWrapper(HttpServletRequest request, String pathInfo) {
+	JettyRequestWrapper(HttpServletRequest request, String pathInfo, HttpConnection connection) {
+		super(connection)
 		this.request = request
 		this.pathInfo = pathInfo
 	}
@@ -52,7 +56,8 @@ class JettyRequestWrapper extends Request {
 	}
 
 	public String getContextPath() {
-		return "";
+		def path = super.getContextPath();
+		adapterPath + path ?: ''
 	}
 
 	public Cookie[] getCookies() {
@@ -172,7 +177,7 @@ class JettyRequestWrapper extends Request {
 	}
 
 	public String getRequestURI() {
-		return pathInfo
+		return request.getRequestURI();
 	}
 
 	public StringBuffer getRequestURL() {
@@ -189,18 +194,14 @@ class JettyRequestWrapper extends Request {
 
 	public int getServerPort() {
 		return request.getServerPort();
-	}
-
-	public String getServletPath() {
-		return request.getServletPath();
-	}
+	}	
 
 	public HttpSession getSession() {
-		return request.getSession();
+		super.getSession()
 	}
 
 	public HttpSession getSession(boolean create) {
-		return request.getSession(create);
+		return super.getSession(create);
 	}
 
 	public Principal getUserPrincipal() {

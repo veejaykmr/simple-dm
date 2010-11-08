@@ -14,11 +14,11 @@ import org.sdm.core.Starter;
 
 class SDMServlet extends HttpServlet {
 	
+	def adapter
+		
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		def dispatcher = SDM.getService('http.dispatcher')
-		assert dispatcher
-		dispatcher.dispatch req.pathInfo, req, resp
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+		adapter.dispatch req.pathInfo, req, resp
 	}
 
 	@Override
@@ -31,7 +31,10 @@ class SDMServlet extends HttpServlet {
 		ServiceLocator.initialize()
 		def starter = new Starter()
 		
-		modules.each { starter.start it as String}				
+		modules.each { starter.start it as String}	
+		
+		adapter = SDM.getService('http.adapter')
+		assert adapter
 	}
 	
 }
