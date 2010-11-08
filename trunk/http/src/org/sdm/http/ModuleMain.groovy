@@ -19,7 +19,7 @@ connector.port = config.server.port
 		
 server.addConnector connector		
 
-def contexts = new_('org.mortbay.jetty.handler.ContextHandlerCollection')
+def contexts = new_('org.sdm.http.SdmContextHandlers')
 server.addHandler(contexts);
 		
 def handler = new_('org.mortbay.jetty.handler.DefaultHandler')
@@ -29,8 +29,8 @@ server.start()
 		
 serviceRegistry.register('http.server', server)
 
-def dispatcher = new Dispatcher(server: server, ccl: ccl)		
-serviceRegistry.register('http.dispatcher', dispatcher)
+def adapter = new JettyAdapter(server: server, ccl: ccl)		
+serviceRegistry.register('http.adapter', adapter)
 
 println 'done'
 

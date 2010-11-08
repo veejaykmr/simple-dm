@@ -7,6 +7,7 @@ class Starter {
 	def moduleManager = ServiceLocator.instance().moduleManager
 	
 	def start(String module) {
+		module = module.trim()
 		def ex		
 		try {
 			def appMcl = moduleManager.startModule(module)
@@ -17,10 +18,12 @@ class Starter {
 	}
 	
 	def stop(String module) {
+		module = module.trim()
 		moduleManager.stopModule(module)
 	}
 	
 	def restart(String module) {
+		module = module.trim()
 		stop module
 		start module
 	}
