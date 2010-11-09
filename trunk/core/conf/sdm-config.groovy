@@ -13,6 +13,10 @@ configuration {
 		override 'org.springframework:spring-*:3.0.3.RELEASE'
 	}
 	
+	module('org.mortbay.jetty:jetty:6.1.21') {
+		override 'org.mortbay.jetty:servlet-api:2.5-20081211', 'org.apache.geronimo.specs:geronimo-servlet_2.5_spec:1.2'
+	}
+	
 	module('org.codehaus.spring-security-oauth:spring-security-oauth:3.18-SNAPSHOT') {
 		springOverride()
 	}
