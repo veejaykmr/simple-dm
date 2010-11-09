@@ -85,5 +85,8 @@ class ModuleMetadata$i {
 
 }}}
 
+=Dependency overriding=
+TODO
+
 =JEE integration=
 TODO
