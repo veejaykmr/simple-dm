@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.codehaus.spring-security-oauth</groupId>
+  <artifactId>spring-security-oauth</artifactId>
+  <version>3.18-SNAPSHOT</version>
+</metadata>
