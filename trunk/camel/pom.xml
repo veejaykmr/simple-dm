@@ -4,7 +4,7 @@
    <parent>
       <groupId>org</groupId>
       <artifactId>sdm</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>0.4</version>
    </parent>
 
    <groupId>org.sdm</groupId>
@@ -77,7 +77,7 @@ here -->
       <dependency>
          <groupId>org.sdm</groupId>
          <artifactId>core</artifactId>
-         <version>0.4-SNAPSHOT</version>
+         <version>0.4</version>
       </dependency>
   
       <dependency>

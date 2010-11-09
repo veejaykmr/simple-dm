@@ -4,7 +4,7 @@
    <parent>
       <groupId>org.sdm</groupId>
       <artifactId>maven</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>0.4</version>
    </parent>
 
    <groupId>org.sdm.maven</groupId>
