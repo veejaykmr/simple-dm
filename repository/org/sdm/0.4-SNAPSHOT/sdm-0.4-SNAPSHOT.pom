@@ -25,7 +25,8 @@
       <module>http</module>
       <module>cxf</module>
       <module>camel</module>
-      <module>testapp</module>     
+      <module>testapp</module>
+      <module>testapp2</module>     
    </modules>
 
 </project>
