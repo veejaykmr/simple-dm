@@ -18,6 +18,14 @@
 button {
 	margin: 0 0.5em;
 }
+
+footer span {
+	margin-right: 0.5em;
+}
+
+footer img {
+	height: 30px;
+}
 </style>
 
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" type="text/javascript"></script>
@@ -60,7 +68,11 @@ Click <a href='login.html'>here</a> to authorize this application to access your
 </p>
 <p><a href='' onclick='logout(); return false'>Logout</a></p>
 <footer>
-	<p><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></p>
+	<p>
+		<span><a href='http://code.google.com/p/simple-dm'><img src="images/sdm_logo.gif" alt="Powered by Simple Dynamic Modules" /></a></span>
+		<span><img src="images/dojo_toolkit.png" alt="Powered by The Dojo Toolkit" /></span>
+		<span><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></span>
+	</p>
 </footer>
 </body>
 </html>
