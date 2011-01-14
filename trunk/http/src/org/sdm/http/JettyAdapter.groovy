@@ -18,12 +18,14 @@ class JettyAdapter {
 	
 	def ccl
 	
+	def defaultCtxPath = '/sdm'
+	
 	def dispatch(path, req, resp) {
 		def connector = server.connectors[0]
 		def connection = new HttpConnectionAdapter(connector, new ByteArrayEndPoint(), server)
 		HttpConnectionAdapter.setCurrentConnection connection
 		
-		def contextPath = req.contextPath
+		def contextPath = req.contextPath ?: defaultCtxPath
 		
 		def requestWrapper = new JettyRequestWrapper(req, path, connection)		
 		def responseWrapper = new JettyResponseWrapper(resp, connection)
@@ -31,9 +33,9 @@ class JettyAdapter {
 		connection.requestWrapper = requestWrapper
 		connection.responseWrapper = responseWrapper
 		
-		requestWrapper.adapterPath = contextPath 
-				
-		server.handle path, requestWrapper, responseWrapper, 1
+		requestWrapper.adapterPath = contextPath 				
+		
+		server.handle path, requestWrapper, responseWrapper, 1		
 	}
 
 }

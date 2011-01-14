@@ -5,7 +5,8 @@ def invPkgMap = [:]
 	
 new File(settings.localRepository).eachFileRecurse { file ->
 	if (!file.directory && file.name.endsWith('.jar')) {
-		def m = file.path =~ /\/repository\/(.*)\/.*\//
+	    def path = file.toURI().path
+		def m = path =~ /\/repository\/(.*)\/.*\//
 		def key = m[0][1]
 		assert key
 		   

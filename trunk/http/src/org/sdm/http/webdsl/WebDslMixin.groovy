@@ -24,16 +24,18 @@ class WebDslMixin {
 		def baseDirUrl = mcl.getResource(war)
 		assert baseDirUrl
 		
+		boolean extractWAR = args.extractWAR ?: false
+		
 		def webCtx = new_('org.mortbay.jetty.webapp.WebAppContext')		
 		webCtx.war = baseDirUrl.toExternalForm()
 		webCtx.contextPath = contextPath
 		webCtx.classLoader = mcl
+		webCtx.extractWAR = extractWAR
 				
 		server.addHandler webCtx
-		
-		clos.resolveStrategy = Closure.DELEGATE_FIRST
-		
+				
 		webapp = new WebApp(server: server, webCtx: webCtx)
+		clos.resolveStrategy = Closure.DELEGATE_FIRST
 		clos.delegate = webapp
 		clos()
 		

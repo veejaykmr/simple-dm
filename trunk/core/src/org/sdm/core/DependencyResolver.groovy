@@ -54,6 +54,7 @@ class DependencyResolver {
 				descriptor.developmentStage = moduleConf.dirs.size() > 0
 				if (descriptor.developmentStage) {
 					def uris = moduleConf.dirs.collect { new File(it).toURI() }.asImmutable()
+					//TODO checks uris existence
 					descriptor.moduleUrls = uris.collect { it.toURL() }.asImmutable()
 					descriptor.uris = (uris + (report.uris as List).tail()).asImmutable()	
 				}							

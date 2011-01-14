@@ -10,6 +10,7 @@ class ConfigMixin {
 	
 	def configuration(clos) {		
 		clos.delegate = config
+		clos.resolveStrategy = Closure.DELEGATE_FIRST
 		clos()
 		config
 	}

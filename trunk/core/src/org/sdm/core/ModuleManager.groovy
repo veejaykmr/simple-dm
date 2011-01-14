@@ -123,7 +123,8 @@ class ModuleManager {
 				try {
 					object.invokeMethod 'run', null			
 				} catch(Exception e) {
-					Log.info "Exception in ModuleMain: $e"
+					Log.info "Exception in $resolvedDep ModuleMain: $e"
+					//deps()
 				} 	
 				
 			} catch(ClassNotFoundException e) {
@@ -258,17 +259,17 @@ class ModuleManager {
 		assureModuleStarted md								
 		notifyModuleRequired requiringDep: mcl.moduleDep, requiredDep: dep, requiringObject: caller				
 	}
-		
+			
 	def list() {
 		mclMap.each { key,mcl -> 
-			println "$key (${mcl.loadedClasses.size()} classes)"
+			println "$key (${mcl.allLoadedClasses.size()} classes)"
 		}
 	}
 	
 	def listClasses() {
 		mclMap.each { key,mcl -> 
-			println "\n$key (${mcl.loadedClasses.size()} classes)"
-			mcl.loadedClasses.each { c ->
+			println "\n$key (${mcl.allLoadedClasses.size()} classes)"
+			mcl.allLoadedClasses.each { c ->
 				println "\t$c"
 			}
 		}
@@ -277,14 +278,14 @@ class ModuleManager {
 	def listModules() {
 		def results = []
 		mclMap.each { key,mcl -> 
-			results << "$key (${mcl.loadedClasses.size()} classes)"
+			results << "$key (${mcl.allLoadedClasses.size()} classes)"
 		}             
 		results
 	}
 	
 	def deps() {
 		mclMap.each { key,mcl -> 
-			println "$key (${mcl.loadedClasses.size()} classes):"
+			println "$key (${mcl.allLoadedClasses.size()} classes):"
 			println '   Used:'
 			mcl.loadedDeps.each { dep ->
 				println "   $dep"
@@ -306,7 +307,7 @@ class ModuleManager {
 		
 		mclMap.each { key,mcl -> 
 			def urls = mcl.getURLs()
-			def classes = mcl.loadedClasses
+			def classes = mcl.allLoadedClasses
 			//	def pkgs = mcl.packages - parentPkgs
 			println ''
 			println "MCL key: $key"

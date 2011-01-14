@@ -68,7 +68,9 @@ class ServiceLocator {
 		managerMBean = new Manager(moduleManager: moduleManager)
 		
 		// jmx export
-		exporter = new Exporter(managerMBean, new ObjectName('org.sdm.jmx:type=ManagerMBean'))
+		if (!configuration.disableJMX) {
+			exporter = new Exporter(managerMBean, new ObjectName('org.sdm:type=ManagerMBean'))
+		}
 		
 		initialized = true
 	}		

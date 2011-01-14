@@ -5,7 +5,7 @@ class CamelMixin {
 	def camelContext = new_('org.apache.camel.spring.SpringCamelContext')
 	
 	def routes(appCtx, closure) {
-		camelContext.applicationContext = appCtx 		
+		camelContext.applicationContext = appCtx 				
 		routes closure
 	}
 	

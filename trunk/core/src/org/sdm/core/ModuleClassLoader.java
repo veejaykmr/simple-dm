@@ -3,6 +3,8 @@ package org.sdm.core;
 import static org.sdm.core.utils.Assert._assert;
 import static org.sdm.core.utils.Log.trace;
 
+import groovy.lang.GroovyClassLoader;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -26,7 +28,7 @@ import org.sdm.core.utils.Utils;
  * 
  */
 @SuppressWarnings("unchecked")
-public class ModuleClassLoader extends URLClassLoader {
+public class ModuleClassLoader extends GroovyClassLoader {
 	
 	ModuleManager moduleManager;
 
@@ -90,7 +92,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	 * Constructor; initializes the loader with an empty list of delegates.
 	 */
 	public ModuleClassLoader(ClassLoader parent, Map dep) throws Exception {
-		super(new URL[] {}, parent);
+		super(parent);
 		this.moduleDep = dep;
 	}
 
@@ -169,7 +171,7 @@ public class ModuleClassLoader extends URLClassLoader {
 			throw e;
 		} catch (Exception e) {
 			trace("FAILURE: MCL[" + moduleDep + "]: Runtime Failure: Class can not be load: " + name);
-			throw new ClassNotFoundException("Runtime Failure: Module resolving error for class: " + name + "; " + e.getMessage(), e);
+			throw new ClassNotFoundException("Runtime Failure: Class can not be load: " + name + "; " + e.getMessage(), e);
 		} finally {
 			Log.depth--;			
 			//Thread.currentThread().setContextClassLoader(loader);
@@ -178,14 +180,28 @@ public class ModuleClassLoader extends URLClassLoader {
 		return result;
 	}
 
-	private Class findClassInDependencies(String name, Collection<Map> deps) throws Exception {
+	@SuppressWarnings("deprecation")
+	protected Class findClassInDependencies(String name, Collection<Map> deps) throws Exception {
 		Class result = null;
 
 		// try each module dep to find the class
 		for (Map module : deps) {		
 			try {
 				if (module.equals(moduleDep)) {
-					result = super.findClass(name);
+					try {
+						result = super.findClass(name);
+					} catch (ClassNotFoundException e) {
+						// try a groovy script
+						String path = name.replace('.', '/') + ".groovy";
+						URL url = super.findResource(path);
+						if(url == null) 
+							throw e;
+						try {	
+							result = parseClass(url.openStream());							
+						} finally {
+							url.openConnection().setDefaultUseCaches(false);
+						}
+					}
 					// Keep track of loaded classes for debugging purposes
 					loadedClasses.add(result);
 				} else {
@@ -250,7 +266,10 @@ public class ModuleClassLoader extends URLClassLoader {
 		this.moduleDeps = moduleDeps;
 	}
 
-	public Collection<Class> getLoadedClasses() {
+	/**
+	 * Rename to getLoadedClassesAsCollection() to avoid clash with super.getLoadedClasses()
+	 */
+	public Collection<Class> getLoadedClassesAsCollection() {
 		return loadedClasses;
 	}
 
@@ -320,6 +339,10 @@ public class ModuleClassLoader extends URLClassLoader {
 
 	public Collection<Map> getStartedDeps() {
 		return startedDeps;
+	}
+
+	public Collection<Class> getAllLoadedClasses() {
+		return loadedClasses;
 	}
 
 }

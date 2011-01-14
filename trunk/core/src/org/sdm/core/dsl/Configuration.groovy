@@ -9,6 +9,8 @@ class Configuration {
 	def depFmt = new DependencyFormat()
 	
 	def directives = [:]
+	
+	boolean disableJMX
 		
 	def module(String key, clos) {
 		def module = new Module(config: this)
