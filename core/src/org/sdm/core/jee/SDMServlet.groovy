@@ -18,7 +18,22 @@ class SDMServlet extends HttpServlet {
 		
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
-		adapter.dispatch req.pathInfo, req, resp
+		if (!adapter) {
+			adapter = SDM.getService('http.adapter')
+			assert adapter
+		}
+		
+		try {
+			adapter.dispatch req.pathInfo, req, resp
+		} catch(Exception e) {
+			System.err.println('>>>>>BEGIN stack trace')
+			while(e) {
+				System.err.println(e)
+				e = e.cause
+			}
+			System.err.println('>>>>>END stack trace')
+		}
+		
 	}
 
 	@Override
@@ -26,15 +41,13 @@ class SDMServlet extends HttpServlet {
 		super.init(config);
 		
 		def value = config.getInitParameter('modules') ?: ''
-		def modules = value.split(',') as List
+		value = value.trim()
+		def modules = value ? value.split(',') as List : []
 		
 		ServiceLocator.initialize()
 		def starter = new Starter()
 		
-		modules.each { starter.start it as String}	
-		
-		adapter = SDM.getService('http.adapter')
-		assert adapter
+		modules.each { starter.start it as String }			
 	}
 	
 }

@@ -1,11 +1,13 @@
 package org.sdm.testapp2
 
+import org.sdm.testapp2.HelloService
+
 require group:'org.grails', module:'grails-spring', revision:'1.2.4'
 	
 def bb = new_('grails.spring.BeanBuilder')	
 
 bb.beans {
-	helloService(org.sdm.testapp2.HelloService)	
+	helloService(HelloService)	
 }
 
 def appCtx = bb.createApplicationContext()

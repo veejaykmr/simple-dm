@@ -2,6 +2,5 @@
   <classpathentry kind="src" path="src" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
 </classpath>

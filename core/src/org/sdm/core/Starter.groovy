@@ -8,13 +8,7 @@ class Starter {
 	
 	def start(String module) {
 		module = module.trim()
-		def ex		
-		try {
-			def appMcl = moduleManager.startModule(module)
-		} catch(Throwable e) {
-			println e
-			ex = e
-		}		
+		moduleManager.startModule(module)
 	}
 	
 	def stop(String module) {

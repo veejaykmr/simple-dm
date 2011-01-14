@@ -42,7 +42,18 @@ class SdmMixin {
 	}		
 	
 	def new_(className) {
-		Thread.currentThread().contextClassLoader.loadClass(className).newInstance()
+		def result = null
+		try {
+			result = Thread.currentThread().contextClassLoader.loadClass(className).newInstance()
+		} catch(Throwable t) {
+		System.err.println ">>>>Stack trace begin"
+		   while (t) {
+			   System.err.println t
+			   t = t.cause
+		   }	
+		   System.err.println ">>>>Stack trace end"
+		}
+		result
 	}
 	
 	def with(String key, clos) {

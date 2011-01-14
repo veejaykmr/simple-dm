@@ -173,7 +173,7 @@ class JettyRequestWrapper extends Request {
 	}
 
 	public String getRequestedSessionId() {
-		return request.getRequestedSessionId();
+		return super.getRequestedSessionId();
 	}
 
 	public String getRequestURI() {
@@ -209,19 +209,19 @@ class JettyRequestWrapper extends Request {
 	}
 
 	public boolean isRequestedSessionIdFromCookie() {
-		return request.isRequestedSessionIdFromCookie();
+		return super.isRequestedSessionIdFromCookie();
 	}
 
 	public boolean isRequestedSessionIdFromUrl() {
-		return request.isRequestedSessionIdFromUrl();
+		return super.isRequestedSessionIdFromUrl();
 	}
 
 	public boolean isRequestedSessionIdFromURL() {
-		return request.isRequestedSessionIdFromURL();
+		return super.isRequestedSessionIdFromURL();
 	}
 
 	public boolean isRequestedSessionIdValid() {
-		return request.isRequestedSessionIdValid();
+		return super.isRequestedSessionIdValid();
 	}
 
 	public boolean isSecure() {

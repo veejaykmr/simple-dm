@@ -7,7 +7,11 @@
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0.jar" sourcepath="M2_REPO/org/apache/ivy/ivy/2.1.0/ivy-2.1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty/6.1.21/jetty-6.1.21.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty/6.1.21/jetty-6.1.21-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-client/6.1.21/jetty-client-6.1.21.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty-client/6.1.21/jetty-client-6.1.21-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-sslengine/6.1.21/jetty-sslengine-6.1.21.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty-sslengine/6.1.21/jetty-sslengine-6.1.21-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-util/6.1.21/jetty-util-6.1.21.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty-util/6.1.21/jetty-util-6.1.21-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-util5/6.1.21/jetty-util5-6.1.21.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty-util5/6.1.21/jetty-util5-6.1.21-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
