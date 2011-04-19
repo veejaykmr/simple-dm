@@ -63,9 +63,13 @@ class ModuleManager {
 		metadataProvider.resolveModule className, moduleDeps
 	}
 	
+	def resolveModuleBasePackage(dep) {
+		def words = dep.module.split('-') as List
+		"${dep.group}.${words.last()}"
+	}
+	
 	def resolveModuleMainClassName(dep) {
-		def words = dep.module.split('-') as List				
-		"${dep.group}.${words.last()}.ModuleMain"
+		resolveModuleBasePackage(dep) + ".ModuleMain"
 	}
 	
 	def startModule(String dep) {
@@ -113,6 +117,7 @@ class ModuleManager {
 					moduleManager = this
 					delegate.mcl = mcl
 					delegate.serviceRegistry = this.serviceRegistry
+					basePackage = resolveModuleBasePackage(resolvedDep)
 				}
 				
 				try {
@@ -125,7 +130,12 @@ class ModuleManager {
 				} catch(Exception e) {
 					Log.info "Exception in $resolvedDep ModuleMain: $e"
 					//deps()
-				} 	
+				} 
+                try {
+                    notifyModuleStarted dep: resolvedDep, key: key, object: object
+                } catch(Exception e) {
+                    Log.info "Exception in notifyModuleStarted: $e"
+                }
 				
 			} catch(ClassNotFoundException e) {
 				Log.trace("Module $resolvedDep doesn't have a main class.");
@@ -229,16 +239,38 @@ class ModuleManager {
 		}
 	}
 	
+    /**
+    * Notify modules that a module is started
+    * @param args
+    * @return
+    */
+   def notifyModuleStarted(Map args) {
+       mainInstanceMap.each { k,v ->
+           try {
+                k != args.key && v.onModuleStarted(args)
+           } catch(MissingMethodException e) {}
+       }
+   }
+    
 	/**
 	 * Notify the required module
 	 * @param args
 	 * @return
 	 */
 	def notifyModuleRequired(Map args) {
+		def loader = Thread.currentThread().contextClassLoader
 		def instance = getModuleMainInstance(args.requiredDep)
-		try {	
-			instance?.onRequire args
-		} catch(MissingMethodException e) {}		
+		if (instance) {
+			try {					
+				assert instance.mcl
+				//Thread.currentThread().contextClassLoader = instance.mcl
+				instance.onRequire args
+			} catch(MissingMethodException e) {
+			
+			} finally {
+				Thread.currentThread().contextClassLoader = loader
+			}
+		}		
 	}
 	
 	ModuleDescriptor resolveDependency(Map dep) {

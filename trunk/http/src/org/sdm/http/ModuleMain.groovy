@@ -11,7 +11,8 @@ def config = new ConfigSlurper(env).parse(url)
 
 server = new_('org.mortbay.jetty.Server')
 
-def connectorClass = config.server.connector ?: 'org.mortbay.jetty.nio.SelectChannelConnector'
+def connectorClass = System.getProperty('org.sdm.http.connector') ?: 
+	config.server.connector ?: 'org.mortbay.jetty.nio.SelectChannelConnector'
 
 def connector = new_(connectorClass)
 connector.host = config.server.host
