@@ -1,6 +1,6 @@
 package org.sdm.camel
 
-require group: 'org.apache.camel', module: 'camel-spring', revision: '2.2.0'
+require 'org.apache.camel:camel-spring:2.2.0'
 	
 org.sdm.camel.dsl.CamelMixin.mixin org.sdm.core.SdmMixin
 
