@@ -2,17 +2,17 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org</groupId>
+      <groupId>org.sdm</groupId>
       <artifactId>sdm</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm</groupId>
-   <artifactId>maven</artifactId>
+   <groupId>org.sdm.maven</groupId>
+   <artifactId>sdm-maven</artifactId>
    <version>0.5-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>maven</name>
+   <name>org.sdm.maven</name>
    <url>http://maven.apache.org</url>
 
    <properties>
