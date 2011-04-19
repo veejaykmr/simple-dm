@@ -37,7 +37,7 @@ function onload(data) {
    dojo.byId('loggedAs').innerHTML = caller.user.username
 }
 
-function onerror(error) {
+function _onerror(error) {
    alert(error)  
 }
 
@@ -45,14 +45,14 @@ function init() {
 	dojo.xhrGet({ 
 	      url: 'services/users',
 	      load: onload,
-	      error: onerror})
+	      error: _onerror})
 }
 
 function logout() {
 	dojo.xhrDelete({ 
 		url: 'services/users',
 		load: init,
-	    error: onerror})
+	    error: _onerror})
 }
 
 dojo.addOnLoad(init)
