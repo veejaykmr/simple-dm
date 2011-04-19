@@ -2,16 +2,16 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org</groupId>
+      <groupId>org.sdm</groupId>
       <artifactId>sdm</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm</groupId>
-   <artifactId>core</artifactId>
+   <groupId>org.sdm.core</groupId>
+   <artifactId>sdm-core</artifactId>
    <packaging>jar</packaging>
 
-   <name>core</name>
+   <name>org.sdm.core</name>
    <url>http://maven.apache.org</url>
 
    <properties>
@@ -20,7 +20,7 @@
 
    <build>
       <sourceDirectory>src</sourceDirectory>
-      <finalName>sdm-${artifactId}-${version}</finalName>
+
       <plugins>
 
          <plugin>
