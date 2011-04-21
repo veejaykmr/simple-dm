@@ -3,12 +3,12 @@
 
    <parent>
       <groupId>org.sdm</groupId>
-      <artifactId>sdm</artifactId>
+      <artifactId>org-sdm</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
    <groupId>org.sdm.core</groupId>
-   <artifactId>sdm-core</artifactId>
+   <artifactId>org-sdm-core</artifactId>
    <packaging>jar</packaging>
 
    <name>org.sdm.core</name>

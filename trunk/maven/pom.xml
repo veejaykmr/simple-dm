@@ -3,12 +3,12 @@
 
    <parent>
       <groupId>org.sdm</groupId>
-      <artifactId>sdm</artifactId>
+      <artifactId>org-sdm</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
    <groupId>org.sdm.maven</groupId>
-   <artifactId>sdm-maven</artifactId>
+   <artifactId>org-sdm-maven</artifactId>
    <version>0.5-SNAPSHOT</version>
    <packaging>pom</packaging>
 
