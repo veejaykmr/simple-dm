@@ -5,13 +5,18 @@ class DependencyFormat {
 	Map parse(String dep) {
 		def result
 		
-		def m = dep =~ /(.*):(.*):(.*)/
-		if(m.matches()) {
+		def m
+		def match = { s, p -> m = s =~ p; m.matches() }		
+		
+		if (match(dep, /(.*):(.*):(.*)/)) {
 			result = [group: m[0][1], module: m[0][2], revision: m[0][3]]
-		} else {
-			m = dep =~ /(.*):(.*)/
-			assert m.matches()
+		} else if (match(dep, /(.*):(.*)/)) {		
 			result = [group: m[0][1], module: m[0][2]]
+		} else {
+			// we suppose we have only the group id
+			// we infer the artifact id using SDM naming conventions
+			def module = dep.replace('.', '-')
+			result = [group: dep, module: module]
 		}
 		result	
 	}
