@@ -2,9 +2,9 @@ package eu.aclement.oauthdemo
 
 import eu.aclement.oauthdemo.services.DebugProcessor;
 
-require group:'org.sdm', module:'http', revision:SDM_VERSION
-require group:'org.sdm', module:'cxf', revision:SDM_VERSION
-require group:'org.sdm', module:'camel', revision:SDM_VERSION
+require group:'org.sdm.http', revision:SDM_VERSION
+require group:'org.sdm.cxf', revision:SDM_VERSION
+require group:'org.sdm', revision:SDM_VERSION
 
 web(path:'/oauthdemo', war:'eu/aclement/oauthdemo/webapp/resources/') {
 	

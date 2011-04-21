@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>eu.aclement</groupId>
-   <artifactId>oauthdemo</artifactId>
+   <groupId>eu.aclement.oauthdemo</groupId>
+   <artifactId>eu-aclement-oauthdemo</artifactId>
    <version>0.1-SNAPSHOT</version>
    <packaging>jar</packaging>
 
-   <name>oauthdemo</name>
+   <name>eu.aclement.oauthdemo</name>
    <url>http://maven.apache.org</url>
 
    <properties>
@@ -73,9 +73,9 @@
 
    <dependencies>
       <dependency>
-         <groupId>org.sdm</groupId>
-         <artifactId>core</artifactId>
-         <version>0.4-SNAPSHOT</version>
+         <groupId>org.sdm.core</groupId>
+         <artifactId>org-sdm-core</artifactId>
+         <version>0.5-SNAPSHOT</version>
       </dependency>
 
       <dependency>
