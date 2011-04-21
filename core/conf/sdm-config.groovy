@@ -1,10 +1,10 @@
 configuration { 
 	
-    module("eu.aclement:oauthdemo:0.1-SNAPSHOT") {
+    module("eu.aclement.oauthdemo:eu-aclement-oauthdemo:0.1-SNAPSHOT") {
 		dir '/home/alex/projects/oauthdemo/target/classes'
 	}
 
-	module("org.sdm:testapp:$SDM_VERSION") {
+	module("org.sdm.testapp:org-sdm-testapp:$SDM_VERSION") {
 		dir '/home/alex/projects/simple-dm/testapp/target/classes'
 	}	
 	
