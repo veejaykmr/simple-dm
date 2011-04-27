@@ -3,15 +3,15 @@
 
    <parent>
       <groupId>org.sdm</groupId>
-      <artifactId>org-sdm</artifactId>
+      <artifactId>sdm-pom</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.testapp2</groupId>
-   <artifactId>org-sdm-testapp2</artifactId>
+   <groupId>org.sdm</groupId>
+   <artifactId>sdm-testapp2</artifactId>
    <packaging>jar</packaging>
 
-   <name>org.sdm.testapp2</name>
+   <name>sdm-testapp2</name>
    <url>http://maven.apache.org</url>
 
    <properties>
