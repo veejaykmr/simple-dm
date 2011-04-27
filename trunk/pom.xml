@@ -2,11 +2,11 @@
    <modelVersion>4.0.0</modelVersion>
 
    <groupId>org.sdm</groupId>
-   <artifactId>org-sdm</artifactId>
+   <artifactId>sdm-pom</artifactId>
    <version>0.5-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>org.sdm</name>
+   <name>sdm-pom</name>
    <url>http://maven.apache.org</url>
 
    <properties>

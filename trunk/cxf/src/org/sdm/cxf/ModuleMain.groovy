@@ -1,6 +1,6 @@
 package org.sdm.cxf
 
-require group: 'org.sdm.http', module: 'org-sdm-http', revision: SDM_VERSION
+require group: 'org.sdm', module: 'sdm-http', revision: SDM_VERSION
 
 context = new org.springframework.context.support.ClassPathXmlApplicationContext("org/sdm/cxf/application-context.xml")
 def bus = context.getBean("cxf")

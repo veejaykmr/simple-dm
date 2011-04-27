@@ -3,15 +3,15 @@
 
    <parent>
       <groupId>org.sdm</groupId>
-      <artifactId>org-sdm</artifactId>
+      <artifactId>sdm-pom</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.testapp</groupId>
-   <artifactId>org-sdm-testapp</artifactId>
+   <groupId>org.sdm</groupId>
+   <artifactId>sdm-testapp</artifactId>
    <packaging>jar</packaging>
 
-   <name>org.sdm.testapp</name>
+   <name>sdm-testapp</name>
    <url>http://maven.apache.org</url>
 
    <properties>
@@ -53,8 +53,8 @@ here -->
 
    <dependencies>
       <dependency>
-         <groupId>org.sdm.core</groupId>
-         <artifactId>org-sdm-core</artifactId>
+         <groupId>org.sdm</groupId>
+         <artifactId>sdm-core</artifactId>
          <version>0.5-SNAPSHOT</version>
       </dependency>
 

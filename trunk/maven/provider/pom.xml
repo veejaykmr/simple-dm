@@ -2,16 +2,16 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org.sdm.maven</groupId>
-      <artifactId>org-sdm-maven</artifactId>
+      <groupId>org.sdm</groupId>
+      <artifactId>sdm-mvn-pom</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.maven.provider</groupId>
-   <artifactId>org-sdm-maven-provider</artifactId>
+   <groupId>org.sdm</groupId>
+   <artifactId>sdm-mvn-provider</artifactId>
    <packaging>jar</packaging>
 
-   <name>org.sdm.maven.provider</name>
+   <name>sdm-mvn-provider</name>
    <url>http://maven.apache.org</url>
 
    <properties>

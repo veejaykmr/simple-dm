@@ -3,16 +3,16 @@
 
    <parent>
       <groupId>org.sdm</groupId>
-      <artifactId>org-sdm</artifactId>
+      <artifactId>sdm-pom</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.maven</groupId>
-   <artifactId>org-sdm-maven</artifactId>
+   <groupId>org.sdm</groupId>
+   <artifactId>sdm-mvn-pom</artifactId>
    <version>0.5-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>org.sdm.maven</name>
+   <name>sdm-mvn-pom</name>
    <url>http://maven.apache.org</url>
 
    <properties>
