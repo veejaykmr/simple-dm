@@ -3,7 +3,7 @@
 
    <parent>
       <groupId>org.sdm.maven</groupId>
-      <artifactId>sdm-mvn-pom</artifactId>
+      <artifactId>sdm-mvn-parent</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
