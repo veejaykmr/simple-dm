@@ -34,8 +34,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>org.sdm.core</groupId>
-         <artifactId>org-sdm-core</artifactId>
+         <groupId>org.sdm</groupId>
+         <artifactId>sdm-core</artifactId>
          <version>0.5-SNAPSHOT</version>
       </dependency>
 
