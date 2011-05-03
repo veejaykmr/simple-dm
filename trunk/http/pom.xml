@@ -7,7 +7,7 @@
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.</groupId>
+   <groupId>org.sdm</groupId>
    <artifactId>sdm-http</artifactId>
    <packaging>jar</packaging>
 
