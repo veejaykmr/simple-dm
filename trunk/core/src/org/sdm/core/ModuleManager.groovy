@@ -64,7 +64,8 @@ class ModuleManager {
 	}
 	
 	def resolveModuleBasePackage(dep) {
-		dep.group
+		def words = dep.module.split('-') as List
+        "${dep.group}.${words.last()}"
 	}
 	
 	def resolveModuleMainClassName(dep) {
