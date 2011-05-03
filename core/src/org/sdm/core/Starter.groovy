@@ -43,7 +43,7 @@ class Starter {
 		def is = System.in
 		def m		
 		def test = { s, p -> m = s =~ p; m.matches() }
-		def cur = 'org.sdm.testapp:org-sdm-testapp:' + SDM.VERSION
+		def cur = 'org.sdm:sdm-testapp:' + SDM.VERSION
 		
 		is.eachLine { line ->
 			if (test(line, /^(start|stop|restart)\s+(.*)/)) {
