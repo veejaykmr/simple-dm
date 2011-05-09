@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.sdm.maven</groupId>
+  <artifactId>sdm-mvn-parent</artifactId>
+  <version>0.5-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20110503190039</lastUpdated>
+  </versioning>
+</metadata>
