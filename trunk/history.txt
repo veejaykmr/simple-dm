@@ -1,0 +1,1 @@
+start org.sdm.examples:sinatra:0.1-SNAPSHOT
