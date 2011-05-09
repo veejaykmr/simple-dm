@@ -1,5 +1,5 @@
 VERSION=0.5-SNAPSHOT
-DIST=sdm-$VERSION
+DIST=dist
 
 rm -rf $DIST
 mkdir -p $DIST/lib
