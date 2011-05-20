@@ -1,13 +1,5 @@
 configuration { 
-	
-    module("eu.aclement.oauthdemo:oauthdemo:0.1-SNAPSHOT") {
-		dir '/home/alex/projects/oauthdemo/target/classes'
-	}
-
-	module("org.sdm:sdm-testapp:$SDM_VERSION") {
-		dir '/home/alex/projects/simple-dm/testapp/target/classes'
-	}	
-	
+		
 	springOverride {
 		override 'org.springframework:spring-support', 'org.springframework:spring-context-support:3.0.3.RELEASE'
 		override 'org.springframework:spring-*:3.0.3.RELEASE'

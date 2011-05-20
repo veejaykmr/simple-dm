@@ -99,11 +99,8 @@ class ModuleManager {
 			def key = depFormat.toString(resolvedDep)
 			mcl = serviceLocator.moduleClassLoader(md)
 			mclMap[key] = mcl			
-			
-		//	if (!(loader instanceof ModuleClassLoader)) {
-				// A ModuleClassLoader not already set means that we are starting a root (not a dependency) module
-			Thread.currentThread().contextClassLoader = mcl
-			//}
+					
+			Thread.currentThread().contextClassLoader = mcl			
 			
 			try {
 				def mainClassName = resolveModuleMainClassName(resolvedDep)
