@@ -2,11 +2,10 @@
 <metadata>
   <groupId>org.sdm.examples</groupId>
   <artifactId>sdm-examples-sinatra</artifactId>
-  <version>0.1-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110503193241</lastUpdated>
+    <lastUpdated>20110520105726</lastUpdated>
   </versioning>
 </metadata>

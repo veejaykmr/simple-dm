@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>org.sdm.</groupId>
+  <groupId>org.sdm</groupId>
   <artifactId>sdm-http</artifactId>
-  <version>0.5-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110503190138</lastUpdated>
+    <lastUpdated>20110520105211</lastUpdated>
   </versioning>
 </metadata>

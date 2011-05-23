@@ -2,11 +2,10 @@
 <metadata>
   <groupId>org.sdm</groupId>
   <artifactId>sdm-testapp</artifactId>
-  <version>0.5-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110503190152</lastUpdated>
+    <lastUpdated>20110520105229</lastUpdated>
   </versioning>
 </metadata>

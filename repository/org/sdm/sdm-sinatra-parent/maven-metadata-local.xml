@@ -2,11 +2,10 @@
 <metadata>
   <groupId>org.sdm</groupId>
   <artifactId>sdm-sinatra-parent</artifactId>
-  <version>0.1-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110503193152</lastUpdated>
+    <lastUpdated>20110520105723</lastUpdated>
   </versioning>
 </metadata>

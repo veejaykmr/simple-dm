@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
+<metadata modelVersion="1.1.0">
   <groupId>org.sdm.examples</groupId>
   <artifactId>sdm-sinatra-examples-parent</artifactId>
   <version>0.1-SNAPSHOT</version>
@@ -7,6 +7,13 @@
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
-    <lastUpdated>20110503193241</lastUpdated>
+    <lastUpdated>20110519111422</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.1-SNAPSHOT</value>
+        <updated>20110519111422</updated>
+      </snapshotVersion>
+    </snapshotVersions>
   </versioning>
 </metadata>

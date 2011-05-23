@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
+<metadata modelVersion="1.1.0">
   <groupId>org.sdm</groupId>
   <artifactId>sdm-testapp</artifactId>
   <version>0.5-SNAPSHOT</version>
@@ -7,6 +7,18 @@
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
-    <lastUpdated>20110503190152</lastUpdated>
+    <lastUpdated>20110520105229</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.5-SNAPSHOT</value>
+        <updated>20110520105229</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.5-SNAPSHOT</value>
+        <updated>20110520105229</updated>
+      </snapshotVersion>
+    </snapshotVersions>
   </versioning>
 </metadata>

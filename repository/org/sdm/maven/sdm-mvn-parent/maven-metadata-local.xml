@@ -2,11 +2,10 @@
 <metadata>
   <groupId>org.sdm.maven</groupId>
   <artifactId>sdm-mvn-parent</artifactId>
-  <version>0.5-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110503190039</lastUpdated>
+    <lastUpdated>20110520105647</lastUpdated>
   </versioning>
 </metadata>
