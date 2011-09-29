@@ -1,4 +1,4 @@
-package org.sdm.testapp;
+package org.simpledm.testapp;
 
 public class HelloServiceImpl {
 

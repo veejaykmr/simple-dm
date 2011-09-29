@@ -1,4 +1,4 @@
-package org.sdm.testapp;
+package org.simpledm.testapp;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -1,4 +1,4 @@
-package org.sdm.testapp2
+package org.simpledm.testapp2
 
 class HelloService {
 	
