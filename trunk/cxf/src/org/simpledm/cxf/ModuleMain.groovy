@@ -2,7 +2,7 @@ package org.simpledm.cxf
 
 require group: 'org.simpledm', module: 'sdm-http', revision: SDM_VERSION
 
-context = new org.springframework.context.support.ClassPathXmlApplicationContext("org/sdm/cxf/application-context.xml")
+context = new org.springframework.context.support.ClassPathXmlApplicationContext("org/simpledm/cxf/application-context.xml")
 def bus = context.getBean("cxf")
 		
 server = serviceRegistry.lookup('http.server')

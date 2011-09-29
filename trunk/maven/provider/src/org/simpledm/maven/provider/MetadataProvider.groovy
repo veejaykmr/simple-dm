@@ -13,7 +13,7 @@ class MetadataProvider {
 		def loader = new GroovyClassLoader()
 		int i = 0
 		while (true) {
-			def is = loader.getResourceAsStream("org/sdm/maven/metadata/ModuleMetadata${i++}.groovy")
+			def is = loader.getResourceAsStream("org/simpledm/maven/metadata/ModuleMetadata${i++}.groovy")
 			if (!is)
 				break			
 			def metadata = loader.parseClass(is).newInstance()
