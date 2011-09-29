@@ -2,12 +2,12 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org.sdm</groupId>
+      <groupId>org.simpledm</groupId>
       <artifactId>sdm-parent</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm</groupId>
+   <groupId>org.simpledm</groupId>
    <artifactId>sdm-core</artifactId>
    <packaging>jar</packaging>
 
@@ -70,7 +70,7 @@ here -->
                   <manifest>
                      <addClasspath>true</addClasspath>
                      <classpathPrefix>lib/</classpathPrefix>
-                     <mainClass>org.sdm.core.Loader</mainClass>
+                     <mainClass>org.simpledm.core.Loader</mainClass>
                   </manifest>
                </archive>
             </configuration>
