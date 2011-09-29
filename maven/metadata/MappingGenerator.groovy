@@ -40,7 +40,7 @@ invPkgs.eachWithIndex { el, i ->
 	slices.last() << el
 }
 
-def destDir = new File("${project.build.outputDirectory}/org/sdm/maven/metadata/")
+def destDir = new File("${project.build.outputDirectory}/org/simpledm/maven/metadata/")
 destDir.mkdirs()
 
 slices.eachWithIndex { slice, i ->

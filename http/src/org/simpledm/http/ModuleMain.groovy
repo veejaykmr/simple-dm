@@ -6,7 +6,7 @@ String env = System.getenv('SDM_ENV') ?: 'dev'
 	
 def ccl = Thread.currentThread().getContextClassLoader()
 
-def url = ccl.getResource('org/sdm/http/config.properties')
+def url = ccl.getResource('org/simpledm/http/config.properties')
 def config = new ConfigSlurper(env).parse(url)
 
 server = new_('org.mortbay.jetty.Server')

@@ -3,7 +3,7 @@ package org.simpledm.testapp;
 require group: 'org.simpledm', module: 'sdm-cxf', revision: SDM_VERSION
 require group: 'org.simpledm', module: 'sdm-camel', revision: SDM_VERSION
 		
-applicationContext = new org.springframework.context.support.ClassPathXmlApplicationContext("org/sdm/testapp/application-context.xml")
+applicationContext = new org.springframework.context.support.ClassPathXmlApplicationContext("org/simpledm/ledm/testapp/application-context.xml")
 
 routes(applicationContext) {
 	errorHandler noErrorHandler()
