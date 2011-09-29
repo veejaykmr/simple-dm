@@ -1,8 +1,8 @@
-package org.sdm.http.webdsl
+package org.simpledm.http.webdsl
 
 import static org.mortbay.jetty.Handler.*
 
-import static org.sdm.core.utils.Classes.*;
+import static org.simpledm.core.utils.Classes.*;
 
 class WebApp {
 	

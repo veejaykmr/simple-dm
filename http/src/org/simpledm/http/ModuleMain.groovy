@@ -1,6 +1,6 @@
-package org.sdm.http
+package org.simpledm.http
 
-org.sdm.http.webdsl.WebDslMixin.mixin org.sdm.core.SdmMixin
+org.simpledm.http.webdsl.WebDslMixin.mixin org.simpledm.core.SdmMixin
 
 String env = System.getenv('SDM_ENV') ?: 'dev'
 	
@@ -11,7 +11,7 @@ def config = new ConfigSlurper(env).parse(url)
 
 server = new_('org.mortbay.jetty.Server')
 
-def connectorClass = System.getProperty('org.sdm.http.connector') ?: 
+def connectorClass = System.getProperty('org.simpledm.http.connector') ?: 
 	config.server.connector ?: 'org.mortbay.jetty.nio.SelectChannelConnector'
 
 def connector = new_(connectorClass)
@@ -20,7 +20,7 @@ connector.port = config.server.port
 		
 server.addConnector connector		
 
-def contexts = new_('org.sdm.http.SdmContextHandlers')
+def contexts = new_('org.simpledm.http.SdmContextHandlers')
 server.addHandler(contexts);
 		
 def handler = new_('org.mortbay.jetty.handler.DefaultHandler')
@@ -41,6 +41,6 @@ def stop() {
 
 def onRequire(ctx) {
 	def object = ctx.requiringObject
-	object instanceof GroovyObject && object.metaClass.mixin(org.sdm.http.webdsl.WebDslMixin)	
+	object instanceof GroovyObject && object.metaClass.mixin(org.simpledm.http.webdsl.WebDslMixin)	
 }
 
