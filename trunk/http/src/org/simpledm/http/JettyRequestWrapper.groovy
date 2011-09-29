@@ -1,4 +1,4 @@
-package org.sdm.http
+package org.simpledm.http
 
 import java.io.BufferedReader;
 import java.io.IOException;
