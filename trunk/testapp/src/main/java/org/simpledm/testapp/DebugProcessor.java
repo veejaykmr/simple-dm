@@ -1,4 +1,4 @@
-package org.sdm.testapp;
+package org.simpledm.testapp;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;

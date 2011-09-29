@@ -1,6 +1,6 @@
-package org.sdm.testapp2
+package org.simpledm.testapp2
 
-import org.sdm.testapp2.HelloService
+import org.simpledm.testapp2.HelloService
 
 require group:'org.grails', module:'grails-spring', revision:'1.2.4'
 	
