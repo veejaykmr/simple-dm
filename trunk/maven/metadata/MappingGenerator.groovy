@@ -46,7 +46,7 @@ destDir.mkdirs()
 slices.eachWithIndex { slice, i ->
  
 new File(destDir, "ModuleMetadata${i}.groovy").withWriter { w ->
-    w << """package org.sdm.maven.metadata;
+    w << """package org.simpledm.maven.metadata;
 
 class ModuleMetadata$i {
     

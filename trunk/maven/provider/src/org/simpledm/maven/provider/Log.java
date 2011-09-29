@@ -1,4 +1,4 @@
-package org.sdm.maven.provider;
+package org.simpledm.maven.provider;
 
 public class Log {
 	public static boolean trace = false;

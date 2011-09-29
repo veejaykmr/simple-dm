@@ -2,12 +2,12 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org.sdm.maven</groupId>
+      <groupId>org.simpledm.maven</groupId>
       <artifactId>sdm-mvn-parent</artifactId>
       <version>0.5-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.sdm.maven</groupId>
+   <groupId>org.simpledm.maven</groupId>
    <artifactId>sdm-mvn-metadata</artifactId>
    <packaging>jar</packaging>
 
