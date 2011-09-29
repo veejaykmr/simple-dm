@@ -1,6 +1,6 @@
 package org.simpledm.http
 
-org.simpledm.http.webdsl.WebDslMixin.mixin org.simpledm.core.SdmMixin
+org.simpledm.http.webdsl.WebDslMixin.mixin (org.simpledm.core.SdmMixin)
 
 String env = System.getenv('SDM_ENV') ?: 'dev'
 	
