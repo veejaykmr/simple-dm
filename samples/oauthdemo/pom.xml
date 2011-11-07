@@ -73,7 +73,7 @@
 
    <dependencies>
       <dependency>
-         <groupId>org.sdm</groupId>
+         <groupId>org.simpledm</groupId>
          <artifactId>sdm-core</artifactId>
          <version>0.5-SNAPSHOT</version>
       </dependency>

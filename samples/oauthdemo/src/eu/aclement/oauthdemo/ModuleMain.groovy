@@ -2,9 +2,8 @@ package eu.aclement.oauthdemo
 
 import eu.aclement.oauthdemo.services.DebugProcessor;
 
-require group:'org.sdm.http', revision:SDM_VERSION
-require group:'org.sdm.cxf', revision:SDM_VERSION
-require group:'org.sdm', revision:SDM_VERSION
+require "org.simpledm:sdm-http:$SDM_VERSION"
+require "org.simpledm:sdm-cxf:$SDM_VERSION"
 
 web(path:'/oauthdemo', war:'eu/aclement/oauthdemo/webapp/resources/') {
 	
@@ -32,7 +31,7 @@ bb.beans {
 	jsonProvider(org.apache.cxf.jaxrs.provider.JSONProvider.class)
 	totoExceptionMapper(eu.aclement.oauthdemo.services.TotoExceptionMapper.class)
 	
-	cxf(org.sdm.core.SDM.class, 'cxf') { bean -> bean.factoryMethod = 'getService' }	
+	cxf(org.simpledm.core.SDM.class, 'cxf') { bean -> bean.factoryMethod = 'getService' }	
 	
 	binding(eu.aclement.oauthdemo.cxfbean.HttpCxfBeanBinding.class)
 	
