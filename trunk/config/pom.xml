@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.simpledm.maven</groupId>
-		<artifactId>sdm-mvn-parent</artifactId>
+		<groupId>org.simpledm</groupId>
+		<artifactId>sdm-parent</artifactId>
 		<version>0.5-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.simpledm.maven</groupId>
-	<artifactId>sdm-mvn-provider</artifactId>
+	<groupId>org.simpledm</groupId>
+	<artifactId>sdm-config</artifactId>
 	<packaging>jar</packaging>
 
-	<name>sdm-mvn-provider</name>
+	<name>sdm-config</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -21,17 +21,18 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/*.groovy</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.codehaus.gmaven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
@@ -59,7 +60,6 @@
 						</configuration>
 					</execution>
 				</executions>
-
 			</plugin>
 		</plugins>
 	</build>
@@ -67,17 +67,12 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>1.7.2</version>
+			<groupId>org.simpledm</groupId>
+			<artifactId>sdm-core</artifactId>
+			<version>0.5-SNAPSHOT</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
-		</dependency>
+
+
 	</dependencies>
 
 </project>

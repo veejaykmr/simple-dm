@@ -35,7 +35,9 @@ class SdmMixin {
 		
 	}
 	
-	def require(String dep) { require depFmt.parse(dep) }
+	def require(String dep) { 
+		require(depFmt.parse(dep))
+	}
 	
 	def require(Map dep) {
 		if (!dep.module) {

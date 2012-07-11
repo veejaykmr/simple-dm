@@ -2,17 +2,16 @@ package org.simpledm.core;
 
 import javax.management.ObjectName;
 
-import org.simpledm.core.dsl.ConfigService;
-import org.simpledm.core.dsl.Configuration;
+import org.simpledm.core.config.Configuration;
 import org.simpledm.core.jmx.Exporter;
 import org.simpledm.core.jmx.Manager;
 import static org.simpledm.core.utils.Classes.*;
 
 class ServiceLocator {
 	
-	static final instance = new ServiceLocator()
+	static final ServiceLocator instance = new ServiceLocator()
 	
-	static instance() { instance }
+	static ServiceLocator instance() { instance }
 	
 	static initialize() { instance.init() }
 	
@@ -21,14 +20,10 @@ class ServiceLocator {
 	def metadataProvider 
 	
 	ResolveEngine engine 
+		
+	def managerMBean	
 	
-	def configuration
-	
-	def managerMBean
-	
-	def exporter
-	
-	def serviceRegistry
+	ServiceRegistry serviceRegistry
 	
 	def dependencyResolver
 	
@@ -39,8 +34,7 @@ class ServiceLocator {
 	def moduleClassLoader(ModuleDescriptor md) {
 		def dep = md.moduleDep
 		def result = new ModuleClassLoader(classloader, dep)
-		result.moduleManager = moduleManager
-		result.configuration = configuration
+		result.moduleManager = moduleManager		
 		result.init(md)
 		result
 	}
@@ -54,26 +48,29 @@ class ServiceLocator {
 		metadataProvider = new_('org.simpledm.maven.provider.MetadataProvider')	
 		
 		engine = new ResolveEngine()
-		
-		configuration = new ConfigService().configuration		
-		
+			
 		serviceRegistry = new ServiceRegistry()
 		
-		dependencyResolver = new DependencyResolver(resolveEngine: engine, configuration: configuration, 
-				parentClassLoader: classloader)
+		dependencyResolver = new DependencyResolver(resolveEngine: engine, parentClassLoader: classloader)
 		
 		moduleManager = new ModuleManager(metadataProvider: metadataProvider, serviceRegistry: serviceRegistry, 
 				serviceLocator: this, dependencyResolver: dependencyResolver)
 		
 		managerMBean = new Manager(moduleManager: moduleManager)
-		
-		// jmx export
-		if (!configuration.disableJMX) {
-			exporter = new Exporter(managerMBean, new ObjectName('org.simpledm:type=ManagerMBean'))
-		}
-		
+				
 		initialized = true
-	}		
+	}
+	
+	void enableJMX() {
+		new Exporter(managerMBean, new ObjectName('org.simpledm:type=ManagerMBean'))
+	}
+	
+	// TODO: add configurable (via system property) config module version
+	// ex: sdm-config-version
+	Map getRootModuleDep(){
+		[group: 'org.simpledm', module: 'sdm-root', revision: SDM.VERSION]
+	}	
+	
 }
 
 
