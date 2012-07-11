@@ -64,11 +64,11 @@ class ServiceLocator {
 	void enableJMX() {
 		new Exporter(managerMBean, new ObjectName('org.simpledm:type=ManagerMBean'))
 	}
-	
-	// TODO: add configurable (via system property) config module version
-	// ex: sdm-config-version
+		
 	Map getRootModuleDep(){
-		[group: 'org.simpledm', module: 'sdm-root', revision: SDM.VERSION]
+		def qualifier = System.getProperty('sdm.root.qualifier')
+		def version = qualifier ? SDM.VERSION + '-' + qualifier : (System.getProperty('sdm.root.version') ?: SDM.VERSION)
+		[group: 'org.simpledm', module: 'sdm-root', revision: version]
 	}	
 	
 }

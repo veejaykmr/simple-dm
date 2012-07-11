@@ -49,23 +49,27 @@ class Starter {
 		println "Simple Dynamic Module System version ${SDM.VERSION} started."		
 					
 		System.in.eachLine { line ->
-			(line =~ /^(start|stop|restart)\s+(.*)/).each { all, cmd, cur ->
-				starter."$cmd"(cur)
-				return
+			boolean ok = false
+			
+			(line =~ /^(start|stop|restart)\s+(.*)/).each { all, cmd, mod ->
+				starter."$cmd"(mod)	
+				ok = true			
 			}			
 			(line =~ /^list$/).each {  
 				starter.list()
-				return
+				ok = true
 			}
 			(line =~ /^listClasses/).each { 
 				starter.listClasses()
-				return
+				ok = true
 			}
 			(line =~ /^deps/).each { 
 				starter.deps()
-				return
+				ok = true
 			}
-			println "Unknown command: Usage: [start|stop] group:module:revision."			
+			
+			if (!ok)
+				println "Unknown command: Usage: [start|stop] group:module:revision."					
 		}
 	}	
 	
