@@ -26,7 +26,6 @@ public class Loader {
 		String[] jars = {"org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar",
 			"org/apache/ivy/ivy/2.1.0/ivy-2.1.0.jar",
 			"org/simpledm/sdm-core/"+ version +"/sdm-core-"+ version +".jar",
-			"org/simpledm/sdm-config/"+ version +"/sdm-config-"+ version +".jar",
 			"org/simpledm/maven/sdm-mvn-provider/"+ version +"/sdm-mvn-provider-"+ version +".jar",
 			"org/simpledm/maven/sdm-mvn-metadata/"+ version +"/sdm-mvn-metadata-"+ version +".jar"};
 		

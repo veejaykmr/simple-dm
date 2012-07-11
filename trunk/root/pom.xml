@@ -19,96 +19,23 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<build>
-		<sourceDirectory>src</sourceDirectory>
+	<build>		
 		<resources>
 			<resource>
 				<filtering>true</filtering>
 				<directory>src</directory>
 				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>**/*.groovy</exclude>
+					<exclude>**/*.java</exclude>					
 				</excludes>
 			</resource>
 		</resources>
 
 		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.gmaven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-				<version>1.3</version>
-				<configuration>
-					<providerSelection>1.7</providerSelection>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generateStubs</goal>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-							<!-- if you want joint compilation, add stub generation goals here -->
-						</goals>
-						<configuration>
-							<sources>
-								<fileset>
-									<directory>${pom.basedir}/src</directory>
-									<includes>
-										<include>**/*.groovy</include>
-									</includes>
-								</fileset>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			
-
 		</plugins>
 	</build>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>1.7.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.simpledm</groupId>
-			<artifactId>sdm-core</artifactId>
-			<version>0.5-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.simpledm.maven</groupId>
-			<artifactId>sdm-mvn-provider</artifactId>
-			<version>0.5-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.simpledm.maven</groupId>
-			<artifactId>sdm-mvn-metadata</artifactId>
-			<version>0.5-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
-		</dependency>
+		
 	</dependencies>
 
 </project>
