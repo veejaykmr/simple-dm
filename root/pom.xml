@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.simpledm.maven</groupId>
-		<artifactId>sdm-mvn-parent</artifactId>
+		<groupId>org.simpledm</groupId>
+		<artifactId>sdm-parent</artifactId>
 		<version>0.5-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.simpledm.maven</groupId>
-	<artifactId>sdm-mvn-provider</artifactId>
+	<groupId>org.simpledm</groupId>
+	<artifactId>sdm-root</artifactId>
 	<packaging>jar</packaging>
 
-	<name>sdm-mvn-provider</name>
+	<name>sdm-root</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -21,6 +21,17 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/*.groovy</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<plugins>
 
 			<plugin>
@@ -59,8 +70,10 @@
 						</configuration>
 					</execution>
 				</executions>
-
 			</plugin>
+
+			
+
 		</plugins>
 	</build>
 
@@ -71,7 +84,25 @@
 			<artifactId>groovy-all</artifactId>
 			<version>1.7.2</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.simpledm</groupId>
+			<artifactId>sdm-core</artifactId>
+			<version>0.5-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.simpledm.maven</groupId>
+			<artifactId>sdm-mvn-provider</artifactId>
+			<version>0.5-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.simpledm.maven</groupId>
+			<artifactId>sdm-mvn-metadata</artifactId>
+			<version>0.5-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

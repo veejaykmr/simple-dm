@@ -2,7 +2,8 @@ package org.simpledm.core
 
 import java.util.Map;
 
-import org.simpledm.core.dsl.Module;
+import org.simpledm.core.config.Configuration;
+import org.simpledm.core.config.Module;
 import org.simpledm.core.utils.Log;
 
 /**
@@ -17,13 +18,13 @@ class DependencyResolver {
 	
 	def resolveEngine
 	
-	def configuration
-	
 	def parentClassLoader
 	                 
 	final resolvingOptions = [transitive: false, autoDownload: true]	
 	                          
 	def depFormat = new DependencyFormat()
+	
+	def modules = []
 	
 	ModuleDescriptor resolveDependency(Map dep) {
 		long now = System.currentTimeMillis()
@@ -48,7 +49,7 @@ class DependencyResolver {
 			descriptor.uris = report.uris
 			
 			//see if the module is in development stage
-			Module moduleConf = configuration.getModule(resolvedDep)
+			Module moduleConf = getModule(resolvedDep)
 	 		if (moduleConf) { 
 	 			descriptor.moduleDeps = applyOverrides(report.moduleDeps, moduleConf.overrides)
 				descriptor.developmentStage = moduleConf.dirs.size() > 0
@@ -84,5 +85,13 @@ class DependencyResolver {
             result
         }      
 		results.asImmutable()
-    }
+    }	
+	
+	void addModule(Module module){
+		modules << module
+	}
+	
+	Module getModule(Map id) {
+		modules.find { id.group == it.id.group && id.module =~ it.id.module && id.revision =~ it.id.revision }
+	}
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.simpledm.core.dsl.Module;
+import org.simpledm.core.config.Module;
 import org.simpledm.core.utils.Log;
 import org.simpledm.core.utils.Utils;
 
@@ -79,11 +79,13 @@ class ModuleManager {
 	def startModule(Map dep) {		
 		Log.info "Resolving..."
 		def md = resolveDependency(dep)
-		startModule md		
+		startModule md	
 	}
 	
 	def startModule(ModuleDescriptor md) {		
 		long now = System.currentTimeMillis()		
+		
+		def mixins = [SdmMixin]
 		
 		def mcl
 		def resolvedDep = md.moduleDep		
@@ -105,7 +107,7 @@ class ModuleManager {
 			try {
 				def mainClassName = resolveModuleMainClassName(resolvedDep)
 				Class mainClass = mcl.loadClass(mainClassName)	
-				mainClass.mixin SdmMixin
+				mainClass.mixin mixins							
 								
 				def object = mainClass.newInstance()
 				mainInstanceMap[key] = object

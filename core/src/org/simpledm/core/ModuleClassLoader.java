@@ -15,7 +15,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import org.simpledm.core.dsl.Configuration;
+import org.simpledm.core.config.Configuration;
 import org.simpledm.core.utils.Log;
 import org.simpledm.core.utils.Utils;
 
@@ -70,9 +70,7 @@ public class ModuleClassLoader extends GroovyClassLoader {
 	 */
 	boolean moduleStarted;
 	
-	Date startingDate; 
-	
-	Configuration configuration;
+	Date startingDate; 	
 	
 	ModuleObserver observer;
 	
@@ -323,14 +321,6 @@ public class ModuleClassLoader extends GroovyClassLoader {
 
 	public void setModuleManager(ModuleManager moduleManager) {
 		this.moduleManager = moduleManager;
-	}
-
-	public Configuration getConfiguration() {
-		return configuration;
-	}
-
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
 	}
 
 	public Collection<Map> getLoadedDeps() {
