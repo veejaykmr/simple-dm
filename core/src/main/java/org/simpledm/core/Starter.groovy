@@ -40,18 +40,21 @@ class Starter {
 	}
 	
 	static void main(String[] args) {
+		
 		ServiceLocator.initialize()
+		
 		def starter = new Starter()
 		
 		// root module
-		starter.startRootModule()			
+        String module = System.getProperty('sdm.root.module') ?: "org.simpledm:sdm-root:${SDM.VERSION}"
+		starter.start module			
 				
 		println "Simple Dynamic Module System version ${SDM.VERSION} started."		
 					
 		System.in.eachLine { line ->
 			boolean ok = false
 			
-			(line =~ /^(start|stop|restart)\s+(.*)/).each { all, cmd, mod ->
+			line.eachMatch(/^(start|stop|restart)\s+(.*)/) { all, cmd, mod ->
 				starter."$cmd"(mod)	
 				ok = true			
 			}			
