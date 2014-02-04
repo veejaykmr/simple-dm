@@ -2,7 +2,6 @@ package org.simpledm.core;
 
 import static org.simpledm.core.utils.Assert._assert;
 import static org.simpledm.core.utils.Log.trace;
-
 import groovy.lang.GroovyClassLoader;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import org.simpledm.core.config.Configuration;
 import org.simpledm.core.utils.Log;
 import org.simpledm.core.utils.Utils;
 
@@ -195,7 +193,7 @@ public class ModuleClassLoader extends GroovyClassLoader {
 						if(url == null) 
 							throw e;
 						try {	
-							result = parseClass(url.openStream());							
+							result = parseClass(url.openStream(), path);							
 						} finally {
 							url.openConnection().setDefaultUseCaches(false);
 						}
