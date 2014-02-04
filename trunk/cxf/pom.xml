@@ -1,139 +1,77 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>org.simpledm</groupId>
-      <artifactId>sdm-parent</artifactId>
-      <version>0.5-SNAPSHOT</version>
-   </parent>
+	<parent>
+		<groupId>org.simpledm</groupId>
+		<artifactId>sdm-parent</artifactId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
 
-   <groupId>org.simpledm</groupId>
-   <artifactId>sdm-cxf</artifactId>
-   <packaging>jar</packaging>
+	<groupId>org.simpledm</groupId>
+	<artifactId>sdm-cxf</artifactId>
+	<packaging>jar</packaging>
 
-   <name>sdm-cxf</name>
-   <url>http://maven.apache.org</url>
+	<name>sdm-cxf</name>
+	<url>http://maven.apache.org</url>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-   <build>
-      <sourceDirectory>src</sourceDirectory>
-      <resources>
-         <resource>
-            <directory>src</directory>
-            <excludes>
-               <exclude>**/*.groovy</exclude>
-            </excludes>
-         </resource>
-      </resources>
-     
-      <plugins>
 
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-               <source>1.5</source>
-               <target>1.5</target>
-            </configuration>
-         </plugin>
+	<dependencies>
+		<dependency>
+			<groupId>org.simpledm</groupId>
+			<artifactId>sdm-core</artifactId>
+			<version>0.5-SNAPSHOT</version>
+		</dependency>
 
-         <plugin>
-            <groupId>org.codehaus.gmaven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
-            <version>1.3</version>
-            <configuration>
-               <providerSelection>1.7</providerSelection>
-            </configuration>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>generateStubs</goal>
-                     <goal>compile</goal>
-                     <goal>testCompile</goal>
-                     <!-- if you want joint compilation, add stub generation goals
-here -->
-                  </goals>
-                  <configuration>
-                     <sources>
-                        <fileset>
-                           <directory>${pom.basedir}/src</directory>
-                           <includes>
-                              <include>**/*.groovy</include>
-                           </includes>
-                        </fileset>
-                     </sources>
-                  </configuration>
-               </execution>
-            </executions>
 
-         </plugin>
-      </plugins>
-   </build>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.simpledm</groupId>
-         <artifactId>sdm-core</artifactId>
-         <version>0.5-SNAPSHOT</version>
-      </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
 
-      <dependency>
-         <groupId>org.codehaus.groovy</groupId>
-         <artifactId>groovy-all</artifactId>
-         <version>1.7.2</version>
-      </dependency>
+		</dependency>
 
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
-         <version>3.0.3.RELEASE</version>
-      </dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
 
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-transports-http-jetty</artifactId>
-         <version>2.2.6</version>
-      </dependency>
+		</dependency>
 
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-transports-http</artifactId>
-         <version>2.2.6</version>
-      </dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
 
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-         <version>2.2.6</version>
-      </dependency>
+		</dependency>
 
-      <dependency>
-         <groupId>com.sun.xml.bind</groupId>
-         <artifactId>jaxb-impl</artifactId>
-         <version>2.1.12</version>
-      </dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-         <version>1.5.8</version>
-      </dependency>
+		</dependency>
 
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>1.5.8</version>
-      </dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
 
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>4.8.1</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+
+		</dependency>
+
+
+	</dependencies>
 
 </project>
