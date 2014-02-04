@@ -20,30 +20,14 @@
 	</properties>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
+				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>**/*.groovy</exclude>
-				</excludes>
 			</resource>
 		</resources>
 
 		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-
-			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -61,7 +45,7 @@
 		</plugins>
 	</build>
 
-	<dependencies>		
+	<dependencies>
 
 		<dependency>
 			<groupId>org.simpledm</groupId>
