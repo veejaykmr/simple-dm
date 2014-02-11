@@ -75,6 +75,13 @@
 		</pluginManagement>
 	</build>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.7.2</version>
+		</dependency>
 
+	</dependencies>
 
 </project>
